@@ -1686,7 +1686,10 @@
       <div class="mt-24" id="docPreviewWrap" style="display:none;">
         <div class="row between" style="margin-bottom: 10px;">
           <div class="eyebrow">Preview — <span id="docFileName"></span></div>
-          <button class="btn accent sm" id="docExport">Save as PDF (print)</button>
+          <span class="row" style="gap: 6px;">
+            <button class="btn accent sm" id="docDownloadPdf">Download PDF</button>
+            <button class="btn sm" id="docExport">Print…</button>
+          </span>
         </div>
         <div class="doc-preview" id="docPreview"></div>
         <p class="text-muted mt-8">The print dialog opens — choose "Save as PDF" as the destination.</p>
@@ -3115,6 +3118,94 @@ function buildJpegPdf(jpegBytes, w, h) {
   return new Blob(chunks, { type: 'application/pdf' });
 }
 
+/* Multi-page TEXT PDF writer (Times core fonts, word wrap, headings) — no libraries */
+function buildTextPdf(blocks) {
+  const pageW = 612, pageH = 792, margin = 64, maxW = pageW - 2 * margin;
+  const toLatin = s => s
+    .replace(/[‘’ʼ]/g, "'").replace(/[“”]/g, '"')
+    .replace(/—/g, '--').replace(/–/g, '-').replace(/…/g, '...')
+    .replace(/[ \t]/g, ' ').replace(/[^\x20-\xFF]/g, '?');
+  const escT = s => s.replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
+  // wrap into positioned lines across pages
+  const pages = []; let lines = []; let y = pageH - margin;
+  const newPage = () => { pages.push(lines); lines = []; y = pageH - margin; };
+  for (const b of blocks) {
+    const size = b.size || 12, lh = size * 1.45, font = b.bold ? 'F2' : 'F1';
+    const words = toLatin(b.text).split(/\s+/).filter(Boolean);
+    if (!words.length) { y -= lh * 0.7; continue; }
+    let cur = '';
+    const flush = () => {
+      if (!cur) return;
+      if (y - lh < margin) newPage();
+      y -= lh;
+      lines.push({ y, size, font, text: cur });
+      cur = '';
+    };
+    for (const w of words) {
+      const test = cur ? cur + ' ' + w : w;
+      if (test.length * size * 0.5 > maxW && cur) { flush(); cur = w; }
+      else cur = test;
+    }
+    flush();
+    y -= (b.spaceAfter != null ? b.spaceAfter : size * 0.55);
+  }
+  if (lines.length || !pages.length) pages.push(lines);
+
+  // assemble PDF objects
+  const enc = new TextEncoder();
+  const chunks = []; let pos = 0;
+  const offsets = [0];
+  const push = s => { const b2 = typeof s === 'string' ? enc.encode(s) : s; chunks.push(b2); pos += b2.length; };
+  const obj = s => { offsets.push(pos); push(s); };
+  const nPages = pages.length;
+  const pageObjId = i => 5 + i * 2;        // page i object id
+  const contentObjId = i => 6 + i * 2;     // its content stream
+  push('%PDF-1.4\n');
+  obj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  const kids = pages.map((_, i) => `${pageObjId(i)} 0 R`).join(' ');
+  obj(`2 0 obj\n<< /Type /Pages /Kids [${kids}] /Count ${nPages} >>\nendobj\n`);
+  obj('3 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-Roman /Encoding /WinAnsiEncoding >>\nendobj\n');
+  obj('4 0 obj\n<< /Type /Font /Subtype /Type1 /BaseFont /Times-Bold /Encoding /WinAnsiEncoding >>\nendobj\n');
+  pages.forEach((pls, i) => {
+    obj(`${pageObjId(i)} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${pageW} ${pageH}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentObjId(i)} 0 R >>\nendobj\n`);
+    let cs = 'BT\n';
+    for (const l of pls) cs += `/${l.font} ${l.size} Tf 1 0 0 1 ${margin} ${l.y.toFixed(1)} Tm (${escT(l.text)}) Tj\n`;
+    cs += 'ET';
+    obj(`${contentObjId(i)} 0 obj\n<< /Length ${cs.length} >>\nstream\n${cs}\nendstream\nendobj\n`);
+  });
+  const total = 4 + nPages * 2;
+  const xrefPos = pos;
+  let xref = `xref\n0 ${total + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i <= total; i++) xref += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+  push(xref);
+  push(`trailer\n<< /Size ${total + 1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+/* Convert an HTML string (from docx/markdown) into PDF text blocks */
+function htmlToBlocks(html) {
+  const doc = new DOMParser().parseFromString('<div>' + html + '</div>', 'text/html');
+  const blocks = [];
+  const walk = (node) => {
+    for (const el of node.children.length ? node.children : []) {
+      const tag = el.tagName.toLowerCase();
+      const text = el.textContent.trim();
+      if (tag === 'h1') blocks.push({ text, size: 22, bold: true, spaceAfter: 12 });
+      else if (tag === 'h2') blocks.push({ text, size: 17, bold: true, spaceAfter: 9 });
+      else if (tag === 'h3' || tag === 'h4') blocks.push({ text, size: 14, bold: true, spaceAfter: 7 });
+      else if (tag === 'li') blocks.push({ text: '• ' + text, size: 12 });
+      else if (tag === 'ul' || tag === 'ol' || tag === 'div' || tag === 'section' || tag === 'article' || tag === 'body') walk(el);
+      else if (text) blocks.push({ text, size: 12 });
+    }
+  };
+  walk(doc.body.firstElementChild);
+  if (!blocks.length) {
+    // plain text fallback: split paragraphs
+    const plain = doc.body.textContent || '';
+    plain.split(/\n\s*\n/).forEach(p => { if (p.trim()) blocks.push({ text: p.trim(), size: 12 }); });
+  }
+  return blocks;
+}
+
 /* pdf.js dynamic loader (CDN — works on the deployed site) */
 let pdfjsReady = null;
 function loadPdfJs() {
@@ -3237,7 +3328,7 @@ async function handleDocFile(file) {
 
   if (kind === 'docx') {
     const getHtml = async () => docxXmlToHtml(new TextDecoder().decode(await readZipEntry(await file.arrayBuffer(), 'word/document.xml')));
-    T.push(['→ PDF (print)', async () => { showPreviewForPrint(await getHtml(), file.name); $('#docExport').click(); }]);
+    T.push(['→ PDF', async () => download(buildTextPdf(htmlToBlocks(await getHtml())), base + '.pdf')]);
     T.push(['→ TXT', async () => {
       const div = document.createElement('div'); div.innerHTML = await getHtml();
       download(new Blob([div.innerText], { type: 'text/plain' }), base + '.txt');
@@ -3248,7 +3339,7 @@ async function handleDocFile(file) {
   if (kind === 'text') {
     const ext = file.name.split('.').pop().toLowerCase();
     const getHtml = async () => ext === 'html' ? await file.text() : mdToHtml(await file.text());
-    T.push(['→ PDF (print)', async () => { showPreviewForPrint(await getHtml(), file.name); $('#docExport').click(); }]);
+    T.push(['→ PDF', async () => download(buildTextPdf(htmlToBlocks(await getHtml())), base + '.pdf')]);
     if (ext !== 'html') T.push(['→ HTML', async () => download(new Blob([await getHtml()], { type: 'text/html' }), base + '.html')]);
     if (ext === 'html') T.push(['→ TXT', async () => {
       const div = document.createElement('div'); div.innerHTML = await file.text();
@@ -3291,11 +3382,23 @@ $('#docFromText').addEventListener('click', () => {
 });
 $('#docClear').addEventListener('click', hideConverter);
 $('#docExport').addEventListener('click', () => {
-  const w = window.open('', '_blank');
-  if (!w) return toast('Allow pop-ups to export.');
-  w.document.write('<html><head><title>' + escapeHtml($('#docFileName').textContent) + '</title><style>body{font-family:Georgia,serif;max-width:680px;margin:48px auto;line-height:1.7;color:#1B2130;padding:0 24px;}h1,h2,h3{line-height:1.25;}</style></head><body>' + $('#docPreview').innerHTML + '</body></html>');
-  w.document.close();
-  setTimeout(() => w.print(), 400);
+  // hidden-iframe print: immune to popup blockers, unlike window.open
+  const old = document.getElementById('printFrame');
+  if (old) old.remove();
+  const f = document.createElement('iframe');
+  f.id = 'printFrame';
+  f.style.cssText = 'position:fixed;right:0;bottom:0;width:0;height:0;border:0;';
+  document.body.appendChild(f);
+  const d = f.contentDocument;
+  d.open();
+  d.write('<html><head><title>' + escapeHtml($('#docFileName').textContent) + '</title><style>body{font-family:Georgia,serif;max-width:680px;margin:48px auto;line-height:1.7;color:#1B2130;padding:0 24px;}h1,h2,h3{line-height:1.25;}</style></head><body>' + $('#docPreview').innerHTML + '</body></html>');
+  d.close();
+  setTimeout(() => { f.contentWindow.focus(); f.contentWindow.print(); }, 250);
+});
+$('#docDownloadPdf').addEventListener('click', () => {
+  const name = baseName($('#docFileName').textContent.replace(/[^\w.-]+/g, '-')) || 'document';
+  download(buildTextPdf(htmlToBlocks($('#docPreview').innerHTML)), name + '.pdf');
+  toast('PDF downloaded.');
 });
 
 /* ===== TALK TO YOUR PDF ===== */
