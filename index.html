@@ -645,6 +645,37 @@
   .chat-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--paper); cursor: pointer; color: var(--ink-2); font-family: inherit; }
   .chat-chip:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* mock tests */
+  .q-option {
+    display: flex; align-items: center; gap: 12px;
+    padding: 13px 16px; border: 1.5px solid var(--line); border-radius: 10px;
+    cursor: pointer; background: var(--paper); font-size: 14.5px; transition: all .13s;
+  }
+  .q-option:hover { border-color: var(--primary); }
+  .q-option.picked { border-color: var(--primary); background: var(--primary-soft); }
+  .q-option.correct { border-color: var(--good); background: var(--good-soft); }
+  .q-option.wrong { border-color: var(--danger); background: var(--accent-soft); }
+  .q-option .q-letter {
+    width: 26px; height: 26px; border-radius: 7px; flex-shrink: 0;
+    display: grid; place-items: center;
+    background: var(--ground); border: 1px solid var(--line);
+    font-size: 12px; font-weight: 700; font-family: "SF Mono", monospace;
+  }
+  .q-option.picked .q-letter { background: var(--primary); color: var(--paper); border-color: var(--primary); }
+  .mock-timerbar { height: 6px; border-radius: 3px; background: var(--line); overflow: hidden; margin-bottom: 20px; }
+  .mock-timerbar > div { height: 100%; background: var(--accent); border-radius: 3px; transition: width 1s linear; }
+  .mock-timerbar.low > div { background: var(--danger); }
+  .mock-qnum { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 18px; }
+  .mock-qnum button {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line);
+    background: var(--ground); cursor: pointer; font-family: "SF Mono", monospace; font-size: 12px; color: var(--ink-2);
+  }
+  .mock-qnum button.answered { background: var(--primary-soft); border-color: var(--primary); color: var(--primary); font-weight: 700; }
+  .mock-qnum button.cur { outline: 2px solid var(--accent); }
+  .mock-score-ring { font-family: "Iowan Old Style", Georgia, serif; font-size: 64px; font-weight: 700; line-height: 1; }
+  .mock-review-q { padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .mock-review-q:last-child { border-bottom: none; }
+
   /* mock tests teaser */
   .mock-hero { text-align: center; padding: 60px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; overflow: hidden; }
   .mock-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, var(--accent-soft), transparent 60%); }
@@ -911,7 +942,7 @@
       <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON — no upload.</span></button>
       <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" — answered in one glance.</span></button>
       <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
-      <button class="land-tool" data-enter="mock"><span class="lt-soon">Soon</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Timed practice exams with weak-topic analysis. Join the waitlist.</span></button>
+      <button class="land-tool" data-enter="mock"><span class="lt-soon">New</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Build timed practice exams, get instant scores, and turn missed questions into flashcards.</span></button>
     </div>
   </section>
 
@@ -963,7 +994,7 @@
       <div class="nav-title">Documents</div>
       <button class="nav-item" data-view="doc2pdf"><span class="nav-icon">⇄</span>File converter</button>
       <button class="nav-item" data-view="pdfchat"><span class="nav-icon">◈</span>Talk to your PDF</button>
-      <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">Soon</span></button>
+      <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">New</span></button>
     </nav>
 
     <nav class="nav-group">
@@ -1700,21 +1731,96 @@
 
     <!-- ============== MOCK TESTS ============== -->
     <section class="view" id="view-mock">
-      <div class="mock-hero">
-        <div class="mock-badge">Coming soon</div>
-        <h1>Mock tests, built from your notes.</h1>
-        <p class="lede" style="max-width: 52ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Timed practice exams with instant scoring, question banks by subject, and weak-topic analysis that feeds straight back into your flashcards.</p>
-        <div class="row mt-24" style="justify-content: center; gap: 10px;">
-          <input type="email" id="mockEmail" placeholder="you@school.edu" style="max-width: 260px;">
-          <button class="btn accent" id="mockNotify">Notify me</button>
+      <div class="view-head" id="mockHead">
+        <div>
+          <span class="eyebrow">Mock tests</span>
+          <h1 style="margin-top: 6px;">Practice like it's the real thing.</h1>
+          <p class="lede">Build your own timed tests, or take the built-in one. Instant scoring, full review, and missed questions become flashcards with one click.</p>
+        </div>
+        <div class="view-head-actions">
+          <select id="mockSelect" style="width: auto;"></select>
+          <button class="btn" id="mockNew">+ New test</button>
         </div>
       </div>
 
-      <div class="grid g-4 mt-24">
-        <div class="card mock-feature"><div class="mf-icon">⏱</div><h3>Timed sections</h3><div class="card-sub" style="margin-bottom:0;">Real exam pressure, section by section, with a pacing bar.</div></div>
-        <div class="card mock-feature"><div class="mf-icon">◎</div><h3>Question banks</h3><div class="card-sub" style="margin-bottom:0;">MCQ, true/false, and short-answer sets by subject.</div></div>
-        <div class="card mock-feature"><div class="mf-icon">▲</div><h3>Weak-topic radar</h3><div class="card-sub" style="margin-bottom:0;">See exactly which topics cost you marks, ranked.</div></div>
-        <div class="card mock-feature"><div class="mf-icon">↻</div><h3>Flashcard loop</h3><div class="card-sub" style="margin-bottom:0;">Missed questions become flashcards automatically.</div></div>
+      <!-- builder + start -->
+      <div id="mockSetup">
+        <div class="grid g-2">
+          <div class="card">
+            <h3>Add a question</h3>
+            <div class="card-sub" id="mockBuildSub">Multiple choice — mark the right answer.</div>
+            <div class="col" style="gap: 10px;">
+              <div><label>Question</label><textarea id="mqText" style="min-height: 64px;" placeholder="What is the derivative of x²?"></textarea></div>
+              <div class="field-row">
+                <div><label>Option A</label><input type="text" id="mqA" placeholder="2x"></div>
+                <div><label>Option B</label><input type="text" id="mqB" placeholder="x"></div>
+              </div>
+              <div class="field-row">
+                <div><label>Option C</label><input type="text" id="mqC" placeholder="x³/3"></div>
+                <div><label>Option D</label><input type="text" id="mqD" placeholder="2"></div>
+              </div>
+              <div class="field-row">
+                <div><label>Correct answer</label><select id="mqCorrect"><option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option></select></div>
+                <div><label>&nbsp;</label><button class="btn primary" id="mqAdd" style="width: 100%;">Add question</button></div>
+              </div>
+            </div>
+            <div class="mt-24">
+              <div class="eyebrow">Questions in this test</div>
+              <div id="mockQList" class="col mt-8" style="gap: 4px;"></div>
+            </div>
+          </div>
+
+          <div class="card" style="display: flex; flex-direction: column;">
+            <h3 id="mockStartTitle">Ready when you are.</h3>
+            <div class="card-sub" id="mockStartSub">—</div>
+            <div class="col" style="gap: 12px;">
+              <div><label>Time limit (minutes)</label><input type="number" id="mockTimeLimit" value="10" min="1" max="180"></div>
+            </div>
+            <div style="flex: 1; display: grid; place-items: center; padding: 24px 0;">
+              <button class="btn accent" id="mockStart" style="padding: 16px 36px; font-size: 16px;">▶ Start test</button>
+            </div>
+            <div class="eyebrow" style="margin-bottom: 8px;">Past attempts</div>
+            <div id="mockHistory" class="col" style="gap: 6px; font-size: 13px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- test runner -->
+      <div id="mockRunner" style="display:none;">
+        <div class="card" style="max-width: 720px; margin: 0 auto;">
+          <div class="mock-timerbar" id="mockBar"><div style="width:100%"></div></div>
+          <div class="row between" style="margin-bottom: 16px;">
+            <span class="eyebrow" id="mockQCounter">Question 1 of 10</span>
+            <span class="mono" id="mockClock" style="font-weight: 700; color: var(--accent);">10:00</span>
+          </div>
+          <h2 id="mockQText" style="margin-bottom: 22px;">—</h2>
+          <div class="col" id="mockOptions" style="gap: 10px;"></div>
+          <div class="row between mt-24">
+            <button class="btn" id="mockPrev">← Previous</button>
+            <button class="btn" id="mockNext">Next →</button>
+            <button class="btn primary" id="mockSubmit">Submit test</button>
+          </div>
+          <div class="mock-qnum" id="mockQNums"></div>
+        </div>
+      </div>
+
+      <!-- results -->
+      <div id="mockResults" style="display:none;">
+        <div class="card" style="max-width: 720px; margin: 0 auto; text-align: center; padding: 40px;">
+          <div class="eyebrow">Your score</div>
+          <div class="mock-score-ring" id="mockScoreBig" style="color: var(--accent); margin: 12px 0;">—</div>
+          <div class="text-muted" id="mockScoreSub">—</div>
+          <div class="row mt-24" style="justify-content: center; gap: 10px;">
+            <button class="btn accent" id="mockToFlash">Missed → flashcards</button>
+            <button class="btn primary" id="mockRetake">Retake</button>
+            <button class="btn" id="mockBack">Back to builder</button>
+          </div>
+        </div>
+        <div class="card mt-24" style="max-width: 720px; margin: 24px auto 0;">
+          <h3>Review</h3>
+          <div class="card-sub">Every question, your answer, and the right one.</div>
+          <div id="mockReview"></div>
+        </div>
       </div>
     </section>
 
@@ -3363,15 +3469,177 @@ $('#donateBtn').addEventListener('click', async () => {
   }
 });
 
-/* ===== MOCK TESTS ===== */
-$('#mockNotify').addEventListener('click', () => {
-  const em = $('#mockEmail').value.trim();
-  if (!em.includes('@')) return toast('Enter a valid email.');
-  LS.set('mockWaitlist', em);
-  $('#mockEmail').value = '';
-  confettiBurst(80);
-  toast("You're on the list.");
+/* ===== MOCK TESTS (v1 — fully client-side) ===== */
+const SAMPLE_TEST = {
+  id: 'sample',
+  name: 'General aptitude — sample',
+  time: 5,
+  questions: [
+    { q: 'What is the derivative of x²?', opts: ['2x', 'x', 'x³/3', '2'], correct: 0 },
+    { q: 'Which gas makes up most of Earth\'s atmosphere?', opts: ['Oxygen', 'Carbon dioxide', 'Nitrogen', 'Argon'], correct: 2 },
+    { q: 'If 3x + 5 = 20, x = ?', opts: ['3', '5', '7.5', '15'], correct: 1 },
+    { q: 'The SI unit of force is the…', opts: ['Joule', 'Pascal', 'Watt', 'Newton'], correct: 3 },
+    { q: 'Which sorting algorithm has the best average-case time complexity?', opts: ['Bubble sort', 'Merge sort', 'Selection sort', 'Insertion sort'], correct: 1 },
+  ]
+};
+let mockTests = LS.get('mockTests', [SAMPLE_TEST]);
+let curTestId = LS.get('curTestId', mockTests[0]?.id);
+let run = null; // { answers: [], idx, deadline, tick }
+
+function curTest() { return mockTests.find(t => t.id === curTestId) || mockTests[0]; }
+function saveMock() { LS.set('mockTests', mockTests); LS.set('curTestId', curTestId); }
+
+function renderMockSetup() {
+  const sel = $('#mockSelect'); sel.innerHTML = '';
+  mockTests.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t.id; o.textContent = `${t.name} (${t.questions.length}q)`;
+    if (t.id === curTestId) o.selected = true;
+    sel.appendChild(o);
+  });
+  const t = curTest();
+  if (!t) return;
+  $('#mockStartTitle').textContent = t.name;
+  $('#mockStartSub').textContent = `${t.questions.length} question${t.questions.length === 1 ? '' : 's'} · pass mark 60%`;
+  $('#mockTimeLimit').value = t.time;
+  const list = $('#mockQList'); list.innerHTML = '';
+  if (!t.questions.length) list.innerHTML = '<div class="text-muted">No questions yet — add some on the left.</div>';
+  t.questions.forEach((q, i) => {
+    const el = document.createElement('div');
+    el.className = 'row between';
+    el.style.cssText = 'padding: 6px 10px; background: var(--ground); border-radius: 6px; font-size: 13px;';
+    el.innerHTML = `<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:300px;">${i + 1}. ${escapeHtml(q.q)}</span><button class="btn ghost sm" data-mq="${i}">×</button>`;
+    list.appendChild(el);
+  });
+  list.querySelectorAll('[data-mq]').forEach(b => b.addEventListener('click', e => {
+    t.questions.splice(+e.target.dataset.mq, 1); saveMock(); renderMockSetup();
+  }));
+  // history
+  const hist = LS.get('mockHistory', {})[t.id] || [];
+  const hEl = $('#mockHistory'); hEl.innerHTML = hist.length ? '' : '<div class="text-muted">No attempts yet.</div>';
+  hist.slice(-5).reverse().forEach(h => {
+    const el = document.createElement('div');
+    el.className = 'row between';
+    el.innerHTML = `<span class="text-muted">${new Date(h.at).toLocaleDateString(undefined, { day: 'numeric', month: 'short' })}</span><span class="pill ${h.pct >= 60 ? 'good' : 'warn'}">${h.pct}%</span>`;
+    hEl.appendChild(el);
+  });
+}
+$('#mockSelect').addEventListener('change', e => { curTestId = e.target.value; saveMock(); renderMockSetup(); });
+$('#mockNew').addEventListener('click', () => {
+  const name = prompt('Test name?', 'My test');
+  if (!name) return;
+  const t = { id: 'mt' + Date.now().toString(36), name, time: 10, questions: [] };
+  mockTests.push(t); curTestId = t.id; saveMock(); renderMockSetup();
 });
+$('#mockTimeLimit').addEventListener('input', e => { const t = curTest(); if (t) { t.time = Math.max(1, +e.target.value || 10); saveMock(); } });
+$('#mqAdd').addEventListener('click', () => {
+  const t = curTest(); if (!t) return;
+  const q = $('#mqText').value.trim();
+  const opts = [$('#mqA').value.trim(), $('#mqB').value.trim(), $('#mqC').value.trim(), $('#mqD').value.trim()];
+  if (!q || opts.some(o => !o)) return toast('Fill the question and all four options.');
+  t.questions.push({ q, opts, correct: +$('#mqCorrect').value });
+  saveMock();
+  ['mqText','mqA','mqB','mqC','mqD'].forEach(id => $('#' + id).value = '');
+  renderMockSetup();
+  toast('Question added.');
+});
+
+function mockShow(section) {
+  $('#mockSetup').style.display = section === 'setup' ? '' : 'none';
+  $('#mockRunner').style.display = section === 'run' ? '' : 'none';
+  $('#mockResults').style.display = section === 'results' ? '' : 'none';
+  $('#mockHead').style.display = section === 'setup' ? '' : 'none';
+}
+$('#mockStart').addEventListener('click', () => {
+  const t = curTest();
+  if (!t || !t.questions.length) return toast('Add at least one question first.');
+  run = { answers: new Array(t.questions.length).fill(null), idx: 0, total: t.time * 60, left: t.time * 60 };
+  mockShow('run');
+  renderRunQ();
+  clearInterval(run.tick);
+  run.tick = setInterval(() => {
+    run.left--;
+    const m = Math.floor(run.left / 60), s = run.left % 60;
+    $('#mockClock').textContent = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    $('#mockBar').firstElementChild.style.width = (run.left / run.total * 100) + '%';
+    $('#mockBar').classList.toggle('low', run.left < 60);
+    if (run.left <= 0) { finishMock(); toast('Time\'s up!'); }
+  }, 1000);
+});
+function renderRunQ() {
+  const t = curTest(); const q = t.questions[run.idx];
+  $('#mockQCounter').textContent = `Question ${run.idx + 1} of ${t.questions.length}`;
+  $('#mockQText').textContent = q.q;
+  const wrap = $('#mockOptions'); wrap.innerHTML = '';
+  q.opts.forEach((o, i) => {
+    const el = document.createElement('div');
+    el.className = 'q-option' + (run.answers[run.idx] === i ? ' picked' : '');
+    el.innerHTML = `<span class="q-letter">${'ABCD'[i]}</span><span>${escapeHtml(o)}</span>`;
+    el.addEventListener('click', () => { run.answers[run.idx] = i; renderRunQ(); });
+    wrap.appendChild(el);
+  });
+  const nums = $('#mockQNums'); nums.innerHTML = '';
+  t.questions.forEach((_, i) => {
+    const b = document.createElement('button');
+    b.textContent = i + 1;
+    b.className = (run.answers[i] !== null ? 'answered' : '') + (i === run.idx ? ' cur' : '');
+    b.addEventListener('click', () => { run.idx = i; renderRunQ(); });
+    nums.appendChild(b);
+  });
+  $('#mockPrev').style.visibility = run.idx === 0 ? 'hidden' : '';
+  $('#mockNext').style.visibility = run.idx === t.questions.length - 1 ? 'hidden' : '';
+}
+$('#mockPrev').addEventListener('click', () => { if (run.idx > 0) { run.idx--; renderRunQ(); } });
+$('#mockNext').addEventListener('click', () => { const t = curTest(); if (run.idx < t.questions.length - 1) { run.idx++; renderRunQ(); } });
+$('#mockSubmit').addEventListener('click', () => {
+  const un = run.answers.filter(a => a === null).length;
+  if (un && !confirm(`${un} question${un > 1 ? 's' : ''} unanswered. Submit anyway?`)) return;
+  finishMock();
+});
+function finishMock() {
+  clearInterval(run.tick);
+  const t = curTest();
+  const right = t.questions.filter((q, i) => run.answers[i] === q.correct).length;
+  const pct = Math.round(right / t.questions.length * 100);
+  const hist = LS.get('mockHistory', {});
+  (hist[t.id] = hist[t.id] || []).push({ at: Date.now(), pct, right, total: t.questions.length });
+  LS.set('mockHistory', hist);
+  $('#mockScoreBig').textContent = pct + '%';
+  $('#mockScoreBig').style.color = pct >= 60 ? 'var(--good)' : 'var(--danger)';
+  $('#mockScoreSub').textContent = `${right} of ${t.questions.length} correct · ${pct >= 60 ? 'passed — nice work!' : 'below 60% — review and retake'}`;
+  const rev = $('#mockReview'); rev.innerHTML = '';
+  t.questions.forEach((q, i) => {
+    const mine = run.answers[i];
+    const ok = mine === q.correct;
+    const el = document.createElement('div');
+    el.className = 'mock-review-q';
+    el.innerHTML = `<div class="row between"><strong style="font-size:14px;">${i + 1}. ${escapeHtml(q.q)}</strong><span class="pill ${ok ? 'good' : 'accent'}">${ok ? 'Correct' : mine === null ? 'Skipped' : 'Wrong'}</span></div>
+      <div class="text-muted mt-8">${mine !== null ? 'Your answer: ' + escapeHtml(q.opts[mine]) + ' · ' : ''}Correct: <strong style="color:var(--good);">${escapeHtml(q.opts[q.correct])}</strong></div>`;
+    rev.appendChild(el);
+  });
+  mockShow('results');
+  if (pct >= 60) confettiBurst(70);
+  awardXp(Math.max(5, Math.round(pct / 4)), 'mock test');
+  run.missed = t.questions.filter((q, i) => run.answers[i] !== q.correct);
+}
+$('#mockToFlash').addEventListener('click', () => {
+  if (!run || !run.missed || !run.missed.length) return toast('Nothing missed — perfect score!');
+  const t = curTest();
+  const key = 'mock_' + t.id;
+  if (!decks[key]) decks[key] = { name: 'Missed: ' + t.name, cards: [] };
+  run.missed.forEach(q => {
+    if (!decks[key].cards.some(c => c.front === q.q)) decks[key].cards.push({ front: q.q, back: q.opts[q.correct], ease: 0 });
+  });
+  currentDeck = key;
+  LS.set('decks', decks); LS.set('currentDeck', currentDeck);
+  renderDeckSelect();
+  toast(`${run.missed.length} card${run.missed.length > 1 ? 's' : ''} added to "${decks[key].name}".`);
+  awardXp(10, 'turning misses into cards');
+});
+$('#mockRetake').addEventListener('click', () => $('#mockStart').click());
+$('#mockBack').addEventListener('click', () => { mockShow('setup'); renderMockSetup(); });
+renderMockSetup();
+mockShow('setup');
 
 /* ===== DAILY GOAL + BADGES ===== */
 const GOAL_RING_LEN = 2 * Math.PI * 42;
