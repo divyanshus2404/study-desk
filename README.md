@@ -2,7 +2,7 @@
 
 **Every tool a student needs, on one desk.** Free forever, no sign-up, no login, no limits. All data stays in your browser.
 
-**Live site:** https://study-desk-psi.vercel.app
+**Live site:** https://thestudydesk.vercel.app
 
 Built by an engineering student who got tired of needing five different websites — each demanding a sign-up, a daily limit, or a "premium pack" — just to finish one assignment.
 
