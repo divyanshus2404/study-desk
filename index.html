@@ -645,6 +645,26 @@
   .chat-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--paper); cursor: pointer; color: var(--ink-2); font-family: inherit; }
   .chat-chip:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* converted files list */
+  .conv-download {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 14px;
+    background: var(--good-soft); border: 1px solid var(--good);
+    border-radius: 10px;
+    animation: popIn .25s ease;
+  }
+  .conv-download .cd-icon {
+    width: 26px; height: 26px; border-radius: 50%;
+    background: var(--good); color: #fff;
+    display: grid; place-items: center;
+    font-weight: 700; font-size: 13px;
+    flex-shrink: 0;
+  }
+  .conv-download .cd-main { flex: 1; min-width: 0; }
+  .conv-download .cd-name { font-weight: 600; font-size: 13.5px; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .conv-download .cd-meta { font-size: 11.5px; color: var(--ink-2); margin-top: 2px; }
+  .conv-download a { text-decoration: none; }
+
   /* mock tests */
   .q-option {
     display: flex; align-items: center; gap: 12px;
@@ -1660,6 +1680,7 @@
         <div class="eyebrow" style="margin-bottom: 10px;">Convert to</div>
         <div class="row wrap" id="convTargetBtns" style="gap: 8px;"></div>
         <div class="text-muted mt-16" id="convNote"></div>
+        <div id="convDownloads" class="col mt-16" style="display:none; gap:8px;"></div>
       </div>
 
       <div class="mt-24" id="docPreviewWrap" style="display:none;">
@@ -3015,11 +3036,30 @@ function mdToHtml(md) {
 /* ---- universal converter ---- */
 let convFile = null;
 function download(blob, name) {
+  const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = url;
   a.download = name;
+  a.rel = 'noopener';
+  a.style.display = 'none';
+  document.body.appendChild(a);
   a.click();
-  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  document.body.removeChild(a);
+  showDownloadResult(name, blob, url);
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
+}
+function showDownloadResult(name, blob, url) {
+  let wrap = document.getElementById('convDownloads');
+  if (!wrap) return;
+  wrap.style.display = '';
+  const size = blob.size > 1048576 ? (blob.size / 1048576).toFixed(1) + ' MB' : Math.round(blob.size / 1024) + ' KB';
+  const el = document.createElement('div');
+  el.className = 'conv-download';
+  el.innerHTML = `<div class="cd-icon">✓</div>
+    <div class="cd-main"><div class="cd-name">${escapeHtml(name)}</div><div class="cd-meta">${size} · saved to your Downloads folder</div></div>
+    <a class="btn sm" href="${url}" download="${escapeHtml(name)}">Download again</a>`;
+  wrap.prepend(el);
+  while (wrap.children.length > 6) wrap.removeChild(wrap.lastChild);
 }
 function baseName(name) { return name.replace(/\.[^.]+$/, ''); }
 function fmtSize(b) { return b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.round(b / 1024) + ' KB'; }
@@ -3139,6 +3179,8 @@ async function handleDocFile(file) {
   $('#convFileTitle').textContent = file.name;
   $('#convFileKind').textContent = `${KIND_LABEL[kind]} · ${fmtSize(file.size)}`;
   $('#convNote').textContent = '';
+  const dl = $('#convDownloads');
+  if (dl) { dl.innerHTML = ''; dl.style.display = 'none'; }
   const base = baseName(file.name);
   const T = []; // [label, fn]
 
