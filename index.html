@@ -1132,7 +1132,7 @@
       <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON — no upload.</span></button>
       <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" — answered in one glance.</span></button>
       <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
-      <button class="land-tool" data-enter="mock"><span class="lt-soon">New</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Build timed practice exams, get instant scores, and turn missed questions into flashcards.</span></button>
+      <button class="land-tool" data-enter="mock"><span class="lt-soon">Soon</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Timed practice exams with weak-topic analysis. Coming soon.</span></button>
     </div>
   </section>
 
@@ -1198,7 +1198,7 @@
       <button class="nav-item" data-view="scanner"><span class="nav-icon">◱</span>Doc scanner</button>
       <button class="nav-item" data-view="doc2pdf"><span class="nav-icon">⇄</span>File converter</button>
       <button class="nav-item" data-view="pdfchat"><span class="nav-icon">◈</span>Talk to your PDF</button>
-      <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">New</span></button>
+      <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">Soon</span></button>
     </nav>
 
     <nav class="nav-group">
@@ -2017,8 +2017,16 @@
       </div>
     </section>
 
-    <!-- ============== MOCK TESTS ============== -->
+    <!-- ============== MOCK TESTS (coming soon) ============== -->
     <section class="view" id="view-mock">
+      <div class="mock-hero">
+        <div class="mock-badge">Coming soon</div>
+        <h1>Mock tests are on the way.</h1>
+        <p class="lede" style="max-width: 52ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Timed practice exams with instant scoring, question banks by subject, and weak-topic analysis that feeds straight back into your flashcards. Being built now.</p>
+        <div class="text-muted mt-24" style="font-size: 12px;">Check back soon — everything else in Study Desk is ready to use in the meantime.</div>
+      </div>
+    </section>
+    <div style="display:none;" aria-hidden="true">
       <div class="view-head" id="mockHead">
         <div>
           <span class="eyebrow">Mock tests</span>
@@ -2110,7 +2118,7 @@
           <div id="mockReview"></div>
         </div>
       </div>
-    </section>
+    </div>
 
     <!-- ============== FORMULAS ============== -->
     <section class="view" id="view-formulas">
