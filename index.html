@@ -1,0 +1,3663 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Study Desk - every tool a student needs on one desk. Free, private, no sign-up.">
+<title>Study Desk — a student's toolkit</title>
+</head>
+<body>
+<title>Study Desk — a student's toolkit</title>
+<style>
+  :root {
+    --ground: #F5F1E8;
+    --paper: #FBF8F1;
+    --ink: #1B2130;
+    --ink-2: #3D4557;
+    --ink-3: #6B7288;
+    --line: #E5DFD1;
+    --line-2: #D4CDB8;
+    --primary: #2B4870;
+    --primary-soft: #DDE4EF;
+    --accent: #E27A3F;
+    --accent-soft: #FBE6D4;
+    --highlight: #F4D35E;
+    --highlight-soft: #FBF1C7;
+    --good: #4A7C59;
+    --good-soft: #DDEBDF;
+    --warn: #C6893A;
+    --danger: #B14A3C;
+    --shadow: 0 1px 2px rgba(27,33,48,.04), 0 4px 12px rgba(27,33,48,.05);
+    --shadow-lift: 0 2px 4px rgba(27,33,48,.05), 0 12px 32px rgba(27,33,48,.08);
+    --radius: 10px;
+    --radius-lg: 14px;
+    --grid-line: rgba(43,72,112,.05);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ground: #14171F;
+      --paper: #1B1F2A;
+      --ink: #F0EBDD;
+      --ink-2: #C8C2B0;
+      --ink-3: #8A8879;
+      --line: #2A2F3D;
+      --line-2: #363B4A;
+      --primary: #7FA0D4;
+      --primary-soft: #253148;
+      --accent: #F2915A;
+      --accent-soft: #3A2818;
+      --highlight: #F4D35E;
+      --highlight-soft: #3B321A;
+      --good: #7BB78F;
+      --good-soft: #1E2C22;
+      --warn: #E0A868;
+      --danger: #D07364;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.35);
+      --shadow-lift: 0 4px 8px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
+      --grid-line: rgba(127,160,212,.06);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #14171F;
+    --paper: #1B1F2A;
+    --ink: #F0EBDD;
+    --ink-2: #C8C2B0;
+    --ink-3: #8A8879;
+    --line: #2A2F3D;
+    --line-2: #363B4A;
+    --primary: #7FA0D4;
+    --primary-soft: #253148;
+    --accent: #F2915A;
+    --accent-soft: #3A2818;
+    --highlight: #F4D35E;
+    --highlight-soft: #3B321A;
+    --good: #7BB78F;
+    --good-soft: #1E2C22;
+    --warn: #E0A868;
+    --danger: #D07364;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.35);
+    --shadow-lift: 0 4px 8px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
+    --grid-line: rgba(127,160,212,.06);
+  }
+  :root[data-theme="light"] {
+    --ground: #F5F1E8;
+    --paper: #FBF8F1;
+    --ink: #1B2130;
+    --ink-2: #3D4557;
+    --ink-3: #6B7288;
+    --line: #E5DFD1;
+    --line-2: #D4CDB8;
+    --primary: #2B4870;
+    --primary-soft: #DDE4EF;
+    --accent: #E27A3F;
+    --accent-soft: #FBE6D4;
+    --highlight: #F4D35E;
+    --highlight-soft: #FBF1C7;
+    --good: #4A7C59;
+    --good-soft: #DDEBDF;
+    --warn: #C6893A;
+    --danger: #B14A3C;
+    --shadow: 0 1px 2px rgba(27,33,48,.04), 0 4px 12px rgba(27,33,48,.05);
+    --shadow-lift: 0 2px 4px rgba(27,33,48,.05), 0 12px 32px rgba(27,33,48,.08);
+    --grid-line: rgba(43,72,112,.05);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--ink);
+    background: var(--ground);
+    background-image:
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+    background-size: 32px 32px;
+    background-position: -1px -1px;
+    line-height: 1.5;
+    font-size: 14.5px;
+    min-height: 100vh;
+  }
+
+  .serif { font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif; }
+  .mono { font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+  h1, h2, h3, h4 { font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif; font-weight: 600; letter-spacing: -0.01em; margin: 0; color: var(--ink); text-wrap: balance; }
+  h1 { font-size: 32px; line-height: 1.15; }
+  h2 { font-size: 22px; line-height: 1.2; }
+  h3 { font-size: 17px; line-height: 1.3; }
+  p { margin: 0; }
+
+  .eyebrow {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-3);
+    font-weight: 600;
+  }
+
+  .app {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  aside.sidebar {
+    border-right: 1px solid var(--line);
+    padding: 24px 16px 24px 24px;
+    background: var(--ground);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    padding-bottom: 4px;
+  }
+  .brand-mark {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--ink);
+    color: var(--paper);
+    display: grid; place-items: center;
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-weight: 700;
+    font-size: 16px;
+    align-self: center;
+    position: relative;
+  }
+  .brand-mark::after {
+    content: "";
+    position: absolute;
+    left: 6px; right: 6px; bottom: 5px;
+    height: 3px;
+    background: var(--accent);
+    border-radius: 1px;
+  }
+  .brand-name { font-family: "Iowan Old Style", Georgia, serif; font-size: 18px; font-weight: 600; }
+  .brand-sub { font-size: 10.5px; color: var(--ink-3); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .nav-group { display: flex; flex-direction: column; gap: 2px; }
+  .nav-title { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); font-weight: 600; padding: 0 10px 6px; }
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    color: var(--ink-2);
+    font-size: 13.5px;
+    border: none;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+    font-family: inherit;
+  }
+  .nav-item:hover { background: var(--paper); color: var(--ink); }
+  .nav-item.active { background: var(--ink); color: var(--paper); }
+  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-icon { width: 16px; display: inline-flex; opacity: .85; }
+
+  .theme-toggle {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 10px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+    font-size: 12px;
+    color: var(--ink-2);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .theme-toggle:hover { border-color: var(--line-2); }
+
+  main.workspace {
+    padding: 32px 40px 80px;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .view { display: none; }
+  .view.active { display: block; animation: fade .28s ease; }
+  @keyframes fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .view-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; margin-bottom: 28px; padding-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .view-head .lede { color: var(--ink-3); font-size: 13.5px; max-width: 46ch; margin-top: 6px; }
+  .view-head-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+
+  .card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    box-shadow: var(--shadow);
+  }
+  .card h3 { margin-bottom: 4px; }
+  .card .card-sub { color: var(--ink-3); font-size: 12.5px; margin-bottom: 16px; }
+
+  .grid { display: grid; gap: 18px; }
+  .grid.g-2 { grid-template-columns: 1fr 1fr; }
+  .grid.g-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid.g-4 { grid-template-columns: repeat(4, 1fr); }
+  @media (max-width: 900px) {
+    .app { grid-template-columns: 1fr; }
+    aside.sidebar { position: static; height: auto; border-right: none; border-bottom: 1px solid var(--line); }
+    main.workspace { padding: 20px; }
+    .grid.g-2, .grid.g-3, .grid.g-4 { grid-template-columns: 1fr; }
+  }
+
+  /* buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    border: 1px solid var(--line-2);
+    background: var(--paper);
+    color: var(--ink);
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .btn:hover { border-color: var(--ink-3); background: var(--ground); }
+  .btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .btn.primary:hover { background: var(--ink-2); border-color: var(--ink-2); }
+  .btn.accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .btn.accent:hover { filter: brightness(1.05); }
+  .btn.ghost { border-color: transparent; background: transparent; color: var(--ink-2); }
+  .btn.ghost:hover { background: var(--paper); color: var(--ink); }
+  .btn.sm { padding: 5px 10px; font-size: 12px; }
+  .btn.icon { padding: 6px; width: 30px; height: 30px; justify-content: center; }
+  .btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  /* inputs */
+  input[type=text], input[type=number], input[type=date], input[type=email], select, textarea {
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    padding: 8px 12px;
+    width: 100%;
+    line-height: 1.4;
+    transition: border-color .15s;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+  textarea { min-height: 120px; resize: vertical; font-family: inherit; }
+  label { display: block; font-size: 12px; color: var(--ink-2); margin-bottom: 4px; font-weight: 500; }
+  .field-row { display: grid; gap: 12px; grid-template-columns: 1fr 1fr; }
+
+  /* pills */
+  .pill { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 20px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em; }
+  .pill.good { background: var(--good-soft); color: var(--good); }
+  .pill.warn { background: var(--highlight-soft); color: var(--warn); }
+  .pill.accent { background: var(--accent-soft); color: var(--accent); }
+  .pill.primary { background: var(--primary-soft); color: var(--primary); }
+  .pill.muted { background: var(--ground); color: var(--ink-3); border: 1px solid var(--line); }
+
+  /* stat */
+  .stat { display: flex; flex-direction: column; gap: 4px; }
+  .stat-value { font-family: "Iowan Old Style", Georgia, serif; font-size: 30px; font-weight: 600; line-height: 1; }
+  .stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+  .stat-sub { font-size: 12px; color: var(--ink-3); }
+
+  /* DASHBOARD */
+  .dash-hero {
+    padding: 28px;
+    border-radius: var(--radius-lg);
+    background: var(--paper);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
+  }
+  .dash-hero::before {
+    content: "";
+    position: absolute;
+    right: -40px; top: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+    opacity: .8;
+  }
+  .dash-greet { position: relative; }
+  .dash-greet .today { font-size: 11px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-3); font-weight: 600; }
+  .dash-greet h1 { font-size: 34px; margin-top: 6px; }
+  .dash-greet h1 .name { color: var(--accent); font-style: italic; }
+  .dash-greet .quote { margin-top: 14px; font-family: "Iowan Old Style", Georgia, serif; font-style: italic; color: var(--ink-2); font-size: 15px; max-width: 52ch; }
+
+  .dash-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 22px; position: relative; }
+  .dash-stat { padding: 14px 16px; border-radius: 10px; background: var(--ground); border: 1px solid var(--line); }
+  .dash-stat .stat-value { font-size: 24px; }
+
+  /* TIMER */
+  .timer-wrap { display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px; }
+  @media (max-width: 900px) { .timer-wrap { grid-template-columns: 1fr; } }
+  .timer-face {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 40px 20px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    position: relative;
+  }
+  .timer-ring { position: relative; width: 260px; height: 260px; }
+  .timer-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .timer-ring circle.bg { fill: none; stroke: var(--line); stroke-width: 6; }
+  .timer-ring circle.fg { fill: none; stroke: var(--accent); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset .5s linear; }
+  .timer-display {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .timer-time { font-family: "Iowan Old Style", Georgia, serif; font-size: 56px; font-weight: 500; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .timer-mode { font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--ink-3); margin-top: 4px; font-weight: 600; }
+  .timer-controls { display: flex; gap: 10px; margin-top: 24px; }
+  .mode-tabs { display: flex; gap: 4px; background: var(--ground); border: 1px solid var(--line); padding: 3px; border-radius: 10px; margin-bottom: 24px; }
+  .mode-tab { padding: 6px 14px; border-radius: 7px; border: none; background: transparent; color: var(--ink-2); font-size: 12px; font-weight: 500; cursor: pointer; font-family: inherit; }
+  .mode-tab.active { background: var(--paper); color: var(--ink); box-shadow: var(--shadow); }
+
+  .session-log { display: flex; gap: 6px; margin-top: 8px; }
+  .session-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--line); }
+  .session-dot.done { background: var(--accent); }
+
+  /* CALCULATOR */
+  .calc-wrap { max-width: 420px; margin: 0 auto; }
+  .calc-screen {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+    font-family: "SF Mono", ui-monospace, Menlo, monospace;
+    text-align: right;
+  }
+  .calc-history { font-size: 13px; opacity: .5; min-height: 18px; }
+  .calc-value { font-size: 36px; font-weight: 300; letter-spacing: -0.01em; overflow-x: auto; }
+  .calc-pad { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px; background: var(--paper); border: 1px solid var(--line); border-top: none; border-radius: 0 0 12px 12px; }
+  .calc-key { padding: 14px 0; border-radius: 8px; border: 1px solid var(--line); background: var(--ground); font-family: inherit; font-size: 15px; font-weight: 500; color: var(--ink); cursor: pointer; }
+  .calc-key:hover { background: var(--line); }
+  .calc-key.op { color: var(--accent); font-weight: 600; }
+  .calc-key.eq { background: var(--ink); color: var(--paper); border-color: var(--ink); grid-column: span 2; }
+  .calc-key.fn { font-size: 12px; color: var(--primary); }
+
+  /* GPA */
+  .course-row { display: grid; grid-template-columns: 2fr 1fr 1fr 30px; gap: 8px; align-items: center; padding: 6px 0; }
+  .course-row .del { background: transparent; border: none; color: var(--ink-3); cursor: pointer; padding: 4px; border-radius: 4px; font-size: 16px; }
+  .course-row .del:hover { color: var(--danger); background: var(--paper); }
+
+  /* TASKS */
+  .task-list { display: flex; flex-direction: column; gap: 4px; }
+  .task {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: all .15s;
+  }
+  .task:hover { background: var(--ground); border-color: var(--line); }
+  .task.done .task-text { text-decoration: line-through; color: var(--ink-3); }
+  .task-check {
+    width: 18px; height: 18px;
+    border-radius: 5px;
+    border: 1.5px solid var(--line-2);
+    display: grid; place-items: center;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: all .12s;
+  }
+  .task.done .task-check { background: var(--good); border-color: var(--good); color: var(--paper); }
+  .task-check svg { width: 12px; opacity: 0; }
+  .task.done .task-check svg { opacity: 1; }
+  .task-text { flex: 1; font-size: 14px; }
+  .task-meta { font-size: 11px; color: var(--ink-3); }
+  .task-priority { width: 3px; height: 18px; border-radius: 2px; background: var(--line-2); }
+  .task-priority.high { background: var(--danger); }
+  .task-priority.med { background: var(--warn); }
+  .task-priority.low { background: var(--good); }
+  .task-del { opacity: 0; background: none; border: none; color: var(--ink-3); cursor: pointer; padding: 2px; }
+  .task:hover .task-del { opacity: 1; }
+  .task-del:hover { color: var(--danger); }
+
+  /* NOTES */
+  .notes-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; height: calc(100vh - 200px); min-height: 500px; }
+  @media (max-width: 900px) { .notes-layout { grid-template-columns: 1fr; height: auto; } }
+  .notes-list { border: 1px solid var(--line); border-radius: var(--radius-lg); background: var(--paper); overflow-y: auto; }
+  .note-item { padding: 12px 14px; border-bottom: 1px solid var(--line); cursor: pointer; }
+  .note-item:hover { background: var(--ground); }
+  .note-item.active { background: var(--primary-soft); }
+  .note-item-title { font-weight: 600; font-size: 13.5px; margin-bottom: 2px; }
+  .note-item-preview { font-size: 12px; color: var(--ink-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .note-editor { display: flex; flex-direction: column; gap: 10px; }
+  .note-editor input.title { font-family: "Iowan Old Style", Georgia, serif; font-size: 22px; border: none; padding: 4px 0; background: transparent; }
+  .note-editor input.title:focus { box-shadow: none; border-bottom: 1px solid var(--accent); border-radius: 0; }
+  .note-editor textarea.body { border: none; padding: 4px 0; background: transparent; min-height: 400px; resize: none; font-size: 14.5px; line-height: 1.65; }
+  .note-editor textarea.body:focus { box-shadow: none; }
+
+  /* FLASHCARDS */
+  .flashcard-stage { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px; }
+  .flashcard {
+    width: 100%; max-width: 480px;
+    aspect-ratio: 3 / 2;
+    perspective: 1200px;
+    cursor: pointer;
+  }
+  .flashcard-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform .5s cubic-bezier(.4,.2,.2,1);
+    transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .flashcard-face {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 32px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: var(--shadow-lift);
+    backface-visibility: hidden;
+    text-align: center;
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 22px;
+    color: var(--ink);
+  }
+  .flashcard-face.back { transform: rotateY(180deg); background: var(--ink); color: var(--paper); }
+  .flashcard-face .fc-label { position: absolute; top: 14px; left: 20px; font-family: -apple-system, sans-serif; font-size: 10px; text-transform: uppercase; letter-spacing: 0.14em; opacity: .6; font-weight: 600; }
+  .flashcard-controls { display: flex; gap: 10px; align-items: center; }
+
+  /* CITATION */
+  .cite-output {
+    padding: 16px 20px;
+    background: var(--ground);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink);
+    text-indent: -24px;
+    padding-left: 44px;
+    min-height: 60px;
+  }
+
+  /* WORDCOUNT */
+  .wc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+  .wc-tile { padding: 14px; background: var(--ground); border: 1px solid var(--line); border-radius: 10px; }
+
+  /* CONVERTER */
+  .conv-swap { display: grid; grid-template-columns: 1fr auto 1fr; gap: 12px; align-items: end; }
+  .conv-swap .swap-btn { padding: 8px; margin-bottom: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; color: var(--ink-2); }
+  .conv-swap .swap-btn:hover { background: var(--ground); color: var(--accent); }
+
+  /* HABITS */
+  .habit-grid { display: grid; gap: 8px; }
+  .habit-row { display: grid; grid-template-columns: 160px repeat(7, 1fr) 40px; gap: 4px; align-items: center; }
+  .habit-name { font-size: 13.5px; padding: 4px 8px; }
+  .habit-cell {
+    aspect-ratio: 1;
+    background: var(--ground);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    cursor: pointer;
+    display: grid; place-items: center;
+    color: transparent;
+    font-size: 14px;
+    transition: all .15s;
+  }
+  .habit-cell:hover { border-color: var(--ink-3); }
+  .habit-cell.done { background: var(--good); border-color: var(--good); color: var(--paper); }
+  .habit-header { display: grid; grid-template-columns: 160px repeat(7, 1fr) 40px; gap: 4px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .habit-day { text-align: center; font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink-3); font-weight: 600; }
+  .habit-streak { text-align: center; font-family: "Iowan Old Style", Georgia, serif; font-size: 14px; color: var(--accent); font-weight: 600; }
+
+  /* Empty state */
+  .empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--ink-3);
+    font-size: 13px;
+  }
+  .empty .serif { font-size: 18px; color: var(--ink-2); margin-bottom: 6px; display: block; }
+
+  /* toast */
+  .toast {
+    position: fixed;
+    bottom: 20px; left: 50%;
+    transform: translateX(-50%) translateY(60px);
+    background: var(--ink);
+    color: var(--paper);
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    box-shadow: var(--shadow-lift);
+    opacity: 0;
+    transition: all .3s;
+    pointer-events: none;
+    z-index: 100;
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  /* utility */
+  .divider { height: 1px; background: var(--line); margin: 16px 0; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row.wrap { flex-wrap: wrap; }
+  .row.between { justify-content: space-between; }
+  .grow { flex: 1; }
+  .col { display: flex; flex-direction: column; gap: 12px; }
+  .mt-8 { margin-top: 8px; } .mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; }
+  .text-muted { color: var(--ink-3); font-size: 12.5px; }
+
+  /* ===== ADDICTIVE LAYER ===== */
+  .xp-widget {
+    padding: 12px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: var(--paper);
+    box-shadow: var(--shadow);
+  }
+  .xp-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px; }
+  .xp-level { font-family: "Iowan Old Style", Georgia, serif; font-weight: 700; font-size: 15px; }
+  .xp-points { font-size: 11px; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+  .xp-bar { height: 8px; border-radius: 4px; background: var(--ground); border: 1px solid var(--line); overflow: hidden; }
+  .xp-fill { height: 100%; background: linear-gradient(90deg, var(--accent), var(--highlight)); border-radius: 4px; transition: width .6s cubic-bezier(.3,1.2,.4,1); }
+  .xp-rank { font-size: 10.5px; color: var(--accent); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; margin-top: 6px; }
+
+  .card { transition: transform .18s ease, box-shadow .18s ease; }
+  .card:hover { box-shadow: var(--shadow-lift); }
+  .nav-item { transition: all .15s ease; }
+  .nav-item:active { transform: scale(.97); }
+  .btn:active { transform: scale(.96); }
+  .nav-badge { margin-left: auto; font-size: 9px; padding: 1px 6px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 200; }
+
+  @keyframes popIn { 0% { transform: scale(.6); opacity: 0; } 70% { transform: scale(1.08); } 100% { transform: scale(1); opacity: 1; } }
+  .pop { animation: popIn .35s cubic-bezier(.3,1.4,.4,1); }
+  @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(226,122,63,.4); } 100% { box-shadow: 0 0 0 14px rgba(226,122,63,0); } }
+  .timer-face.running .timer-ring { animation: pulse-ring 2s infinite; border-radius: 50%; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+
+  /* drop zone */
+  .dropzone {
+    border: 2px dashed var(--line-2);
+    border-radius: var(--radius-lg);
+    padding: 48px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: all .2s;
+    background: var(--paper);
+  }
+  .dropzone:hover, .dropzone.drag { border-color: var(--accent); background: var(--accent-soft); }
+  .dropzone .dz-icon { font-size: 34px; margin-bottom: 10px; }
+  .dropzone .dz-title { font-family: "Iowan Old Style", Georgia, serif; font-size: 18px; font-weight: 600; }
+  .dropzone .dz-sub { font-size: 12.5px; color: var(--ink-3); margin-top: 4px; }
+
+  .doc-preview {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 40px 48px;
+    max-height: 480px;
+    overflow-y: auto;
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 15px;
+    line-height: 1.7;
+    box-shadow: var(--shadow);
+  }
+  .doc-preview h1, .doc-preview h2, .doc-preview h3 { margin: 0.8em 0 0.3em; }
+  .doc-preview p { margin: 0 0 0.7em; }
+
+  /* pdf chat */
+  .chat-layout { display: grid; grid-template-columns: 1fr 1.2fr; gap: 18px; }
+  @media (max-width: 900px) { .chat-layout { grid-template-columns: 1fr; } }
+  .chat-box { display: flex; flex-direction: column; height: 520px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow); }
+  .chat-msgs { flex: 1; overflow-y: auto; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .chat-msg { max-width: 85%; padding: 10px 14px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; animation: popIn .25s ease; }
+  .chat-msg.user { align-self: flex-end; background: var(--ink); color: var(--paper); border-bottom-right-radius: 4px; }
+  .chat-msg.bot { align-self: flex-start; background: var(--ground); border: 1px solid var(--line); border-bottom-left-radius: 4px; }
+  .chat-msg.bot .src { display: block; margin-top: 6px; font-size: 10.5px; color: var(--ink-3); text-transform: uppercase; letter-spacing: .08em; font-weight: 600; }
+  .chat-msg.bot mark { background: var(--highlight-soft); color: inherit; border-radius: 2px; padding: 0 2px; }
+  .chat-input-row { display: flex; gap: 8px; padding: 12px; border-top: 1px solid var(--line); background: var(--ground); }
+  .chat-input-row input { flex: 1; }
+  .chat-chips { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 18px 12px; }
+  .chat-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--paper); cursor: pointer; color: var(--ink-2); font-family: inherit; }
+  .chat-chip:hover { border-color: var(--accent); color: var(--accent); }
+
+  /* mock tests teaser */
+  .mock-hero { text-align: center; padding: 60px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; overflow: hidden; }
+  .mock-hero::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, var(--accent-soft), transparent 60%); }
+  .mock-hero > * { position: relative; }
+  .mock-badge { display: inline-block; padding: 4px 14px; border-radius: 20px; background: var(--accent); color: #fff; font-size: 11px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 16px; }
+  .mock-hero h1 { font-size: 40px; }
+  .mock-feature { padding: 18px; text-align: left; }
+  .mock-feature .mf-icon { font-size: 22px; margin-bottom: 8px; }
+
+  /* ===== COMMAND PALETTE ===== */
+  .palette-overlay {
+    position: fixed; inset: 0; z-index: 300;
+    background: rgba(20, 23, 31, .45);
+    backdrop-filter: blur(3px);
+    display: none;
+    align-items: flex-start; justify-content: center;
+    padding-top: 12vh;
+  }
+  .palette-overlay.open { display: flex; }
+  .palette {
+    width: min(560px, 92vw);
+    background: var(--paper);
+    border: 1px solid var(--line-2);
+    border-radius: 14px;
+    box-shadow: var(--shadow-lift);
+    overflow: hidden;
+    animation: popIn .18s ease;
+  }
+  .palette input {
+    border: none; border-bottom: 1px solid var(--line); border-radius: 0;
+    padding: 16px 18px; font-size: 16px; background: transparent;
+  }
+  .palette input:focus { box-shadow: none; }
+  .palette-results { max-height: 320px; overflow-y: auto; padding: 6px; }
+  .palette-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 10px 12px; border-radius: 8px; cursor: pointer;
+    font-size: 14px;
+  }
+  .palette-item .pi-icon { width: 20px; text-align: center; color: var(--accent); }
+  .palette-item .pi-kind { margin-left: auto; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; color: var(--ink-3); font-weight: 600; }
+  .palette-item.sel { background: var(--primary-soft); }
+  .palette-hint { padding: 8px 18px; border-top: 1px solid var(--line); font-size: 11px; color: var(--ink-3); display: flex; gap: 14px; }
+  .kbd { display: inline-block; padding: 1px 6px; border: 1px solid var(--line-2); border-bottom-width: 2px; border-radius: 4px; font-family: "SF Mono", monospace; font-size: 10px; background: var(--ground); }
+
+  /* ===== DAILY GOAL RING + BADGES ===== */
+  .goal-ring-wrap { display: flex; align-items: center; gap: 18px; }
+  .goal-ring { position: relative; width: 92px; height: 92px; flex-shrink: 0; }
+  .goal-ring svg { transform: rotate(-90deg); width: 100%; height: 100%; }
+  .goal-ring .gr-bg { fill: none; stroke: var(--line); stroke-width: 8; }
+  .goal-ring .gr-fg { fill: none; stroke: var(--accent); stroke-width: 8; stroke-linecap: round; transition: stroke-dashoffset .8s cubic-bezier(.3,1,.4,1); }
+  .goal-ring .gr-val { position: absolute; inset: 0; display: grid; place-items: center; font-family: "Iowan Old Style", Georgia, serif; font-weight: 700; font-size: 18px; }
+  .badge-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 5px 12px; border-radius: 20px; font-size: 11.5px; font-weight: 600;
+    border: 1px solid var(--line); background: var(--ground); color: var(--ink-3);
+  }
+  .badge.earned { background: var(--highlight-soft); border-color: var(--warn); color: var(--warn); }
+
+  /* ===== FORMULAS ===== */
+  .formula-group { margin-bottom: 8px; }
+  .formula-row {
+    display: grid; grid-template-columns: 220px 1fr; gap: 16px;
+    padding: 12px 14px; border-bottom: 1px solid var(--line);
+    align-items: baseline;
+  }
+  .formula-row:last-child { border-bottom: none; }
+  .formula-row .f-name { font-size: 13px; color: var(--ink-2); font-weight: 500; }
+  .formula-row .f-expr { font-family: "SF Mono", ui-monospace, Menlo, monospace; font-size: 14px; color: var(--ink); overflow-x: auto; }
+  @media (max-width: 700px) { .formula-row { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ===== EXAM COUNTDOWN ===== */
+  .exam-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--ground); }
+  .exam-days { font-family: "Iowan Old Style", Georgia, serif; font-size: 30px; font-weight: 700; color: var(--accent); min-width: 64px; text-align: center; line-height: 1; }
+  .exam-days .u { display: block; font-size: 10px; font-family: -apple-system, sans-serif; text-transform: uppercase; letter-spacing: .1em; color: var(--ink-3); font-weight: 600; margin-top: 3px; }
+  .exam-info { flex: 1; }
+  .exam-name { font-weight: 600; font-size: 14.5px; }
+  .exam-date { font-size: 12px; color: var(--ink-3); }
+  .exam-item.urgent .exam-days { color: var(--danger); }
+
+  /* ===== SPACING & READABILITY POLISH ===== */
+  body { line-height: 1.6; }
+  p, .lede, .card-sub, .text-muted { line-height: 1.65; }
+  h1 { line-height: 1.2; margin-bottom: 2px; }
+  h2 { line-height: 1.3; }
+  h3 { line-height: 1.35; margin-bottom: 6px; }
+  .view-head { margin-bottom: 34px; padding-bottom: 24px; }
+  .view-head .lede { margin-top: 10px; line-height: 1.7; }
+  .eyebrow { margin-bottom: 4px; display: inline-block; }
+  .card { padding: 26px; }
+  .card .card-sub { margin-bottom: 20px; margin-top: 2px; }
+  .grid { gap: 22px; }
+  .col { gap: 14px; }
+  label { margin-bottom: 6px; }
+  .stat-label { margin-bottom: 2px; }
+  .stat-value { margin: 2px 0; }
+  .dash-greet .quote { margin-top: 18px; line-height: 1.7; }
+  .dash-stats { margin-top: 26px; gap: 14px; }
+  .dash-stat { padding: 16px 18px; }
+  .dash-stat .stat-label { margin-bottom: 6px; }
+  .task { padding: 11px 12px; }
+  .land-sub { margin-top: 26px; line-height: 1.75; }
+  .land-cta-row { margin-top: 38px; }
+  .land-note { margin-top: 18px; }
+  .land-tool { padding: 20px; }
+  .land-tool .lt-desc { margin-top: 7px; line-height: 1.6; }
+  .land-tool .lt-icon { margin-bottom: 12px; }
+  .mock-feature .card-sub { line-height: 1.65; }
+  .about-wrap .letter { line-height: 1.85; }
+  .about-wrap .letter p { margin-bottom: 1.25em; }
+  .chat-msg { line-height: 1.6; }
+  .nav-group { gap: 3px; }
+  .nav-title { padding-bottom: 8px; }
+
+  /* ===== ABOUT PAGE ===== */
+  .about-wrap { max-width: 660px; margin: 0 auto; }
+  .about-wrap .letter {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 44px 48px; box-shadow: var(--shadow);
+    font-family: "Iowan Old Style", Georgia, serif; font-size: 16.5px; line-height: 1.75; color: var(--ink);
+  }
+  @media (max-width: 600px) { .about-wrap .letter { padding: 28px 22px; } }
+  .about-wrap .letter p { margin: 0 0 1.1em; }
+  .about-wrap .letter p:last-child { margin-bottom: 0; }
+  .about-wrap .letter .salute { font-style: italic; color: var(--ink-2); }
+  .about-wrap .letter .sig { margin-top: 28px; font-style: italic; font-size: 18px; }
+  .about-wrap .letter .sig .who { display: block; font-style: normal; font-size: 12px; font-family: -apple-system, sans-serif; color: var(--ink-3); text-transform: uppercase; letter-spacing: .1em; font-weight: 600; margin-top: 4px; }
+  .about-hl { background: linear-gradient(transparent 55%, var(--highlight-soft) 55%); padding: 0 2px; }
+
+  .donate-card {
+    margin-top: 24px; text-align: center; padding: 36px 32px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+  }
+  .donate-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 120%, var(--accent-soft), transparent 65%); }
+  .donate-card > * { position: relative; }
+  .donate-btn {
+    font-family: inherit; cursor: pointer; margin-top: 18px;
+    padding: 14px 34px; border-radius: 12px; font-size: 15.5px; font-weight: 700;
+    background: var(--accent); color: #fff; border: 1px solid var(--accent);
+    box-shadow: var(--shadow-lift);
+    transition: transform .16s, box-shadow .16s;
+  }
+  .donate-btn:hover { transform: translateY(-2px); filter: brightness(1.06); }
+  .donate-btn:active { transform: scale(.97); }
+  .donate-alt { margin-top: 12px; font-size: 12.5px; color: var(--ink-3); }
+  .wisher-count { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 12px; color: var(--ink-2); background: var(--ground); border: 1px solid var(--line); padding: 5px 14px; border-radius: 20px; }
+
+  /* ===== LANDING PAGE ===== */
+  .landing { min-height: 100vh; display: none; flex-direction: column; }
+  body.landing-mode .landing { display: flex; }
+  body.landing-mode .app { display: none; }
+
+  #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  .land-hero-zone { position: relative; }
+  .land-hero-zone > .land-nav, .land-hero-zone > .land-hero { position: relative; z-index: 1; }
+  .land-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; width: 100%; margin: 0 auto; padding: 22px 32px; }
+  .land-nav .brand { padding: 0; }
+  .land-hero { max-width: 1100px; width: 100%; margin: 0 auto; padding: 64px 32px 48px; text-align: center; }
+  .land-kicker { display: inline-flex; align-items: center; gap: 8px; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.16em; font-weight: 700; color: var(--accent); border: 1px solid var(--line-2); background: var(--paper); padding: 6px 14px; border-radius: 20px; margin-bottom: 28px; }
+  .land-hero h1 { font-size: clamp(38px, 6vw, 68px); line-height: 1.05; letter-spacing: -0.02em; max-width: 18ch; margin: 0 auto; }
+  .hl { position: relative; white-space: nowrap; }
+  .hl::after {
+    content: ""; position: absolute; left: -2%; right: -2%; bottom: 6%; height: 38%;
+    background: var(--highlight); opacity: .55; z-index: -1;
+    border-radius: 3px; transform: skewY(-.5deg);
+    animation: hlSweep .9s .5s cubic-bezier(.3,.9,.3,1) backwards;
+  }
+  @keyframes hlSweep { from { transform: scaleX(0) skewY(-.5deg); transform-origin: left; } to { transform: scaleX(1) skewY(-.5deg); transform-origin: left; } }
+  .land-sub { font-size: 17px; color: var(--ink-2); max-width: 54ch; margin: 22px auto 0; line-height: 1.65; }
+  .land-cta-row { display: flex; gap: 12px; justify-content: center; margin-top: 34px; }
+  .land-cta {
+    font-family: inherit; cursor: pointer;
+    padding: 14px 30px; border-radius: 12px; font-size: 15.5px; font-weight: 600;
+    background: var(--ink); color: var(--paper); border: 1px solid var(--ink);
+    box-shadow: var(--shadow-lift);
+    transition: transform .16s, box-shadow .16s;
+  }
+  .land-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 12px rgba(27,33,48,.12), 0 20px 44px rgba(27,33,48,.14); }
+  .land-cta:active { transform: translateY(0) scale(.98); }
+  .land-cta.secondary { background: transparent; color: var(--ink); border-color: var(--line-2); box-shadow: none; }
+  .land-note { font-size: 12px; color: var(--ink-3); margin-top: 14px; }
+
+  .land-tools { max-width: 1100px; width: 100%; margin: 24px auto 0; padding: 0 32px 72px; }
+  .land-tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .land-tools-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 520px) { .land-tools-grid { grid-template-columns: 1fr; } }
+  .land-tool {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 12px;
+    padding: 18px; text-align: left; cursor: pointer; font-family: inherit; color: var(--ink);
+    transition: transform .18s, box-shadow .18s, border-color .18s;
+    opacity: 0; animation: rise .5s ease forwards;
+  }
+  .land-tool:nth-child(1) { animation-delay: .1s; } .land-tool:nth-child(2) { animation-delay: .16s; }
+  .land-tool:nth-child(3) { animation-delay: .22s; } .land-tool:nth-child(4) { animation-delay: .28s; }
+  .land-tool:nth-child(5) { animation-delay: .34s; } .land-tool:nth-child(6) { animation-delay: .4s; }
+  .land-tool:nth-child(7) { animation-delay: .46s; } .land-tool:nth-child(8) { animation-delay: .52s; }
+  @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+  .land-tool:hover { transform: translateY(-3px); box-shadow: var(--shadow-lift); border-color: var(--line-2); }
+  .land-tool .lt-icon { font-size: 20px; color: var(--accent); margin-bottom: 10px; display: block; }
+  .land-tool .lt-name { font-family: "Iowan Old Style", Georgia, serif; font-weight: 600; font-size: 16px; }
+  .land-tool .lt-desc { font-size: 12px; color: var(--ink-3); margin-top: 4px; line-height: 1.5; }
+  .land-tool .lt-soon { float: right; font-size: 9px; padding: 2px 7px; border-radius: 10px; background: var(--accent-soft); color: var(--accent); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+
+  .land-strip { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); background: var(--paper); }
+  .land-strip-inner { max-width: 1100px; margin: 0 auto; padding: 22px 32px; display: flex; justify-content: center; gap: 56px; flex-wrap: wrap; }
+  .land-stat { text-align: center; }
+  .land-stat .v { font-family: "Iowan Old Style", Georgia, serif; font-size: 26px; font-weight: 700; }
+  .land-stat .k { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3); font-weight: 600; margin-top: 2px; }
+
+  .land-foot { text-align: center; padding: 28px; color: var(--ink-3); font-size: 12px; }
+
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+</style>
+
+<div class="landing">
+ <div class="land-hero-zone">
+  <canvas id="heroCanvas"></canvas>
+  <nav class="land-nav">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div>
+        <div class="brand-name">Study Desk</div>
+        <div class="brand-sub">a student's toolkit</div>
+      </div>
+    </div>
+    <div class="row" style="gap: 8px;">
+      <button class="land-cta secondary" id="landAbout" style="padding: 9px 18px; font-size: 13.5px;">Our story ♥</button>
+      <button class="land-cta secondary" id="landOpenTop" style="padding: 9px 18px; font-size: 13.5px;">Open the app →</button>
+    </div>
+  </nav>
+
+  <header class="land-hero">
+    <div class="land-kicker">✦ 15 tools · zero sign-up · works offline</div>
+    <h1>Every tool a student needs, on <span class="hl">one desk</span>.</h1>
+    <p class="land-sub">Focus timer, GPA calculator, flashcards, notes, habit tracker, PDF tools, and more — free, private, and saved right in your browser. No accounts, no ads, no uploads.</p>
+    <div class="land-cta-row">
+      <button class="land-cta" id="landOpen">Start studying — it's free</button>
+      <button class="land-cta secondary" id="landTour">See the tools ↓</button>
+    </div>
+    <p class="land-note">Your data never leaves your device. Everything runs locally.</p>
+  </header>
+ </div>
+
+  <div class="land-strip">
+    <div class="land-strip-inner">
+      <div class="land-stat"><div class="v">15</div><div class="k">Tools built in</div></div>
+      <div class="land-stat"><div class="v">0</div><div class="k">Accounts needed</div></div>
+      <div class="land-stat"><div class="v">100%</div><div class="k">Local &amp; private</div></div>
+      <div class="land-stat"><div class="v">∞</div><div class="k">XP to earn</div></div>
+    </div>
+  </div>
+
+  <section class="land-tools" id="landToolsSection">
+    <div class="land-tools-grid" style="margin-top: 40px;">
+      <button class="land-tool" data-enter="timer"><span class="lt-icon">◔</span><span class="lt-name">Focus timer</span><span class="lt-desc">Pomodoro blocks with session tracking, subjects, and a completion chime.</span></button>
+      <button class="land-tool" data-enter="gpa"><span class="lt-icon">∑</span><span class="lt-name">GPA calculator</span><span class="lt-desc">Credit-weighted semester and cumulative GPA, saved as you go.</span></button>
+      <button class="land-tool" data-enter="flashcards"><span class="lt-icon">▭</span><span class="lt-name">Flashcards</span><span class="lt-desc">Build decks, flip cards, rate yourself Hard or Good to sort weak spots.</span></button>
+      <button class="land-tool" data-enter="pdfchat"><span class="lt-icon">◈</span><span class="lt-name">Talk to your PDF</span><span class="lt-desc">Ask questions; get the most relevant passages quoted back — offline.</span></button>
+      <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON — no upload.</span></button>
+      <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" — answered in one glance.</span></button>
+      <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
+      <button class="land-tool" data-enter="mock"><span class="lt-soon">Soon</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Timed practice exams with weak-topic analysis. Join the waitlist.</span></button>
+    </div>
+  </section>
+
+  <footer class="land-foot">Study Desk — plus notes, tasks, weekly planner, scientific calculator, unit converter, word counter &amp; citation maker inside.<br><button class="land-cta secondary" id="landAboutFoot" style="margin-top: 14px; padding: 8px 18px; font-size: 12.5px;">Built by a broke engineering student — read the story ♥</button></footer>
+</div>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-mark">S</div>
+      <div>
+        <div class="brand-name">Study Desk</div>
+        <div class="brand-sub">a student's toolkit</div>
+      </div>
+    </div>
+    <button class="nav-item" id="backHome" style="border: 1px solid var(--line); background: var(--paper);"><span class="nav-icon">←</span>Back to home</button>
+
+    <nav class="nav-group">
+      <div class="nav-title">Today</div>
+      <button class="nav-item active" data-view="dashboard"><span class="nav-icon">◐</span>Dashboard</button>
+      <button class="nav-item" data-view="timer"><span class="nav-icon">◔</span>Focus timer</button>
+      <button class="nav-item" data-view="tasks"><span class="nav-icon">◇</span>Tasks</button>
+      <button class="nav-item" data-view="habits"><span class="nav-icon">▤</span>Habits</button>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-title">Study</div>
+      <button class="nav-item" data-view="notes"><span class="nav-icon">✎</span>Notes</button>
+      <button class="nav-item" data-view="flashcards"><span class="nav-icon">▭</span>Flashcards</button>
+      <button class="nav-item" data-view="planner"><span class="nav-icon">▨</span>Weekly planner</button>
+      <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-title">Calculate</div>
+      <button class="nav-item" data-view="calculator"><span class="nav-icon">≡</span>Calculator</button>
+      <button class="nav-item" data-view="gpa"><span class="nav-icon">∑</span>GPA</button>
+      <button class="nav-item" data-view="grade"><span class="nav-icon">△</span>Grade target</button>
+      <button class="nav-item" data-view="converter"><span class="nav-icon">⇌</span>Unit converter</button>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-title">Write</div>
+      <button class="nav-item" data-view="wordcount"><span class="nav-icon">¶</span>Word counter</button>
+      <button class="nav-item" data-view="citation"><span class="nav-icon">❝</span>Citation maker</button>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-title">Documents</div>
+      <button class="nav-item" data-view="doc2pdf"><span class="nav-icon">⇄</span>File converter</button>
+      <button class="nav-item" data-view="pdfchat"><span class="nav-icon">◈</span>Talk to your PDF</button>
+      <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">Soon</span></button>
+    </nav>
+
+    <nav class="nav-group">
+      <div class="nav-title">More</div>
+      <button class="nav-item" data-view="about"><span class="nav-icon">♥</span>About &amp; support</button>
+      <button class="nav-item" id="exportData"><span class="nav-icon">⇣</span>Backup data</button>
+      <button class="nav-item" id="importData"><span class="nav-icon">⇡</span>Restore backup</button>
+      <input type="file" id="importFile" accept=".json" style="display:none;">
+      <button class="nav-item" id="openPalette"><span class="nav-icon">⌘</span>Search<span class="nav-badge" style="background:var(--ground);color:var(--ink-3);border:1px solid var(--line);">Ctrl K</span></button>
+    </nav>
+
+    <div class="xp-widget" style="margin-top: auto;">
+      <div class="xp-top">
+        <span class="xp-level" id="xpLevel">Lv 1</span>
+        <span class="xp-points mono" id="xpPoints">0 XP</span>
+      </div>
+      <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width: 0%;"></div></div>
+      <div class="xp-rank" id="xpRank">Freshman</div>
+    </div>
+
+    <button class="theme-toggle" id="themeToggle" style="margin-top: 0;">
+      <span>Light / Dark</span>
+      <span id="themeIcon">◑</span>
+    </button>
+  </aside>
+
+  <main class="workspace">
+
+    <!-- ============== DASHBOARD ============== -->
+    <section class="view active" id="view-dashboard">
+      <div class="dash-hero">
+        <div class="dash-greet">
+          <div class="today" id="dashDate">Today</div>
+          <h1>Good <span id="dashPart">day</span>, <span class="name" id="dashName">scholar</span>.</h1>
+          <p class="quote" id="dashQuote">The expert in anything was once a beginner.</p>
+        </div>
+        <div class="dash-stats">
+          <div class="dash-stat">
+            <div class="stat-label">Focus today</div>
+            <div class="stat-value mono" id="dashFocus">0m</div>
+          </div>
+          <div class="dash-stat">
+            <div class="stat-label">Tasks left</div>
+            <div class="stat-value mono" id="dashTasks">0</div>
+          </div>
+          <div class="dash-stat">
+            <div class="stat-label">Streak</div>
+            <div class="stat-value mono" id="dashStreak">0d</div>
+          </div>
+          <div class="dash-stat">
+            <div class="stat-label">Notes</div>
+            <div class="stat-value mono" id="dashNotes">0</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g-3 mt-24">
+        <div class="card">
+          <div class="row between" style="margin-bottom: 6px;">
+            <h3>Today's tasks</h3>
+            <span class="pill muted" id="dashTaskCount">0</span>
+          </div>
+          <div class="card-sub">The next few things.</div>
+          <div id="dashTaskList"></div>
+        </div>
+
+        <div class="card">
+          <div class="row between" style="margin-bottom: 6px;">
+            <h3>Quick calc</h3>
+          </div>
+          <div class="card-sub">Type an expression, press enter.</div>
+          <input type="text" id="quickCalc" placeholder="e.g. 12 * 34 + 7" style="font-family: 'SF Mono', monospace;">
+          <div class="mono" style="margin-top: 10px; font-size: 22px; color: var(--accent);" id="quickCalcResult">—</div>
+        </div>
+
+        <div class="card">
+          <div class="row between" style="margin-bottom: 6px;">
+            <h3>Jump back in</h3>
+          </div>
+          <div class="card-sub">Where you left off.</div>
+          <div class="col mt-8" style="gap: 8px;">
+            <button class="btn" style="justify-content: space-between; width: 100%;" data-view="timer"><span>Start a 25-min focus block</span><span>→</span></button>
+            <button class="btn" style="justify-content: space-between; width: 100%;" data-view="notes"><span>Open latest note</span><span>→</span></button>
+            <button class="btn" style="justify-content: space-between; width: 100%;" data-view="flashcards"><span>Review flashcards</span><span>→</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid g-2 mt-24">
+        <div class="card">
+          <h3>Daily goal</h3>
+          <div class="card-sub">Earn XP by finishing tasks, focus blocks, and habits.</div>
+          <div class="goal-ring-wrap">
+            <div class="goal-ring">
+              <svg viewBox="0 0 100 100">
+                <circle class="gr-bg" cx="50" cy="50" r="42"/>
+                <circle class="gr-fg" cx="50" cy="50" r="42" stroke-dasharray="263.9" stroke-dashoffset="263.9" id="goalRing"/>
+              </svg>
+              <div class="gr-val mono" id="goalPct">0%</div>
+            </div>
+            <div class="grow">
+              <div class="stat-label">Today's XP</div>
+              <div class="stat-value mono" id="goalXp" style="font-size: 24px;">0 / 100</div>
+              <div class="row mt-8" style="gap: 6px;">
+                <label style="margin: 0; align-self: center;">Goal:</label>
+                <input type="number" id="goalInput" min="10" max="2000" step="10" style="width: 90px;">
+              </div>
+            </div>
+          </div>
+          <div class="badge-row" id="badgeRow"></div>
+        </div>
+        <div class="card">
+          <div class="row between">
+            <h3>Exam countdown</h3>
+            <button class="btn sm" id="examAdd">+ Add exam</button>
+          </div>
+          <div class="card-sub">The dates that matter, always in sight.</div>
+          <div class="col" id="examList" style="gap: 10px;"></div>
+        </div>
+      </div>
+
+      <div class="grid g-2 mt-24">
+        <div class="card">
+          <h3>Set your name</h3>
+          <div class="card-sub">So the dashboard knows what to call you.</div>
+          <input type="text" id="nameInput" placeholder="e.g. Alex" maxlength="24">
+        </div>
+        <div class="card">
+          <h3>Today's schedule</h3>
+          <div class="card-sub">Blocks from your weekly planner for <span id="todayName">today</span>.</div>
+          <div id="dashSchedule" class="col mt-8" style="gap: 6px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== TIMER ============== -->
+    <section class="view" id="view-timer">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Focus timer</span>
+          <h1 style="margin-top: 6px;">Deep work, twenty-five at a time.</h1>
+          <p class="lede">A pomodoro-style timer. Work in short, focused blocks and take real breaks between them.</p>
+        </div>
+      </div>
+
+      <div class="timer-wrap">
+        <div class="timer-face">
+          <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="focus" data-min="25">Focus · 25</button>
+            <button class="mode-tab" data-mode="short" data-min="5">Short · 5</button>
+            <button class="mode-tab" data-mode="long" data-min="15">Long · 15</button>
+          </div>
+          <div class="timer-ring">
+            <svg viewBox="0 0 200 200">
+              <circle class="bg" cx="100" cy="100" r="90"/>
+              <circle class="fg" cx="100" cy="100" r="90" stroke-dasharray="565.48" stroke-dashoffset="0" id="timerRing"/>
+            </svg>
+            <div class="timer-display">
+              <div class="timer-time mono" id="timerTime">25:00</div>
+              <div class="timer-mode" id="timerModeText">Ready to start</div>
+            </div>
+          </div>
+          <div class="timer-controls">
+            <button class="btn primary" id="timerStart">Start</button>
+            <button class="btn" id="timerReset">Reset</button>
+          </div>
+          <div class="session-log mt-16" id="sessionLog"></div>
+          <div class="text-muted mt-8">Sessions completed today</div>
+        </div>
+
+        <div class="col">
+          <div class="card">
+            <h3>Custom durations</h3>
+            <div class="card-sub">Configure your own blocks.</div>
+            <div class="col" style="gap: 10px;">
+              <div><label>Focus (min)</label><input type="number" id="focusLen" value="25" min="1" max="180"></div>
+              <div><label>Short break (min)</label><input type="number" id="shortLen" value="5" min="1" max="60"></div>
+              <div><label>Long break (min)</label><input type="number" id="longLen" value="15" min="1" max="60"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <h3>What you'll work on</h3>
+            <div class="card-sub">Optional — helps track focus by subject.</div>
+            <input type="text" id="focusSubject" placeholder="e.g. Calculus problem set">
+            <div class="mt-16">
+              <div class="eyebrow">Recent focus</div>
+              <div id="focusHistory" class="col mt-8" style="gap: 4px; font-size: 12.5px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== CALCULATOR ============== -->
+    <section class="view" id="view-calculator">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Calculator</span>
+          <h1 style="margin-top: 6px;">Numbers, sorted.</h1>
+          <p class="lede">Scientific functions when you need them, quick arithmetic when you don't.</p>
+        </div>
+      </div>
+      <div class="calc-wrap">
+        <div class="calc-screen">
+          <div class="calc-history" id="calcHist"></div>
+          <div class="calc-value mono" id="calcVal">0</div>
+        </div>
+        <div class="calc-pad" id="calcPad">
+          <button class="calc-key fn" data-k="sin">sin</button>
+          <button class="calc-key fn" data-k="cos">cos</button>
+          <button class="calc-key fn" data-k="tan">tan</button>
+          <button class="calc-key fn" data-k="log">log</button>
+          <button class="calc-key fn" data-k="ln">ln</button>
+
+          <button class="calc-key fn" data-k="sqrt">√</button>
+          <button class="calc-key fn" data-k="pow">x²</button>
+          <button class="calc-key fn" data-k="pi">π</button>
+          <button class="calc-key fn" data-k="e">e</button>
+          <button class="calc-key fn" data-k="fact">n!</button>
+
+          <button class="calc-key" data-k="clear">C</button>
+          <button class="calc-key" data-k="back">⌫</button>
+          <button class="calc-key op" data-k="(">(</button>
+          <button class="calc-key op" data-k=")">)</button>
+          <button class="calc-key op" data-k="/">÷</button>
+
+          <button class="calc-key" data-k="7">7</button>
+          <button class="calc-key" data-k="8">8</button>
+          <button class="calc-key" data-k="9">9</button>
+          <button class="calc-key op" data-k="*">×</button>
+          <button class="calc-key op" data-k="%">%</button>
+
+          <button class="calc-key" data-k="4">4</button>
+          <button class="calc-key" data-k="5">5</button>
+          <button class="calc-key" data-k="6">6</button>
+          <button class="calc-key op" data-k="-">−</button>
+          <button class="calc-key op" data-k="+">+</button>
+
+          <button class="calc-key" data-k="1">1</button>
+          <button class="calc-key" data-k="2">2</button>
+          <button class="calc-key" data-k="3">3</button>
+          <button class="calc-key" data-k="0">0</button>
+          <button class="calc-key" data-k=".">.</button>
+
+          <button class="calc-key eq" data-k="=">=</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== GPA ============== -->
+    <section class="view" id="view-gpa">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">GPA calculator</span>
+          <h1 style="margin-top: 6px;">Your credit-weighted GPA.</h1>
+          <p class="lede">Add each course with its credit hours and letter grade. Save semesters to track your cumulative GPA.</p>
+        </div>
+        <div class="view-head-actions">
+          <button class="btn" id="gpaAddRow">+ Add course</button>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <h3>This semester</h3>
+          <div class="card-sub">Grade scale: A=4.0, A−=3.7, B+=3.3, B=3.0, B−=2.7…</div>
+          <div id="gpaRows"></div>
+          <div class="divider"></div>
+          <div class="row between">
+            <div>
+              <div class="stat-label">Semester GPA</div>
+              <div class="stat-value mono" id="gpaResult" style="color: var(--accent);">—</div>
+            </div>
+            <div>
+              <div class="stat-label" style="text-align:right;">Total credits</div>
+              <div class="stat-value mono" id="gpaCredits" style="text-align:right;">0</div>
+            </div>
+          </div>
+          <div class="row mt-16" style="gap: 8px;">
+            <button class="btn primary" id="gpaSave">Save as semester</button>
+            <button class="btn" id="gpaClear">Clear</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Saved semesters</h3>
+          <div class="card-sub">Cumulative across everything you've saved.</div>
+          <div id="gpaSemesters"></div>
+          <div class="divider"></div>
+          <div class="row between">
+            <div>
+              <div class="stat-label">Cumulative GPA</div>
+              <div class="stat-value mono" id="gpaCumulative" style="color: var(--accent);">—</div>
+            </div>
+            <div>
+              <div class="stat-label" style="text-align:right;">Total credits</div>
+              <div class="stat-value mono" id="gpaCumCredits" style="text-align:right;">0</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== GRADE TARGET ============== -->
+    <section class="view" id="view-grade">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Grade target</span>
+          <h1 style="margin-top: 6px;">What do I need on the final?</h1>
+          <p class="lede">Enter your current grade, the weight of your final, and the grade you want. We'll tell you what you need to score.</p>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <h3>Your inputs</h3>
+          <div class="col" style="gap: 14px; margin-top: 12px;">
+            <div><label>Current course grade (%)</label><input type="number" id="gtCurrent" value="82" min="0" max="100" step="0.01"></div>
+            <div><label>Weight of final exam (%)</label><input type="number" id="gtWeight" value="30" min="0" max="100" step="0.01"></div>
+            <div><label>Desired final course grade (%)</label><input type="number" id="gtGoal" value="90" min="0" max="100" step="0.01"></div>
+          </div>
+        </div>
+        <div class="card" style="display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 40px 22px;">
+          <div class="eyebrow">You need to score</div>
+          <div class="stat-value mono" id="gtResult" style="font-size: 68px; color: var(--accent); margin: 12px 0 4px;">—</div>
+          <div class="text-muted" id="gtVerdict">on the final to earn a 90% overall.</div>
+        </div>
+      </div>
+
+      <div class="card mt-24">
+        <h3>Grade scale reference</h3>
+        <div class="grid g-4 mt-16">
+          <div><span class="pill good">A ≥ 93</span> <span class="pill good">A− 90–92</span></div>
+          <div><span class="pill primary">B+ 87–89</span> <span class="pill primary">B 83–86</span></div>
+          <div><span class="pill accent">B− 80–82</span> <span class="pill accent">C+ 77–79</span></div>
+          <div><span class="pill warn">C 73–76</span> <span class="pill warn">C− 70–72</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== CONVERTER ============== -->
+    <section class="view" id="view-converter">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Unit converter</span>
+          <h1 style="margin-top: 6px;">Length, mass, temperature, and more.</h1>
+          <p class="lede">Choose a category, type a number, and both sides update.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row wrap" style="gap: 6px; margin-bottom: 20px;">
+          <button class="btn sm conv-cat active" data-cat="length">Length</button>
+          <button class="btn sm conv-cat" data-cat="mass">Mass</button>
+          <button class="btn sm conv-cat" data-cat="temp">Temperature</button>
+          <button class="btn sm conv-cat" data-cat="time">Time</button>
+          <button class="btn sm conv-cat" data-cat="data">Data</button>
+          <button class="btn sm conv-cat" data-cat="volume">Volume</button>
+          <button class="btn sm conv-cat" data-cat="area">Area</button>
+          <button class="btn sm conv-cat" data-cat="speed">Speed</button>
+        </div>
+        <div class="conv-swap">
+          <div>
+            <label>From</label>
+            <input type="number" id="convFromVal" value="1">
+            <select id="convFromUnit" style="margin-top: 6px;"></select>
+          </div>
+          <button class="swap-btn" id="convSwap">⇌</button>
+          <div>
+            <label>To</label>
+            <input type="number" id="convToVal" value="0">
+            <select id="convToUnit" style="margin-top: 6px;"></select>
+          </div>
+        </div>
+        <div class="text-muted mt-16" id="convFormula" style="font-family: 'SF Mono', monospace;"></div>
+      </div>
+    </section>
+
+    <!-- ============== NOTES ============== -->
+    <section class="view" id="view-notes">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Notes</span>
+          <h1 style="margin-top: 6px;">A clean place to think.</h1>
+          <p class="lede">Notes save as you type. Nothing leaves your browser.</p>
+        </div>
+        <div class="view-head-actions">
+          <button class="btn accent" id="noteNew">+ New note</button>
+        </div>
+      </div>
+
+      <div class="notes-layout">
+        <div class="notes-list" id="notesList"></div>
+        <div class="card note-editor" id="noteEditor" style="display:none;">
+          <input type="text" class="title" id="noteTitle" placeholder="Untitled">
+          <div class="text-muted" id="noteMeta"></div>
+          <textarea class="body" id="noteBody" placeholder="Start writing…"></textarea>
+          <div class="row" style="gap: 6px;">
+            <button class="btn ghost sm" id="noteDelete" style="color: var(--danger);">Delete</button>
+          </div>
+        </div>
+        <div class="card" id="noteEmpty" style="display: flex; align-items: center; justify-content: center;">
+          <div class="empty">
+            <span class="serif">No note selected</span>
+            <div>Pick one on the left, or start a new note.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== TASKS ============== -->
+    <section class="view" id="view-tasks">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Tasks</span>
+          <h1 style="margin-top: 6px;">Small commitments, kept.</h1>
+          <p class="lede">Add tasks, sort by priority, tick them off. What you finish stays visible until midnight.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="gap: 8px;">
+          <input type="text" id="taskInput" placeholder="Add a task…" style="flex:1;">
+          <select id="taskPriority" style="width: auto;">
+            <option value="low">Low</option>
+            <option value="med" selected>Medium</option>
+            <option value="high">High</option>
+          </select>
+          <input type="date" id="taskDue" style="width: auto;">
+          <button class="btn primary" id="taskAdd">Add</button>
+        </div>
+      </div>
+
+      <div class="grid g-2 mt-24">
+        <div class="card">
+          <div class="row between">
+            <h3>Active</h3>
+            <span class="pill muted" id="tasksActiveCount">0</span>
+          </div>
+          <div class="task-list mt-16" id="tasksActive"></div>
+        </div>
+        <div class="card">
+          <div class="row between">
+            <h3>Completed</h3>
+            <button class="btn ghost sm" id="tasksClearDone">Clear all</button>
+          </div>
+          <div class="task-list mt-16" id="tasksDone"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== FLASHCARDS ============== -->
+    <section class="view" id="view-flashcards">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Flashcards</span>
+          <h1 style="margin-top: 6px;">Practice makes it stick.</h1>
+          <p class="lede">Build a deck, then flip through in study mode. Space out weak cards, retire strong ones.</p>
+        </div>
+        <div class="view-head-actions">
+          <select id="deckSelect" style="width: auto;"></select>
+          <button class="btn" id="deckNew">+ New deck</button>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <h3>Add to deck</h3>
+          <div class="card-sub" id="deckSubTitle">Choose or create a deck first.</div>
+          <div class="col" style="gap: 10px;">
+            <div><label>Front (question)</label><textarea id="fcFront" style="min-height: 80px;"></textarea></div>
+            <div><label>Back (answer)</label><textarea id="fcBack" style="min-height: 80px;"></textarea></div>
+            <button class="btn primary" id="fcAdd">Add card</button>
+          </div>
+          <div class="mt-24">
+            <div class="eyebrow">Cards in deck</div>
+            <div id="fcList" class="col mt-8" style="gap: 4px;"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Study mode</h3>
+          <div class="card-sub">Click the card to flip. Rate how well you knew it.</div>
+          <div class="flashcard-stage">
+            <div class="flashcard" id="fcStage">
+              <div class="flashcard-inner">
+                <div class="flashcard-face">
+                  <div class="fc-label">Front</div>
+                  <div id="fcFrontText">Add cards to get started.</div>
+                </div>
+                <div class="flashcard-face back">
+                  <div class="fc-label">Back</div>
+                  <div id="fcBackText"></div>
+                </div>
+              </div>
+            </div>
+            <div class="text-muted" id="fcCounter">— / —</div>
+            <div class="flashcard-controls">
+              <button class="btn" id="fcPrev">← Prev</button>
+              <button class="btn accent" id="fcHard">Hard</button>
+              <button class="btn primary" id="fcGood">Good</button>
+              <button class="btn" id="fcNext">Next →</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== WORD COUNT ============== -->
+    <section class="view" id="view-wordcount">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Word counter</span>
+          <h1 style="margin-top: 6px;">For essays under a limit.</h1>
+          <p class="lede">Paste your writing. Watch words, characters, sentences, and reading time update as you type.</p>
+        </div>
+      </div>
+
+      <div class="wc-grid">
+        <div class="wc-tile"><div class="stat-label">Words</div><div class="stat-value mono" id="wcWords">0</div></div>
+        <div class="wc-tile"><div class="stat-label">Characters</div><div class="stat-value mono" id="wcChars">0</div></div>
+        <div class="wc-tile"><div class="stat-label">Sentences</div><div class="stat-value mono" id="wcSents">0</div></div>
+        <div class="wc-tile"><div class="stat-label">Read time</div><div class="stat-value mono" id="wcTime">0m</div></div>
+      </div>
+
+      <div class="card">
+        <textarea id="wcText" placeholder="Paste or type your essay here…" style="min-height: 320px; font-size: 15px; line-height: 1.7; font-family: 'Iowan Old Style', Georgia, serif;"></textarea>
+      </div>
+
+      <div class="grid g-3 mt-24">
+        <div class="card">
+          <div class="stat-label">Paragraphs</div>
+          <div class="stat-value mono" id="wcParas">0</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Avg words / sentence</div>
+          <div class="stat-value mono" id="wcAvg">0</div>
+        </div>
+        <div class="card">
+          <div class="stat-label">Longest word</div>
+          <div class="stat-value mono" id="wcLong" style="font-size: 20px;">—</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== CITATION ============== -->
+    <section class="view" id="view-citation">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Citation maker</span>
+          <h1 style="margin-top: 6px;">Bibliographies, minus the fussing.</h1>
+          <p class="lede">Fill in the fields. Copy the formatted citation for your paper.</p>
+        </div>
+      </div>
+
+      <div class="grid g-2">
+        <div class="card">
+          <div class="row" style="gap: 6px; margin-bottom: 16px;">
+            <button class="btn sm cite-style active" data-style="mla">MLA 9</button>
+            <button class="btn sm cite-style" data-style="apa">APA 7</button>
+            <button class="btn sm cite-style" data-style="chicago">Chicago</button>
+          </div>
+          <div class="row" style="gap: 6px; margin-bottom: 16px;">
+            <button class="btn sm cite-type active" data-type="book">Book</button>
+            <button class="btn sm cite-type" data-type="journal">Journal article</button>
+            <button class="btn sm cite-type" data-type="web">Website</button>
+          </div>
+
+          <div class="col" style="gap: 12px;">
+            <div><label>Author (Last, First)</label><input type="text" id="ciAuthor" placeholder="Woolf, Virginia"></div>
+            <div><label>Title</label><input type="text" id="ciTitle" placeholder="A Room of One's Own"></div>
+            <div class="field-row">
+              <div><label>Year</label><input type="text" id="ciYear" placeholder="1929"></div>
+              <div><label id="ciExtra3Label">Publisher</label><input type="text" id="ciExtra3" placeholder="Hogarth Press"></div>
+            </div>
+            <div class="field-row">
+              <div><label id="ciExtra1Label">City</label><input type="text" id="ciExtra1" placeholder="London"></div>
+              <div><label id="ciExtra2Label">Pages</label><input type="text" id="ciExtra2" placeholder=""></div>
+            </div>
+            <div id="ciUrlWrap" style="display:none;"><label>URL</label><input type="text" id="ciUrl" placeholder="https://…"></div>
+            <div id="ciAccessedWrap" style="display:none;"><label>Accessed on</label><input type="date" id="ciAccessed"></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>Formatted citation</h3>
+          <div class="card-sub" id="ciStyleLabel">MLA 9 — book</div>
+          <div class="cite-output" id="ciOutput">—</div>
+          <div class="row mt-16" style="gap: 8px;">
+            <button class="btn primary" id="ciCopy">Copy</button>
+            <button class="btn" id="ciSave">Save to list</button>
+          </div>
+
+          <div class="mt-24">
+            <div class="eyebrow">Saved citations</div>
+            <div id="ciSaved" class="col mt-8" style="gap: 8px;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== HABITS ============== -->
+    <section class="view" id="view-habits">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Habits</span>
+          <h1 style="margin-top: 6px;">Small things, every day.</h1>
+          <p class="lede">Track the routines that make the bigger stuff possible.</p>
+        </div>
+        <div class="view-head-actions">
+          <input type="text" id="habitInput" placeholder="e.g. Read 30 min" style="width: 200px;">
+          <button class="btn primary" id="habitAdd">Add habit</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="habit-header" id="habitHeader"></div>
+        <div class="habit-grid mt-8" id="habitGrid"></div>
+      </div>
+    </section>
+
+    <!-- ============== PLANNER ============== -->
+    <section class="view" id="view-planner">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Weekly planner</span>
+          <h1 style="margin-top: 6px;">A view of your week.</h1>
+          <p class="lede">Add classes, study blocks, and commitments by day. Shows up on your dashboard.</p>
+        </div>
+        <div class="view-head-actions">
+          <button class="btn accent" id="blockAdd">+ Add block</button>
+        </div>
+      </div>
+
+      <div id="plannerGrid" class="grid" style="grid-template-columns: repeat(7, 1fr); gap: 10px;"></div>
+    </section>
+
+    <!-- ============== FILE CONVERTER ============== -->
+    <section class="view" id="view-doc2pdf">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">File converter</span>
+          <h1 style="margin-top: 6px;">Any file, any format.</h1>
+          <p class="lede">Drop a file and convert between the formats students actually use — images, PDFs, Word docs, text, CSV. Everything happens in your browser; nothing is ever uploaded.</p>
+        </div>
+      </div>
+
+      <div class="dropzone" id="docDrop">
+        <div class="dz-icon">⇄</div>
+        <div class="dz-title">Drop any file here</div>
+        <div class="dz-sub">JPG · PNG · WebP · PDF · DOCX · TXT · MD · HTML · CSV · JSON — converted locally, never uploaded</div>
+        <input type="file" id="docFile" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.pdf,.docx,.txt,.md,.html,.csv,.json" style="display:none;">
+      </div>
+
+      <div class="card mt-24" id="convTargets" style="display:none;">
+        <div class="row between">
+          <div>
+            <h3 id="convFileTitle">file.png</h3>
+            <div class="card-sub" id="convFileKind">Image · 1.2 MB</div>
+          </div>
+          <button class="btn ghost sm" id="docClear">Clear</button>
+        </div>
+        <div class="eyebrow" style="margin-bottom: 10px;">Convert to</div>
+        <div class="row wrap" id="convTargetBtns" style="gap: 8px;"></div>
+        <div class="text-muted mt-16" id="convNote"></div>
+      </div>
+
+      <div class="mt-24" id="docPreviewWrap" style="display:none;">
+        <div class="row between" style="margin-bottom: 10px;">
+          <div class="eyebrow">Preview — <span id="docFileName"></span></div>
+          <button class="btn accent sm" id="docExport">Save as PDF (print)</button>
+        </div>
+        <div class="doc-preview" id="docPreview"></div>
+        <p class="text-muted mt-8">The print dialog opens — choose "Save as PDF" as the destination.</p>
+      </div>
+
+      <div class="grid g-4 mt-24">
+        <div class="card"><h3 style="font-size:15px;">Images ⇄ Images</h3><div class="card-sub" style="margin-bottom:0;">JPG, PNG, WebP — re-encode instantly, pick any target.</div></div>
+        <div class="card"><h3 style="font-size:15px;">Image → PDF</h3><div class="card-sub" style="margin-bottom:0;">Wraps your image into a real PDF file, built byte-by-byte in your browser.</div></div>
+        <div class="card"><h3 style="font-size:15px;">PDF → JPG / PNG / Text</h3><div class="card-sub" style="margin-bottom:0;">Each page rendered to an image, or all text extracted.</div></div>
+        <div class="card"><h3 style="font-size:15px;">DOCX / MD / CSV…</h3><div class="card-sub" style="margin-bottom:0;">Word → PDF/TXT/HTML, Markdown → PDF, CSV ⇄ JSON.</div></div>
+      </div>
+
+      <div class="card mt-24">
+        <h3>Or write from scratch</h3>
+        <div class="card-sub">Type or paste markdown below, then export as PDF.</div>
+        <textarea id="docText" placeholder="Type or paste your document here…" style="min-height: 160px;"></textarea>
+        <button class="btn primary mt-16" id="docFromText">Render preview</button>
+      </div>
+    </section>
+
+    <!-- ============== TALK TO PDF ============== -->
+    <section class="view" id="view-pdfchat">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Talk to your PDF</span>
+          <h1 style="margin-top: 6px;">Ask your PDF a question.</h1>
+          <p class="lede">Load a PDF and ask questions in plain language. The reader finds and quotes the most relevant passages — fully offline, your file never leaves the browser.</p>
+        </div>
+      </div>
+
+      <div class="chat-layout">
+        <div class="col">
+          <div class="dropzone" id="pdfDrop">
+            <div class="dz-icon">◈</div>
+            <div class="dz-title">Drop a PDF here</div>
+            <div class="dz-sub">Text is extracted locally in your browser</div>
+            <input type="file" id="pdfFile" accept=".pdf" style="display:none;">
+          </div>
+          <div class="card" id="pdfInfo" style="display:none;">
+            <h3 id="pdfName">document.pdf</h3>
+            <div class="card-sub" id="pdfStats">—</div>
+            <div class="eyebrow" style="margin-bottom: 8px;">Extracted text preview</div>
+            <div id="pdfPreview" style="max-height: 220px; overflow-y: auto; font-size: 12.5px; color: var(--ink-2); line-height: 1.6; white-space: pre-wrap;"></div>
+          </div>
+        </div>
+
+        <div class="chat-box">
+          <div class="chat-msgs" id="chatMsgs">
+            <div class="chat-msg bot">Load a PDF on the left, then ask me anything about it. I'll search the text and quote the passages that best match your question.</div>
+          </div>
+          <div class="chat-chips" id="chatChips" style="display:none;">
+            <button class="chat-chip" data-q="Summarize the main points">Main points</button>
+            <button class="chat-chip" data-q="What are the key definitions?">Key definitions</button>
+            <button class="chat-chip" data-q="What are the conclusions?">Conclusions</button>
+          </div>
+          <div class="chat-input-row">
+            <input type="text" id="chatInput" placeholder="Ask about your PDF…" disabled>
+            <button class="btn primary" id="chatSend" disabled>Ask</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== MOCK TESTS ============== -->
+    <section class="view" id="view-mock">
+      <div class="mock-hero">
+        <div class="mock-badge">Coming soon</div>
+        <h1>Mock tests, built from your notes.</h1>
+        <p class="lede" style="max-width: 52ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Timed practice exams with instant scoring, question banks by subject, and weak-topic analysis that feeds straight back into your flashcards.</p>
+        <div class="row mt-24" style="justify-content: center; gap: 10px;">
+          <input type="email" id="mockEmail" placeholder="you@school.edu" style="max-width: 260px;">
+          <button class="btn accent" id="mockNotify">Notify me</button>
+        </div>
+      </div>
+
+      <div class="grid g-4 mt-24">
+        <div class="card mock-feature"><div class="mf-icon">⏱</div><h3>Timed sections</h3><div class="card-sub" style="margin-bottom:0;">Real exam pressure, section by section, with a pacing bar.</div></div>
+        <div class="card mock-feature"><div class="mf-icon">◎</div><h3>Question banks</h3><div class="card-sub" style="margin-bottom:0;">MCQ, true/false, and short-answer sets by subject.</div></div>
+        <div class="card mock-feature"><div class="mf-icon">▲</div><h3>Weak-topic radar</h3><div class="card-sub" style="margin-bottom:0;">See exactly which topics cost you marks, ranked.</div></div>
+        <div class="card mock-feature"><div class="mf-icon">↻</div><h3>Flashcard loop</h3><div class="card-sub" style="margin-bottom:0;">Missed questions become flashcards automatically.</div></div>
+      </div>
+    </section>
+
+    <!-- ============== FORMULAS ============== -->
+    <section class="view" id="view-formulas">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Formula sheets</span>
+          <h1 style="margin-top: 6px;">The formulas, all in one place.</h1>
+          <p class="lede">Search across calculus, algebra, trigonometry, physics, and chemistry. No more digging through textbooks the night before.</p>
+        </div>
+        <div class="view-head-actions">
+          <input type="text" id="formulaSearch" placeholder="Search formulas… (e.g. quadratic)" style="width: 260px;">
+        </div>
+      </div>
+      <div id="formulaList"></div>
+    </section>
+
+    <!-- ============== ABOUT & SUPPORT ============== -->
+    <section class="view" id="view-about">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">About &amp; support</span>
+          <h1 style="margin-top: 6px;">Why I built this.</h1>
+          <p class="lede">A short letter from the person behind Study Desk.</p>
+        </div>
+      </div>
+
+      <div class="about-wrap">
+        <div class="letter">
+          <p class="salute">Hey, friend —</p>
+          <p>I'm an engineering student, just like a lot of you. And for years, my "study workflow" looked like this: one website for a GPA calculator, another for a word counter, a third for converting a document to PDF, a fourth for flashcards. Every single one of them wanted something from me first.</p>
+          <p><span class="about-hl">Sign up to continue. Only 3 free conversions per day. Upgrade to Pro to unlock this feature.</span> Some of them were straight-up sketchy — asking me to upload my documents to who-knows-where just to convert a file. I'd spend more time dodging paywalls and pop-ups than actually studying.</p>
+          <p>One night, in the middle of exam week, juggling five tabs just to finish one assignment, I thought: <em>why does something this simple have to be this annoying?</em> So I built the thing I wished existed — every tool a student actually needs, on one desk. No sign-up. No limits. No "premium pack." Your files never even leave your browser.</p>
+          <p>And it will stay that way. <span class="about-hl">Everything here is free, for everyone, forever.</span></p>
+          <p>But I'll be honest with you, the way a friend would be: I'm a student. I'm not rich. Keeping a website running — the domain, the hosting, the time to build new tools like the mock tests you've been asking about — costs money I sometimes don't have. Instead of locking features behind a paywall like everyone else, I decided to just… ask.</p>
+          <p>If Study Desk has saved you time, helped you pass a class, or even just spared you one shady sign-up form — consider chipping in whatever you can. Think of it as buying a friend a coffee for helping you study. And if you can't, that's completely fine too. Share it with a classmate instead; that helps just as much.</p>
+          <p class="sig">— your friend behind the desk
+            <span class="who">Engineering student · builder of Study Desk</span>
+          </p>
+        </div>
+
+        <div class="donate-card">
+          <span class="eyebrow" style="color: var(--accent);">Support the desk</span>
+          <h2 style="margin-top: 8px;">Become a well-wisher</h2>
+          <p class="text-muted" style="max-width: 42ch; margin: 10px auto 0; font-size: 13.5px;">Every contribution — however small — goes directly into keeping this site online and building the next tool. No premium packs, ever. Just people helping people study.</p>
+          <div class="row" style="justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap;">
+            <button class="btn donate-amt" data-amt="49">₹49</button>
+            <button class="btn donate-amt active" data-amt="99" style="border-color: var(--accent); color: var(--accent);">₹99</button>
+            <button class="btn donate-amt" data-amt="199">₹199</button>
+            <input type="number" id="donateCustom" placeholder="Custom ₹" min="10" max="50000" style="width: 110px;">
+          </div>
+          <button class="donate-btn" id="donateBtn">♥ Donate ₹<span id="donateAmtLabel">99</span> — keep it free</button>
+          <div class="donate-alt">Secured by Razorpay · UPI, cards, netbanking · or support without paying: share Study Desk with one classmate</div>
+          <div class="wisher-count">♥ <span id="wisherCount">128</span> well-wishers so far</div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div class="palette-overlay" id="paletteOverlay">
+  <div class="palette">
+    <input type="text" id="paletteInput" placeholder="Search tools, notes, formulas…" autocomplete="off">
+    <div class="palette-results" id="paletteResults"></div>
+    <div class="palette-hint">
+      <span><span class="kbd">↑↓</span> navigate</span>
+      <span><span class="kbd">↵</span> open</span>
+      <span><span class="kbd">esc</span> close</span>
+    </div>
+  </div>
+</div>
+
+<canvas id="confetti"></canvas>
+<div class="toast" id="toast">Saved</div>
+
+<script>
+/* ============================================================
+   STUDY DESK — front-end app
+   All data persists via localStorage. No network.
+   ============================================================ */
+
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => [...el.querySelectorAll(s)];
+const LS = {
+  get: (k, d) => { try { const v = localStorage.getItem('sd:'+k); return v==null?d:JSON.parse(v); } catch(e){ return d; } },
+  set: (k, v) => localStorage.setItem('sd:'+k, JSON.stringify(v))
+};
+const toast = (msg) => {
+  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(()=>t.classList.remove('show'), 1600);
+};
+
+/* ===== LANDING ===== */
+document.body.classList.add('landing-mode');
+
+/* Ambient hero: drifting hand-drawn study glyphs that shy away from the cursor */
+(function heroAmbient() {
+  const c = document.getElementById('heroCanvas');
+  if (!c || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const cx = c.getContext('2d');
+  const GLYPHS = ['∑','π','√','∫','✎','α','β','Δ','≈','∞','θ','λ','%','+','×','?','!','♪','A+','∂'];
+  let W, H, dots = [], mouse = { x: -999, y: -999 };
+  function palette() {
+    const dark = document.documentElement.getAttribute('data-theme') === 'dark';
+    return dark ? ['#7FA0D4','#F2915A','#F4D35E','#7BB78F'] : ['#2B4870','#E27A3F','#C6893A','#4A7C59'];
+  }
+  function resize() {
+    const zone = c.parentElement.getBoundingClientRect();
+    W = c.width = zone.width * devicePixelRatio;
+    H = c.height = zone.height * devicePixelRatio;
+    c.style.width = zone.width + 'px'; c.style.height = zone.height + 'px';
+  }
+  function seed() {
+    dots = [];
+    const n = Math.min(34, Math.floor(W / devicePixelRatio / 34));
+    for (let i = 0; i < n; i++) {
+      dots.push({
+        x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * .25 * devicePixelRatio,
+        vy: (Math.random() - .5) * .25 * devicePixelRatio,
+        g: GLYPHS[i % GLYPHS.length],
+        s: (13 + Math.random() * 16) * devicePixelRatio,
+        r: Math.random() * Math.PI * 2,
+        vr: (Math.random() - .5) * .004,
+        a: .1 + Math.random() * .16,
+        ci: Math.floor(Math.random() * 4)
+      });
+    }
+  }
+  const zone = c.parentElement;
+  zone.addEventListener('mousemove', e => {
+    const r = c.getBoundingClientRect();
+    mouse.x = (e.clientX - r.left) * devicePixelRatio;
+    mouse.y = (e.clientY - r.top) * devicePixelRatio;
+  });
+  zone.addEventListener('mouseleave', () => { mouse.x = mouse.y = -999; });
+  function tick() {
+    cx.clearRect(0, 0, W, H);
+    const cols = palette();
+    dots.forEach(d => {
+      // gentle drift
+      d.x += d.vx; d.y += d.vy; d.r += d.vr;
+      // shy away from cursor
+      const dx = d.x - mouse.x, dy = d.y - mouse.y;
+      const dist2 = dx * dx + dy * dy;
+      const R = 140 * devicePixelRatio;
+      if (dist2 < R * R && dist2 > 0.01) {
+        const dist = Math.sqrt(dist2);
+        const push = (1 - dist / R) * 1.6 * devicePixelRatio;
+        d.x += (dx / dist) * push; d.y += (dy / dist) * push;
+      }
+      // wrap
+      if (d.x < -40) d.x = W + 40; if (d.x > W + 40) d.x = -40;
+      if (d.y < -40) d.y = H + 40; if (d.y > H + 40) d.y = -40;
+      cx.save();
+      cx.translate(d.x, d.y); cx.rotate(Math.sin(d.r) * .3);
+      cx.globalAlpha = d.a;
+      cx.fillStyle = cols[d.ci];
+      cx.font = `${d.s}px "Iowan Old Style", Georgia, serif`;
+      cx.textAlign = 'center'; cx.textBaseline = 'middle';
+      cx.fillText(d.g, 0, 0);
+      cx.restore();
+    });
+    if (document.body.classList.contains('landing-mode')) requestAnimationFrame(tick);
+    else heroAmbient._stopped = true;
+  }
+  resize(); seed(); tick();
+  addEventListener('resize', () => { resize(); seed(); });
+  // restart loop if user returns to landing
+  new MutationObserver(() => {
+    if (document.body.classList.contains('landing-mode') && heroAmbient._stopped) {
+      heroAmbient._stopped = false; resize(); tick();
+    }
+  }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+})();
+/* ===== ROUTER (hash-based: browser back/forward work everywhere) ===== */
+function renderRoute() {
+  const h = location.hash;
+  if (!h || h === '#home' || h === '#') {
+    document.body.classList.add('landing-mode');
+    window.scrollTo(0, 0);
+    return;
+  }
+  const view = h.replace('#', '') || 'dashboard';
+  const target = $('#view-' + view);
+  if (!target) { location.hash = '#home'; return; }
+  document.body.classList.remove('landing-mode');
+  $$('.view').forEach(x => x.classList.remove('active'));
+  $$('.nav-item').forEach(x => x.classList.remove('active'));
+  target.classList.add('active');
+  const nav = $(`.nav-item[data-view="${view}"]`);
+  if (nav) nav.classList.add('active');
+  window.scrollTo(0, 0);
+}
+function go(view) { location.hash = view ? '#' + view : '#dashboard'; }
+window.addEventListener('hashchange', renderRoute);
+function enterApp(view) { go(view || 'dashboard'); }
+
+/* brand is clickable → back to home */
+$$('.brand').forEach(b => {
+  b.style.cursor = 'pointer';
+  b.setAttribute('title', 'Back to home');
+  b.addEventListener('click', () => { location.hash = '#home'; });
+});
+
+$('#landOpen').addEventListener('click', () => enterApp());
+$('#landAbout').addEventListener('click', () => enterApp('about'));
+$('#landAboutFoot').addEventListener('click', () => enterApp('about'));
+$('#landOpenTop').addEventListener('click', () => enterApp());
+$('#landTour').addEventListener('click', () => $('#landToolsSection').scrollIntoView({ behavior: 'smooth' }));
+$$('.land-tool').forEach(b => b.addEventListener('click', () => enterApp(b.dataset.enter)));
+
+/* ===== ROUTING (all in-app nav goes through the hash router) ===== */
+$$('.nav-item, [data-view]').forEach(el => {
+  el.addEventListener('click', () => { const v = el.dataset.view; if (v) go(v); });
+});
+$('#backHome').addEventListener('click', () => { location.hash = '#home'; });
+if (!location.hash) history.replaceState(null, '', '#home');
+renderRoute();
+
+/* ===== THEME ===== */
+const applyTheme = (t) => {
+  document.documentElement.setAttribute('data-theme', t);
+  $('#themeIcon').textContent = t === 'dark' ? '☾' : '☀';
+  LS.set('theme', t);
+};
+const initTheme = () => {
+  const saved = LS.get('theme');
+  if (saved) return applyTheme(saved);
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  applyTheme(dark ? 'dark' : 'light');
+};
+$('#themeToggle').addEventListener('click', () => {
+  const cur = document.documentElement.getAttribute('data-theme');
+  applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+initTheme();
+
+/* ===== DASHBOARD ===== */
+const QUOTES = [
+  "The expert in anything was once a beginner.",
+  "It always seems impossible until it's done.",
+  "You do not rise to the level of your goals; you fall to the level of your systems.",
+  "Amateurs sit and wait for inspiration; the rest of us just get up and go to work.",
+  "Nothing in life is to be feared, it is only to be understood.",
+  "Study the past if you would define the future.",
+  "I have not failed. I've just found 10,000 ways that won't work.",
+];
+const renderDashboard = () => {
+  const name = LS.get('name', '');
+  $('#dashName').textContent = name || 'scholar';
+  $('#nameInput').value = name;
+  const hr = new Date().getHours();
+  const part = hr < 12 ? 'morning' : hr < 17 ? 'afternoon' : 'evening';
+  $('#dashPart').textContent = part;
+  const d = new Date();
+  $('#dashDate').textContent = d.toLocaleDateString(undefined, { weekday:'long', month:'long', day:'numeric' });
+  const seed = d.getDate() + d.getMonth();
+  $('#dashQuote').textContent = QUOTES[seed % QUOTES.length];
+
+  const tasks = LS.get('tasks', []);
+  const active = tasks.filter(t=>!t.done);
+  $('#dashTasks').textContent = active.length;
+  $('#dashTaskCount').textContent = active.length;
+  const tl = $('#dashTaskList'); tl.innerHTML = '';
+  active.slice(0, 4).forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'task';
+    el.innerHTML = `<div class="task-priority ${t.priority}"></div><div class="task-text">${escapeHtml(t.text)}</div>`;
+    tl.appendChild(el);
+  });
+  if (!active.length) tl.innerHTML = '<div class="empty" style="padding: 24px 0;">Nothing on your plate.</div>';
+
+  const notes = LS.get('notes', []);
+  $('#dashNotes').textContent = notes.length;
+
+  const focus = LS.get('focus', {});
+  const today = new Date().toDateString();
+  $('#dashFocus').textContent = (focus[today] || 0) + 'm';
+
+  // streak: consecutive days with any focus/tasks
+  const streak = computeStreak();
+  $('#dashStreak').textContent = streak + 'd';
+
+  // today's schedule
+  const days = ['sun','mon','tue','wed','thu','fri','sat'];
+  const todayKey = days[d.getDay()];
+  $('#todayName').textContent = d.toLocaleDateString(undefined, { weekday: 'long' });
+  const blocks = LS.get('planner', {})[todayKey] || [];
+  const sched = $('#dashSchedule'); sched.innerHTML = '';
+  if (!blocks.length) {
+    sched.innerHTML = '<div class="text-muted">No blocks scheduled.</div>';
+  } else {
+    blocks.sort((a,b) => a.time.localeCompare(b.time)).forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'row between';
+      el.style.padding = '6px 10px';
+      el.style.background = 'var(--ground)';
+      el.style.borderRadius = '6px';
+      el.innerHTML = `<span class="mono" style="font-size: 12px; color: var(--ink-3);">${b.time}</span><span style="font-size: 13.5px;">${escapeHtml(b.title)}</span>`;
+      sched.appendChild(el);
+    });
+  }
+};
+
+function computeStreak() {
+  const focus = LS.get('focus', {});
+  let s = 0;
+  for (let i = 0; i < 30; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const k = d.toDateString();
+    if (focus[k]) s++; else if (i > 0) break;
+  }
+  return s;
+}
+
+$('#nameInput').addEventListener('input', e => {
+  LS.set('name', e.target.value);
+  $('#dashName').textContent = e.target.value || 'scholar';
+});
+
+/* Quick calc on dashboard */
+$('#quickCalc').addEventListener('input', e => {
+  const raw = e.target.value.trim();
+  if (!raw) { $('#quickCalcResult').textContent = '—'; return; }
+  try {
+    const clean = raw.replace(/[^0-9+\-*/().% ]/g, '');
+    const val = Function('"use strict";return (' + clean + ')')();
+    $('#quickCalcResult').textContent = Number(val).toLocaleString(undefined, { maximumFractionDigits: 6 });
+  } catch(err) { $('#quickCalcResult').textContent = '—'; }
+});
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ===== TIMER ===== */
+const timer = {
+  mode: 'focus',
+  duration: 25 * 60,
+  remaining: 25 * 60,
+  running: false,
+  interval: null,
+  sessions: LS.get('sessions', {})
+};
+const TIMER_RING_LEN = 2 * Math.PI * 90;
+
+function renderTimer() {
+  const m = Math.floor(timer.remaining / 60);
+  const s = timer.remaining % 60;
+  $('#timerTime').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  const pct = timer.remaining / timer.duration;
+  $('#timerRing').setAttribute('stroke-dashoffset', TIMER_RING_LEN * (1 - pct));
+  $('#timerModeText').textContent = timer.running ? ({focus:'Focusing',short:'Short break',long:'Long break'}[timer.mode]) : 'Ready to start';
+  renderSessionLog();
+}
+function renderSessionLog() {
+  const today = new Date().toDateString();
+  const count = (timer.sessions[today] || 0);
+  const dots = Math.max(4, count + (4 - count % 4));
+  const log = $('#sessionLog'); log.innerHTML = '';
+  for (let i = 0; i < Math.max(dots, 4); i++) {
+    const d = document.createElement('div');
+    d.className = 'session-dot' + (i < count ? ' done' : '');
+    log.appendChild(d);
+  }
+  renderFocusHistory();
+}
+function renderFocusHistory() {
+  const hist = LS.get('focusLog', []);
+  const el = $('#focusHistory'); el.innerHTML = '';
+  hist.slice(-5).reverse().forEach(h => {
+    const d = document.createElement('div');
+    d.className = 'row between';
+    d.innerHTML = `<span>${escapeHtml(h.subject || 'Focus block')}</span><span class="text-muted mono">${h.min}m</span>`;
+    el.appendChild(d);
+  });
+  if (!hist.length) el.innerHTML = '<div class="text-muted">No sessions yet.</div>';
+}
+$$('.mode-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    if (timer.running) return;
+    $$('.mode-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    timer.mode = tab.dataset.mode;
+    const min = { focus: +$('#focusLen').value, short: +$('#shortLen').value, long: +$('#longLen').value }[timer.mode];
+    timer.duration = min * 60;
+    timer.remaining = timer.duration;
+    renderTimer();
+  });
+});
+$('#timerStart').addEventListener('click', () => {
+  if (timer.running) {
+    clearInterval(timer.interval);
+    timer.running = false;
+    $('#timerStart').textContent = 'Resume';
+    renderTimer();
+    return;
+  }
+  timer.running = true;
+  $('.timer-face').classList.add('running');
+  $('#timerStart').textContent = 'Pause';
+  timer.interval = setInterval(() => {
+    timer.remaining--;
+    if (timer.remaining <= 0) {
+      clearInterval(timer.interval);
+      timer.running = false;
+      completeSession();
+    }
+    renderTimer();
+  }, 1000);
+  renderTimer();
+});
+$('#timerReset').addEventListener('click', () => {
+  clearInterval(timer.interval);
+  timer.running = false;
+  timer.remaining = timer.duration;
+  $('#timerStart').textContent = 'Start';
+  renderTimer();
+});
+function completeSession() {
+  $('#timerStart').textContent = 'Start';
+  $('.timer-face').classList.remove('running');
+  const today = new Date().toDateString();
+  if (timer.mode === 'focus') {
+    timer.sessions[today] = (timer.sessions[today] || 0) + 1;
+    LS.set('sessions', timer.sessions);
+    const focus = LS.get('focus', {});
+    focus[today] = (focus[today] || 0) + (timer.duration / 60);
+    LS.set('focus', focus);
+    const log = LS.get('focusLog', []);
+    log.push({ subject: $('#focusSubject').value, min: timer.duration / 60, date: today });
+    LS.set('focusLog', log);
+  }
+  timer.remaining = timer.duration;
+  if (timer.mode === 'focus') setTimeout(() => awardXp(25, 'focus block'), 200);
+  toast(timer.mode === 'focus' ? 'Focus block complete.' : 'Break over.');
+  // little chime — beep via oscillator
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
+    o.connect(g); g.connect(ctx.destination);
+    o.frequency.value = 660; g.gain.value = 0.08;
+    o.start(); o.stop(ctx.currentTime + 0.28);
+  } catch(e) {}
+  renderTimer(); renderDashboard();
+}
+
+/* ===== CALCULATOR ===== */
+const calc = { val: '0', history: '', last: null };
+function updateCalc() {
+  $('#calcVal').textContent = calc.val;
+  $('#calcHist').textContent = calc.history;
+}
+function calcInput(k) {
+  const isOp = ['+','-','*','/','%'].includes(k);
+  if (k === 'clear') { calc.val = '0'; calc.history = ''; }
+  else if (k === 'back') { calc.val = calc.val.length > 1 ? calc.val.slice(0, -1) : '0'; }
+  else if (k === '=') {
+    try {
+      const expr = calc.val.replace(/×/g,'*').replace(/÷/g,'/');
+      const res = Function('"use strict";return (' + expr + ')')();
+      calc.history = calc.val + ' =';
+      calc.val = String(Number(res.toFixed(10)));
+    } catch(e) { calc.val = 'Error'; }
+  }
+  else if (k === 'sin') calc.val = String(Math.sin(+calc.val * Math.PI / 180));
+  else if (k === 'cos') calc.val = String(Math.cos(+calc.val * Math.PI / 180));
+  else if (k === 'tan') calc.val = String(Math.tan(+calc.val * Math.PI / 180));
+  else if (k === 'log') calc.val = String(Math.log10(+calc.val));
+  else if (k === 'ln') calc.val = String(Math.log(+calc.val));
+  else if (k === 'sqrt') calc.val = String(Math.sqrt(+calc.val));
+  else if (k === 'pow') calc.val = String(Math.pow(+calc.val, 2));
+  else if (k === 'pi') calc.val = String(Math.PI);
+  else if (k === 'e') calc.val = String(Math.E);
+  else if (k === 'fact') { let n = +calc.val, r = 1; while(n>1) r*=n--; calc.val = String(r); }
+  else {
+    if (calc.val === '0' && !isOp && k !== '.') calc.val = k;
+    else calc.val += k;
+  }
+  updateCalc();
+}
+$$('#calcPad .calc-key').forEach(b => b.addEventListener('click', () => calcInput(b.dataset.k)));
+updateCalc();
+
+/* ===== GPA ===== */
+const GRADE_POINTS = { 'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,'C+':2.3,'C':2.0,'C-':1.7,'D+':1.3,'D':1.0,'D-':0.7,'F':0.0 };
+let gpaRows = LS.get('gpaCurrent', [{name:'',credits:3,grade:'A'}]);
+function renderGpa() {
+  const wrap = $('#gpaRows'); wrap.innerHTML = '';
+  gpaRows.forEach((row, i) => {
+    const el = document.createElement('div');
+    el.className = 'course-row';
+    el.innerHTML = `
+      <input type="text" placeholder="Course name" value="${escapeHtml(row.name)}" data-i="${i}" data-f="name">
+      <input type="number" placeholder="Credits" value="${row.credits}" min="0" max="12" step="0.5" data-i="${i}" data-f="credits">
+      <select data-i="${i}" data-f="grade">${Object.keys(GRADE_POINTS).map(g => `<option ${row.grade===g?'selected':''}>${g}</option>`).join('')}</select>
+      <button class="del" data-del="${i}">×</button>`;
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('input, select').forEach(inp => {
+    inp.addEventListener('input', e => {
+      const i = +e.target.dataset.i, f = e.target.dataset.f;
+      gpaRows[i][f] = f === 'credits' ? +e.target.value : e.target.value;
+      LS.set('gpaCurrent', gpaRows);
+      computeGpa();
+    });
+  });
+  wrap.querySelectorAll('.del').forEach(b => b.addEventListener('click', e => {
+    gpaRows.splice(+e.target.dataset.del, 1);
+    LS.set('gpaCurrent', gpaRows);
+    renderGpa();
+  }));
+  computeGpa();
+  renderSemesters();
+}
+function computeGpa() {
+  let pts = 0, cr = 0;
+  gpaRows.forEach(r => {
+    if (r.credits > 0 && GRADE_POINTS[r.grade] !== undefined) {
+      pts += GRADE_POINTS[r.grade] * r.credits;
+      cr += r.credits;
+    }
+  });
+  $('#gpaResult').textContent = cr > 0 ? (pts / cr).toFixed(3) : '—';
+  $('#gpaCredits').textContent = cr;
+}
+function renderSemesters() {
+  const sems = LS.get('gpaSemesters', []);
+  const wrap = $('#gpaSemesters'); wrap.innerHTML = '';
+  if (!sems.length) { wrap.innerHTML = '<div class="empty">Save a semester to see it here.</div>'; }
+  sems.forEach((s, i) => {
+    const el = document.createElement('div');
+    el.className = 'row between';
+    el.style.padding = '8px 0';
+    el.style.borderBottom = '1px solid var(--line)';
+    el.innerHTML = `<div><div style="font-weight: 500;">${escapeHtml(s.name)}</div><div class="text-muted">${s.credits} credits</div></div>
+      <div class="row"><span class="mono" style="font-size: 18px; color: var(--accent);">${s.gpa.toFixed(3)}</span><button class="btn ghost sm" data-del-sem="${i}">×</button></div>`;
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('[data-del-sem]').forEach(b => b.addEventListener('click', e => {
+    sems.splice(+e.target.dataset.delSem, 1);
+    LS.set('gpaSemesters', sems);
+    renderSemesters();
+  }));
+  const totalPts = sems.reduce((a,s)=>a + s.gpa * s.credits, 0);
+  const totalCr = sems.reduce((a,s)=>a + s.credits, 0);
+  $('#gpaCumulative').textContent = totalCr > 0 ? (totalPts / totalCr).toFixed(3) : '—';
+  $('#gpaCumCredits').textContent = totalCr;
+}
+$('#gpaAddRow').addEventListener('click', () => {
+  gpaRows.push({name:'',credits:3,grade:'A'});
+  LS.set('gpaCurrent', gpaRows);
+  renderGpa();
+});
+$('#gpaSave').addEventListener('click', () => {
+  let pts = 0, cr = 0;
+  gpaRows.forEach(r => { if (r.credits>0) { pts += GRADE_POINTS[r.grade]*r.credits; cr += r.credits; } });
+  if (cr === 0) return toast('Add courses first.');
+  const name = prompt('Semester name?', 'Fall ' + new Date().getFullYear());
+  if (!name) return;
+  const sems = LS.get('gpaSemesters', []);
+  sems.push({ name, credits: cr, gpa: pts / cr });
+  LS.set('gpaSemesters', sems);
+  gpaRows = [{name:'',credits:3,grade:'A'}];
+  LS.set('gpaCurrent', gpaRows);
+  renderGpa();
+  toast('Semester saved.');
+});
+$('#gpaClear').addEventListener('click', () => {
+  gpaRows = [{name:'',credits:3,grade:'A'}];
+  LS.set('gpaCurrent', gpaRows);
+  renderGpa();
+});
+
+/* ===== GRADE TARGET ===== */
+function computeGrade() {
+  const cur = +$('#gtCurrent').value;
+  const w = +$('#gtWeight').value / 100;
+  const goal = +$('#gtGoal').value;
+  if (w === 0) { $('#gtResult').textContent = '—'; $('#gtVerdict').textContent = 'Weight can\'t be zero.'; return; }
+  const needed = (goal - cur * (1 - w)) / w;
+  $('#gtResult').textContent = needed.toFixed(1) + '%';
+  let verdict = `on the final to earn a ${goal}% overall.`;
+  if (needed > 100) verdict = `Not mathematically possible — even 100% gives you ${(cur*(1-w) + w*100).toFixed(1)}%.`;
+  else if (needed < 0) verdict = `You've already got it — even a 0% keeps you above ${goal}%.`;
+  else if (needed > 90) verdict = `${verdict} That's a stretch — plan to study hard.`;
+  else if (needed < 50) verdict = `${verdict} Well within reach.`;
+  $('#gtVerdict').textContent = verdict;
+}
+['gtCurrent','gtWeight','gtGoal'].forEach(id => $('#'+id).addEventListener('input', computeGrade));
+computeGrade();
+
+/* ===== UNIT CONVERTER ===== */
+const CONV = {
+  length: { m:1, km:1000, cm:0.01, mm:0.001, mi:1609.344, yd:0.9144, ft:0.3048, in:0.0254, nm:1852 },
+  mass:   { g:1, kg:1000, mg:0.001, lb:453.592, oz:28.3495, t:1000000 },
+  time:   { s:1, min:60, h:3600, day:86400, wk:604800, ms:0.001 },
+  data:   { B:1, KB:1024, MB:1048576, GB:1073741824, TB:1099511627776, bit:0.125 },
+  volume: { L:1, mL:0.001, gal:3.78541, qt:0.946353, cup:0.24, floz:0.0295735, 'm³':1000 },
+  area:   { 'm²':1, 'km²':1000000, 'cm²':0.0001, acre:4046.86, 'ha':10000, 'ft²':0.092903 },
+  speed:  { 'm/s':1, 'km/h':0.277778, mph:0.44704, knot:0.514444, 'ft/s':0.3048 }
+};
+let convCat = 'length';
+function renderConvUnits() {
+  const units = convCat === 'temp' ? ['°C','°F','K'] : Object.keys(CONV[convCat]);
+  $('#convFromUnit').innerHTML = units.map(u => `<option>${u}</option>`).join('');
+  $('#convToUnit').innerHTML = units.map(u => `<option>${u}</option>`).join('');
+  $('#convToUnit').selectedIndex = 1;
+  runConv();
+}
+function runConv() {
+  const val = +$('#convFromVal').value;
+  const from = $('#convFromUnit').value;
+  const to = $('#convToUnit').value;
+  let out;
+  if (convCat === 'temp') {
+    let c;
+    if (from === '°C') c = val;
+    else if (from === '°F') c = (val - 32) * 5/9;
+    else c = val - 273.15;
+    if (to === '°C') out = c;
+    else if (to === '°F') out = c * 9/5 + 32;
+    else out = c + 273.15;
+  } else {
+    out = val * CONV[convCat][from] / CONV[convCat][to];
+  }
+  $('#convToVal').value = Number(out.toFixed(8));
+  $('#convFormula').textContent = `1 ${from} = ${(convCat==='temp' ? convertTemp(1, from, to) : (CONV[convCat][from]/CONV[convCat][to])).toString().slice(0,10)} ${to}`;
+}
+function convertTemp(v, f, t) {
+  let c; if (f==='°C') c=v; else if (f==='°F') c=(v-32)*5/9; else c=v-273.15;
+  if (t==='°C') return c; if (t==='°F') return c*9/5+32; return c+273.15;
+}
+$$('.conv-cat').forEach(b => b.addEventListener('click', () => {
+  $$('.conv-cat').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  convCat = b.dataset.cat;
+  renderConvUnits();
+}));
+$('#convFromVal').addEventListener('input', runConv);
+$('#convFromUnit').addEventListener('change', runConv);
+$('#convToUnit').addEventListener('change', runConv);
+$('#convSwap').addEventListener('click', () => {
+  const fu = $('#convFromUnit').value, tu = $('#convToUnit').value;
+  $('#convFromUnit').value = tu; $('#convToUnit').value = fu;
+  runConv();
+});
+renderConvUnits();
+
+/* ===== NOTES ===== */
+let notes = LS.get('notes', []);
+let currentNoteId = null;
+function renderNotesList() {
+  const list = $('#notesList'); list.innerHTML = '';
+  if (!notes.length) {
+    list.innerHTML = '<div class="empty" style="padding: 40px 20px;"><span class="serif">No notes yet</span><div>Click "New note" to start.</div></div>';
+  }
+  notes.slice().sort((a,b) => b.updated - a.updated).forEach(n => {
+    const el = document.createElement('div');
+    el.className = 'note-item' + (n.id === currentNoteId ? ' active' : '');
+    el.innerHTML = `<div class="note-item-title">${escapeHtml(n.title || 'Untitled')}</div><div class="note-item-preview">${escapeHtml((n.body||'').slice(0, 60))}</div>`;
+    el.addEventListener('click', () => openNote(n.id));
+    list.appendChild(el);
+  });
+}
+function openNote(id) {
+  const n = notes.find(x => x.id === id); if (!n) return;
+  currentNoteId = id;
+  $('#noteEditor').style.display = 'flex';
+  $('#noteEmpty').style.display = 'none';
+  $('#noteTitle').value = n.title;
+  $('#noteBody').value = n.body;
+  $('#noteMeta').textContent = 'Last edited ' + new Date(n.updated).toLocaleString();
+  renderNotesList();
+}
+$('#noteNew').addEventListener('click', () => {
+  const n = { id: Date.now().toString(36), title: '', body: '', updated: Date.now() };
+  notes.push(n); LS.set('notes', notes); openNote(n.id);
+});
+['noteTitle','noteBody'].forEach(id => $('#'+id).addEventListener('input', () => {
+  const n = notes.find(x => x.id === currentNoteId); if (!n) return;
+  n.title = $('#noteTitle').value; n.body = $('#noteBody').value; n.updated = Date.now();
+  LS.set('notes', notes);
+  $('#noteMeta').textContent = 'Last edited just now';
+  clearTimeout(window._nR); window._nR = setTimeout(renderNotesList, 500);
+}));
+$('#noteDelete').addEventListener('click', () => {
+  if (!currentNoteId || !confirm('Delete this note?')) return;
+  notes = notes.filter(n => n.id !== currentNoteId);
+  LS.set('notes', notes);
+  currentNoteId = null;
+  $('#noteEditor').style.display = 'none';
+  $('#noteEmpty').style.display = 'flex';
+  renderNotesList();
+});
+renderNotesList();
+
+/* ===== TASKS ===== */
+let tasks = LS.get('tasks', []);
+function renderTasks() {
+  const active = tasks.filter(t=>!t.done).sort((a,b) => ({high:0,med:1,low:2}[a.priority] - ({high:0,med:1,low:2}[b.priority])));
+  const done = tasks.filter(t=>t.done);
+  const a = $('#tasksActive'); const d = $('#tasksDone');
+  a.innerHTML = ''; d.innerHTML = '';
+  $('#tasksActiveCount').textContent = active.length;
+  if (!active.length) a.innerHTML = '<div class="empty">Nothing here — inbox zero.</div>';
+  active.forEach(t => a.appendChild(taskEl(t)));
+  if (!done.length) d.innerHTML = '<div class="empty">Complete tasks will show here.</div>';
+  done.forEach(t => d.appendChild(taskEl(t)));
+}
+function taskEl(t) {
+  const el = document.createElement('div');
+  el.className = 'task' + (t.done ? ' done' : '');
+  const due = t.due ? new Date(t.due + 'T00:00').toLocaleDateString(undefined, { month:'short', day:'numeric' }) : '';
+  el.innerHTML = `
+    <div class="task-priority ${t.priority}"></div>
+    <div class="task-check"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6l3 3 5-6"/></svg></div>
+    <div class="task-text">${escapeHtml(t.text)}</div>
+    <span class="task-meta">${due}</span>
+    <button class="task-del">×</button>`;
+  el.querySelector('.task-check').addEventListener('click', e => { e.stopPropagation(); t.done = !t.done; LS.set('tasks', tasks); renderTasks(); renderDashboard(); if (t.done) awardXp({high:20,med:12,low:6}[t.priority] || 10, 'task done'); });
+  el.querySelector('.task-del').addEventListener('click', e => { e.stopPropagation(); tasks = tasks.filter(x => x !== t); LS.set('tasks', tasks); renderTasks(); renderDashboard(); });
+  return el;
+}
+$('#taskAdd').addEventListener('click', addTask);
+$('#taskInput').addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+function addTask() {
+  const text = $('#taskInput').value.trim(); if (!text) return;
+  tasks.push({ id: Date.now(), text, priority: $('#taskPriority').value, due: $('#taskDue').value, done: false });
+  LS.set('tasks', tasks);
+  $('#taskInput').value = '';
+  renderTasks(); renderDashboard();
+}
+$('#tasksClearDone').addEventListener('click', () => {
+  tasks = tasks.filter(t => !t.done);
+  LS.set('tasks', tasks);
+  renderTasks();
+});
+renderTasks();
+
+/* ===== FLASHCARDS ===== */
+let decks = LS.get('decks', { default: { name: 'General', cards: [] } });
+let currentDeck = LS.get('currentDeck', 'default');
+let fcIdx = 0;
+function renderDeckSelect() {
+  const sel = $('#deckSelect'); sel.innerHTML = '';
+  Object.entries(decks).forEach(([k, v]) => {
+    const o = document.createElement('option'); o.value = k; o.textContent = `${v.name} (${v.cards.length})`;
+    if (k === currentDeck) o.selected = true;
+    sel.appendChild(o);
+  });
+  $('#deckSubTitle').textContent = 'Deck: ' + (decks[currentDeck]?.name || '—');
+  renderFcList(); renderCardFace();
+}
+$('#deckSelect').addEventListener('change', e => { currentDeck = e.target.value; LS.set('currentDeck', currentDeck); fcIdx = 0; renderDeckSelect(); });
+$('#deckNew').addEventListener('click', () => {
+  const name = prompt('Deck name?'); if (!name) return;
+  const key = 'd' + Date.now().toString(36);
+  decks[key] = { name, cards: [] };
+  currentDeck = key;
+  LS.set('decks', decks); LS.set('currentDeck', currentDeck);
+  renderDeckSelect();
+});
+$('#fcAdd').addEventListener('click', () => {
+  const f = $('#fcFront').value.trim(), b = $('#fcBack').value.trim();
+  if (!f || !b) return toast('Both sides needed.');
+  decks[currentDeck].cards.push({ front: f, back: b, ease: 0 });
+  LS.set('decks', decks);
+  $('#fcFront').value = ''; $('#fcBack').value = '';
+  renderDeckSelect();
+  toast('Card added.');
+});
+function renderFcList() {
+  const list = $('#fcList'); list.innerHTML = '';
+  const cards = decks[currentDeck]?.cards || [];
+  if (!cards.length) { list.innerHTML = '<div class="text-muted">No cards yet.</div>'; return; }
+  cards.forEach((c, i) => {
+    const el = document.createElement('div');
+    el.className = 'row between';
+    el.style.padding = '4px 8px';
+    el.style.borderRadius = '6px';
+    el.style.background = 'var(--ground)';
+    el.style.fontSize = '13px';
+    el.innerHTML = `<span style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 220px;">${escapeHtml(c.front)}</span><button class="btn ghost sm" data-cd="${i}">×</button>`;
+    list.appendChild(el);
+  });
+  list.querySelectorAll('[data-cd]').forEach(b => b.addEventListener('click', e => {
+    decks[currentDeck].cards.splice(+e.target.dataset.cd, 1);
+    LS.set('decks', decks); renderDeckSelect();
+  }));
+}
+function renderCardFace() {
+  const cards = decks[currentDeck]?.cards || [];
+  if (!cards.length) {
+    $('#fcFrontText').textContent = 'No cards yet.';
+    $('#fcBackText').textContent = '';
+    $('#fcCounter').textContent = '— / —';
+    return;
+  }
+  fcIdx = ((fcIdx % cards.length) + cards.length) % cards.length;
+  const c = cards[fcIdx];
+  $('#fcFrontText').textContent = c.front;
+  $('#fcBackText').textContent = c.back;
+  $('#fcCounter').textContent = `${fcIdx + 1} / ${cards.length}`;
+  $('#fcStage').classList.remove('flipped');
+}
+$('#fcStage').addEventListener('click', () => $('#fcStage').classList.toggle('flipped'));
+$('#fcNext').addEventListener('click', () => { fcIdx++; renderCardFace(); });
+$('#fcPrev').addEventListener('click', () => { fcIdx--; renderCardFace(); });
+$('#fcGood').addEventListener('click', () => {
+  const cards = decks[currentDeck]?.cards || []; if (!cards.length) return;
+  cards[fcIdx].ease = Math.min(5, (cards[fcIdx].ease||0) + 1);
+  LS.set('decks', decks);
+  fcIdx++; renderCardFace();
+});
+$('#fcHard').addEventListener('click', () => {
+  const cards = decks[currentDeck]?.cards || []; if (!cards.length) return;
+  cards[fcIdx].ease = Math.max(-3, (cards[fcIdx].ease||0) - 1);
+  LS.set('decks', decks);
+  fcIdx++; renderCardFace();
+});
+renderDeckSelect();
+
+/* ===== WORD COUNT ===== */
+$('#wcText').addEventListener('input', e => {
+  const t = e.target.value;
+  const words = (t.trim().match(/\S+/g) || []).length;
+  const chars = t.length;
+  const sents = (t.match(/[.!?]+\s|[.!?]+$/g) || []).length;
+  const paras = t.trim() ? t.split(/\n\s*\n/).length : 0;
+  const wpm = 220;
+  const min = words / wpm;
+  const longest = (t.match(/\S+/g) || []).reduce((a,b) => b.length > a.length ? b : a, '');
+  $('#wcWords').textContent = words.toLocaleString();
+  $('#wcChars').textContent = chars.toLocaleString();
+  $('#wcSents').textContent = sents.toLocaleString();
+  $('#wcTime').textContent = min < 1 ? Math.round(min*60) + 's' : Math.round(min) + 'm';
+  $('#wcParas').textContent = paras;
+  $('#wcAvg').textContent = sents > 0 ? (words/sents).toFixed(1) : '0';
+  $('#wcLong').textContent = longest || '—';
+});
+
+/* ===== CITATIONS ===== */
+let citeStyle = 'mla', citeType = 'book';
+function updateCiteFields() {
+  const type = citeType;
+  $('#ciExtra1Label').textContent = type === 'book' ? 'City' : type === 'journal' ? 'Journal name' : 'Site name';
+  $('#ciExtra2Label').textContent = type === 'book' ? 'Pages' : type === 'journal' ? 'Volume, Issue' : '';
+  $('#ciExtra3Label').textContent = type === 'book' ? 'Publisher' : type === 'journal' ? 'Pages' : 'Publisher';
+  $('#ciUrlWrap').style.display = type === 'web' ? '' : 'none';
+  $('#ciAccessedWrap').style.display = type === 'web' ? '' : 'none';
+  $('#ciStyleLabel').textContent = `${{mla:'MLA 9', apa:'APA 7', chicago:'Chicago'}[citeStyle]} — ${type}`;
+  buildCite();
+}
+function buildCite() {
+  const a = $('#ciAuthor').value.trim();
+  const t = $('#ciTitle').value.trim();
+  const y = $('#ciYear').value.trim();
+  const e1 = $('#ciExtra1').value.trim(); // city/journal/site
+  const e2 = $('#ciExtra2').value.trim(); // pages/vol,iss
+  const e3 = $('#ciExtra3').value.trim(); // publisher/pages/publisher
+  const url = $('#ciUrl').value.trim();
+  const acc = $('#ciAccessed').value;
+  if (!a && !t) { $('#ciOutput').textContent = '—'; return; }
+  let out = '';
+  const authorAPA = a ? (a.split(',')[0] + (a.split(',')[1] ? ', ' + a.split(',')[1].trim()[0] + '.' : '')) : '';
+  if (citeStyle === 'mla') {
+    if (citeType === 'book') {
+      out = `${a}. <i>${t}</i>. ${e3}${e3 && y ? ', ' : ''}${y}.${e2 ? ' pp. ' + e2 + '.' : ''}`;
+    } else if (citeType === 'journal') {
+      out = `${a}. "${t}." <i>${e1}</i>${e2 ? ', ' + e2 : ''}, ${y}${e3 ? ', pp. ' + e3 : ''}.`;
+    } else {
+      out = `${a}. "${t}." <i>${e1}</i>, ${y}, ${url}${acc ? '. Accessed ' + new Date(acc).toLocaleDateString(undefined,{day:'numeric',month:'long',year:'numeric'}) : ''}.`;
+    }
+  } else if (citeStyle === 'apa') {
+    if (citeType === 'book') {
+      out = `${authorAPA} (${y}). <i>${t}</i>. ${e3}.`;
+    } else if (citeType === 'journal') {
+      out = `${authorAPA} (${y}). ${t}. <i>${e1}</i>${e2 ? ', ' + e2 : ''}${e3 ? ', ' + e3 : ''}.`;
+    } else {
+      out = `${authorAPA} (${y}). ${t}. <i>${e1}</i>. ${url}`;
+    }
+  } else { // chicago
+    if (citeType === 'book') {
+      out = `${a}. <i>${t}</i>. ${e1}${e1 && e3 ? ': ' : ''}${e3}, ${y}.`;
+    } else if (citeType === 'journal') {
+      out = `${a}. "${t}." <i>${e1}</i> ${e2} (${y}): ${e3}.`;
+    } else {
+      out = `${a}. "${t}." ${e1}. ${y}. ${url}.`;
+    }
+  }
+  $('#ciOutput').innerHTML = out;
+}
+$$('.cite-style').forEach(b => b.addEventListener('click', () => {
+  $$('.cite-style').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); citeStyle = b.dataset.style; updateCiteFields();
+}));
+$$('.cite-type').forEach(b => b.addEventListener('click', () => {
+  $$('.cite-type').forEach(x => x.classList.remove('active'));
+  b.classList.add('active'); citeType = b.dataset.type; updateCiteFields();
+}));
+['ciAuthor','ciTitle','ciYear','ciExtra1','ciExtra2','ciExtra3','ciUrl','ciAccessed'].forEach(id => $('#'+id).addEventListener('input', buildCite));
+$('#ciCopy').addEventListener('click', async () => {
+  const text = $('#ciOutput').innerText;
+  try { await navigator.clipboard.writeText(text); toast('Copied.'); } catch(e) { toast('Copy failed.'); }
+});
+$('#ciSave').addEventListener('click', () => {
+  const html = $('#ciOutput').innerHTML;
+  if (html === '—') return;
+  const list = LS.get('citations', []);
+  list.push({ html, style: citeStyle, type: citeType, at: Date.now() });
+  LS.set('citations', list);
+  renderSavedCites();
+  toast('Saved.');
+});
+function renderSavedCites() {
+  const list = LS.get('citations', []);
+  const wrap = $('#ciSaved'); wrap.innerHTML = '';
+  if (!list.length) { wrap.innerHTML = '<div class="text-muted">Nothing saved yet.</div>'; return; }
+  list.slice().reverse().forEach((c, i) => {
+    const el = document.createElement('div');
+    el.className = 'cite-output';
+    el.style.fontSize = '13px'; el.style.position = 'relative'; el.style.paddingRight = '30px';
+    el.innerHTML = c.html + `<button class="btn ghost sm" style="position:absolute;right:6px;top:6px;color:var(--danger);" data-c="${list.length-1-i}">×</button>`;
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('[data-c]').forEach(b => b.addEventListener('click', e => {
+    const arr = LS.get('citations', []);
+    arr.splice(+e.target.dataset.c, 1);
+    LS.set('citations', arr); renderSavedCites();
+  }));
+}
+updateCiteFields(); renderSavedCites();
+
+/* ===== HABITS ===== */
+let habits = LS.get('habits', []);
+function renderHabits() {
+  const header = $('#habitHeader'); header.innerHTML = '<div class="habit-name" style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-3);font-weight:600;">Habit</div>';
+  const days = getLast7Days();
+  days.forEach(d => {
+    const el = document.createElement('div'); el.className = 'habit-day';
+    el.innerHTML = `${d.name}<br>${d.num}`;
+    header.appendChild(el);
+  });
+  header.innerHTML += '<div class="habit-day">🔥</div>';
+
+  const grid = $('#habitGrid'); grid.innerHTML = '';
+  if (!habits.length) { grid.innerHTML = '<div class="empty">Add a habit above to start tracking.</div>'; return; }
+  habits.forEach((h, i) => {
+    const row = document.createElement('div'); row.className = 'habit-row';
+    row.innerHTML = `<div class="habit-name">${escapeHtml(h.name)}</div>`;
+    let streak = 0; let live = true;
+    days.forEach(d => {
+      const done = h.log && h.log[d.key];
+      const cell = document.createElement('div');
+      cell.className = 'habit-cell' + (done ? ' done' : '');
+      cell.dataset.h = i; cell.dataset.d = d.key;
+      cell.textContent = done ? '✓' : '';
+      cell.addEventListener('click', () => {
+        h.log = h.log || {};
+        h.log[d.key] = !h.log[d.key];
+        LS.set('habits', habits); renderHabits();
+        if (h.log[d.key]) awardXp(5, 'habit kept');
+      });
+      row.appendChild(cell);
+    });
+    // compute streak from most recent day backward
+    for (let j = days.length - 1; j >= 0; j--) {
+      if (h.log && h.log[days[j].key]) streak++;
+      else if (j !== days.length - 1) break;
+    }
+    const s = document.createElement('div'); s.className = 'habit-streak'; s.textContent = streak;
+    row.appendChild(s);
+    // add delete on habit name
+    const nameEl = row.querySelector('.habit-name');
+    nameEl.innerHTML = `${escapeHtml(h.name)} <button class="btn ghost" style="padding:0 4px;font-size:14px;color:var(--ink-3);" data-hd="${i}">×</button>`;
+    grid.appendChild(row);
+  });
+  grid.querySelectorAll('[data-hd]').forEach(b => b.addEventListener('click', e => {
+    habits.splice(+e.target.dataset.hd, 1); LS.set('habits', habits); renderHabits();
+  }));
+}
+function getLast7Days() {
+  const arr = []; const names = ['S','M','T','W','T','F','S'];
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    arr.push({ name: names[d.getDay()], num: d.getDate(), key: d.toISOString().slice(0,10) });
+  }
+  return arr;
+}
+$('#habitAdd').addEventListener('click', () => {
+  const v = $('#habitInput').value.trim(); if (!v) return;
+  habits.push({ name: v, log: {} });
+  LS.set('habits', habits);
+  $('#habitInput').value = '';
+  renderHabits();
+});
+$('#habitInput').addEventListener('keydown', e => { if (e.key === 'Enter') $('#habitAdd').click(); });
+renderHabits();
+
+/* ===== PLANNER ===== */
+const DAYS = [
+  {key:'mon', name:'Monday'}, {key:'tue', name:'Tuesday'}, {key:'wed', name:'Wednesday'},
+  {key:'thu', name:'Thursday'}, {key:'fri', name:'Friday'}, {key:'sat', name:'Saturday'}, {key:'sun', name:'Sunday'}
+];
+function renderPlanner() {
+  const planner = LS.get('planner', {});
+  const grid = $('#plannerGrid'); grid.innerHTML = '';
+  DAYS.forEach(d => {
+    const col = document.createElement('div');
+    col.className = 'card';
+    col.style.padding = '14px 12px';
+    col.style.minHeight = '200px';
+    const blocks = (planner[d.key] || []).sort((a,b) => a.time.localeCompare(b.time));
+    col.innerHTML = `<div class="eyebrow" style="margin-bottom:10px;">${d.name}</div>`;
+    blocks.forEach((b, i) => {
+      const el = document.createElement('div');
+      el.style.padding = '8px 10px';
+      el.style.background = 'var(--primary-soft)';
+      el.style.borderRadius = '6px';
+      el.style.marginBottom = '6px';
+      el.style.fontSize = '12.5px';
+      el.style.position = 'relative';
+      el.innerHTML = `<div class="mono" style="font-size:11px;color:var(--primary);font-weight:600;">${b.time}</div><div>${escapeHtml(b.title)}</div><button style="position:absolute;top:4px;right:6px;background:none;border:none;color:var(--ink-3);cursor:pointer;" data-pb="${d.key}:${i}">×</button>`;
+      col.appendChild(el);
+    });
+    if (!blocks.length) col.innerHTML += '<div class="text-muted" style="font-size: 12px;">No blocks.</div>';
+    grid.appendChild(col);
+  });
+  grid.querySelectorAll('[data-pb]').forEach(b => b.addEventListener('click', e => {
+    const [dayKey, i] = e.target.dataset.pb.split(':');
+    const p = LS.get('planner', {});
+    p[dayKey].splice(+i, 1);
+    LS.set('planner', p); renderPlanner(); renderDashboard();
+  }));
+}
+$('#blockAdd').addEventListener('click', () => {
+  const day = prompt('Day? (mon/tue/wed/thu/fri/sat/sun)', 'mon');
+  if (!DAYS.find(d => d.key === day)) return toast('Invalid day.');
+  const time = prompt('Time? (e.g. 09:00)', '09:00');
+  if (!time) return;
+  const title = prompt('Block title?', 'Study block');
+  if (!title) return;
+  const p = LS.get('planner', {});
+  p[day] = p[day] || [];
+  p[day].push({ time, title });
+  LS.set('planner', p);
+  renderPlanner(); renderDashboard();
+});
+renderPlanner();
+
+/* ===== XP + LEVELS + CONFETTI (the addictive layer) ===== */
+const RANKS = ['Freshman','Sophomore','Junior','Senior','Grad student','Tutor','Scholar','Professor','Dean','Legend'];
+function xpState() { return LS.get('xp', 0); }
+function levelFromXp(xp) { return Math.floor(Math.sqrt(xp / 50)) + 1; }
+function xpForLevel(l) { return 50 * (l - 1) * (l - 1); }
+function renderXp() {
+  const xp = xpState();
+  const lv = levelFromXp(xp);
+  const cur = xpForLevel(lv), next = xpForLevel(lv + 1);
+  const pct = Math.min(100, ((xp - cur) / (next - cur)) * 100);
+  $('#xpLevel').textContent = 'Lv ' + lv;
+  $('#xpPoints').textContent = xp.toLocaleString() + ' XP';
+  $('#xpFill').style.width = pct + '%';
+  $('#xpRank').textContent = RANKS[Math.min(RANKS.length - 1, Math.floor((lv - 1) / 2))];
+}
+function awardXp(amount, why) {
+  const before = levelFromXp(xpState());
+  LS.set('xp', xpState() + amount);
+  const log = LS.get('xpLog', {});
+  const today = new Date().toDateString();
+  log[today] = (log[today] || 0) + amount;
+  LS.set('xpLog', log);
+  renderXp();
+  if (typeof renderGoal === 'function') renderGoal();
+  const after = levelFromXp(xpState());
+  toast(`+${amount} XP — ${why}`);
+  if (after > before) { setTimeout(() => { toast(`Level up! You're now Lv ${after}.`); confettiBurst(120); }, 1700); }
+  else if (amount >= 20) confettiBurst(40);
+}
+/* confetti */
+const cvs = $('#confetti'); const ctx2 = cvs.getContext('2d');
+let confettiPieces = [];
+function confettiBurst(n = 60) {
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  cvs.width = innerWidth; cvs.height = innerHeight;
+  const colors = ['#E27A3F','#F4D35E','#2B4870','#4A7C59','#B14A3C'];
+  for (let i = 0; i < n; i++) {
+    confettiPieces.push({
+      x: innerWidth / 2 + (Math.random() - .5) * 200,
+      y: innerHeight * 0.35,
+      vx: (Math.random() - .5) * 14,
+      vy: -Math.random() * 12 - 4,
+      r: Math.random() * 5 + 3,
+      c: colors[Math.floor(Math.random() * colors.length)],
+      rot: Math.random() * Math.PI, vr: (Math.random() - .5) * .3,
+      life: 1
+    });
+  }
+  if (!confettiBurst._raf) tickConfetti();
+}
+function tickConfetti() {
+  ctx2.clearRect(0, 0, cvs.width, cvs.height);
+  confettiPieces = confettiPieces.filter(p => p.life > 0);
+  confettiPieces.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.35; p.vx *= 0.99; p.rot += p.vr; p.life -= 0.012;
+    ctx2.save(); ctx2.translate(p.x, p.y); ctx2.rotate(p.rot); ctx2.globalAlpha = Math.max(0, p.life);
+    ctx2.fillStyle = p.c; ctx2.fillRect(-p.r, -p.r / 2, p.r * 2, p.r);
+    ctx2.restore();
+  });
+  if (confettiPieces.length) confettiBurst._raf = requestAnimationFrame(tickConfetti);
+  else { confettiBurst._raf = null; ctx2.clearRect(0, 0, cvs.width, cvs.height); }
+}
+renderXp();
+
+/* ===== DOC → PDF ===== */
+/* Minimal ZIP reader (for .docx) using DecompressionStream — no libraries. */
+async function readZipEntry(buf, wantedName) {
+  const dv = new DataView(buf);
+  // find End Of Central Directory
+  let eocd = -1;
+  for (let i = buf.byteLength - 22; i >= Math.max(0, buf.byteLength - 65558); i--) {
+    if (dv.getUint32(i, true) === 0x06054b50) { eocd = i; break; }
+  }
+  if (eocd < 0) throw new Error('Not a valid zip');
+  const count = dv.getUint16(eocd + 10, true);
+  let off = dv.getUint32(eocd + 16, true);
+  const td = new TextDecoder();
+  for (let i = 0; i < count; i++) {
+    if (dv.getUint32(off, true) !== 0x02014b50) break;
+    const method = dv.getUint16(off + 10, true);
+    const compSize = dv.getUint32(off + 20, true);
+    const nameLen = dv.getUint16(off + 28, true);
+    const extraLen = dv.getUint16(off + 30, true);
+    const cmtLen = dv.getUint16(off + 32, true);
+    const localOff = dv.getUint32(off + 42, true);
+    const name = td.decode(new Uint8Array(buf, off + 46, nameLen));
+    if (name === wantedName) {
+      const lNameLen = dv.getUint16(localOff + 26, true);
+      const lExtraLen = dv.getUint16(localOff + 28, true);
+      const dataStart = localOff + 30 + lNameLen + lExtraLen;
+      const raw = new Uint8Array(buf, dataStart, compSize);
+      if (method === 0) return raw;
+      const ds = new DecompressionStream('deflate-raw');
+      const stream = new Blob([raw]).stream().pipeThrough(ds);
+      return new Uint8Array(await new Response(stream).arrayBuffer());
+    }
+    off += 46 + nameLen + extraLen + cmtLen;
+  }
+  throw new Error(wantedName + ' not found in zip');
+}
+function docxXmlToHtml(xml) {
+  const doc = new DOMParser().parseFromString(xml, 'application/xml');
+  const paras = doc.getElementsByTagName('w:p');
+  let html = '';
+  for (const p of paras) {
+    const styleEl = p.getElementsByTagName('w:pStyle')[0];
+    const style = styleEl ? styleEl.getAttribute('w:val') : '';
+    let text = '';
+    for (const r of p.getElementsByTagName('w:r')) {
+      let t = '';
+      for (const tEl of r.getElementsByTagName('w:t')) t += tEl.textContent;
+      const bold = r.getElementsByTagName('w:b').length > 0;
+      const ital = r.getElementsByTagName('w:i').length > 0;
+      t = escapeHtml(t);
+      if (bold) t = '<strong>' + t + '</strong>';
+      if (ital) t = '<em>' + t + '</em>';
+      text += t;
+    }
+    if (!text.trim()) { html += '<p>&nbsp;</p>'; continue; }
+    if (/^Heading1|^Title/i.test(style)) html += '<h1>' + text + '</h1>';
+    else if (/^Heading2/i.test(style)) html += '<h2>' + text + '</h2>';
+    else if (/^Heading[3-9]/i.test(style)) html += '<h3>' + text + '</h3>';
+    else html += '<p>' + text + '</p>';
+  }
+  return html;
+}
+function mdToHtml(md) {
+  return md.split(/\n\s*\n/).map(block => {
+    const b = block.trim();
+    if (!b) return '';
+    if (b.startsWith('### ')) return '<h3>' + escapeHtml(b.slice(4)) + '</h3>';
+    if (b.startsWith('## ')) return '<h2>' + escapeHtml(b.slice(3)) + '</h2>';
+    if (b.startsWith('# ')) return '<h1>' + escapeHtml(b.slice(2)) + '</h1>';
+    let t = escapeHtml(b).replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>').replace(/\*(.+?)\*/g, '<em>$1</em>');
+    return '<p>' + t.replace(/\n/g, '<br>') + '</p>';
+  }).join('');
+}
+/* ---- universal converter ---- */
+let convFile = null;
+function download(blob, name) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function baseName(name) { return name.replace(/\.[^.]+$/, ''); }
+function fmtSize(b) { return b > 1048576 ? (b / 1048576).toFixed(1) + ' MB' : Math.round(b / 1024) + ' KB'; }
+function fileKind(file) {
+  const ext = (file.name.split('.').pop() || '').toLowerCase();
+  if (['jpg','jpeg','png','webp','gif','bmp'].includes(ext)) return 'image';
+  if (ext === 'pdf') return 'pdf';
+  if (ext === 'docx') return 'docx';
+  if (ext === 'csv') return 'csv';
+  if (ext === 'json') return 'json';
+  if (['txt','md','html'].includes(ext)) return 'text';
+  return null;
+}
+
+/* image helpers */
+async function fileToCanvas(file) {
+  const bmp = await createImageBitmap(file);
+  const c = document.createElement('canvas');
+  c.width = bmp.width; c.height = bmp.height;
+  const g = c.getContext('2d');
+  g.fillStyle = '#ffffff'; g.fillRect(0, 0, c.width, c.height); // flatten transparency for jpeg
+  g.drawImage(bmp, 0, 0);
+  return c;
+}
+function canvasToBlob(c, mime, q) { return new Promise(r => c.toBlob(r, mime, q)); }
+
+/* Minimal single-image PDF writer (JPEG embedded via DCTDecode) — no libraries */
+function buildJpegPdf(jpegBytes, w, h) {
+  const enc = new TextEncoder();
+  const chunks = [];
+  const offsets = [0];
+  let pos = 0;
+  const push = (data) => {
+    const b = typeof data === 'string' ? enc.encode(data) : data;
+    chunks.push(b); pos += b.length;
+  };
+  const obj = (s) => { offsets.push(pos); push(s); };
+  push('%PDF-1.4\n');
+  obj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  obj('2 0 obj\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\nendobj\n');
+  obj(`3 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${w} ${h}] /Resources << /XObject << /Im0 4 0 R >> >> /Contents 5 0 R >>\nendobj\n`);
+  offsets.push(pos);
+  push(`4 0 obj\n<< /Type /XObject /Subtype /Image /Width ${w} /Height ${h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${jpegBytes.length} >>\nstream\n`);
+  push(jpegBytes);
+  push('\nendstream\nendobj\n');
+  const content = `q ${w} 0 0 ${h} 0 0 cm /Im0 Do Q`;
+  obj(`5 0 obj\n<< /Length ${content.length} >>\nstream\n${content}\nendstream\nendobj\n`);
+  const xrefPos = pos;
+  let xref = 'xref\n0 6\n0000000000 65535 f \n';
+  for (let i = 1; i <= 5; i++) xref += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+  push(xref);
+  push(`trailer\n<< /Size 6 /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+
+/* pdf.js dynamic loader (CDN — works on the deployed site) */
+let pdfjsReady = null;
+function loadPdfJs() {
+  if (pdfjsReady) return pdfjsReady;
+  pdfjsReady = new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    s.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      resolve(window.pdfjsLib);
+    };
+    s.onerror = () => { pdfjsReady = null; reject(new Error('Could not load the PDF engine — check your connection.')); };
+    document.head.appendChild(s);
+  });
+  return pdfjsReady;
+}
+
+/* csv/json */
+function csvToJson(text) {
+  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+  const parse = (line) => {
+    const out = []; let cur = '', inQ = false;
+    for (let i = 0; i < line.length; i++) {
+      const ch = line[i];
+      if (inQ) { if (ch === '"') { if (line[i+1] === '"') { cur += '"'; i++; } else inQ = false; } else cur += ch; }
+      else if (ch === '"') inQ = true;
+      else if (ch === ',') { out.push(cur); cur = ''; }
+      else cur += ch;
+    }
+    out.push(cur); return out;
+  };
+  const head = parse(lines[0]);
+  return lines.slice(1).map(l => { const v = parse(l); return Object.fromEntries(head.map((h, i) => [h, v[i] ?? ''])); });
+}
+function jsonToCsv(text) {
+  let data = JSON.parse(text);
+  if (!Array.isArray(data)) data = [data];
+  const keys = [...new Set(data.flatMap(o => Object.keys(o)))];
+  const esc = v => { const s = typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v ?? ''); return /[",\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s; };
+  return [keys.join(','), ...data.map(o => keys.map(k => esc(o[k])).join(','))].join('\n');
+}
+
+function showPreviewForPrint(html, name) {
+  $('#docFileName').textContent = name;
+  $('#docPreview').innerHTML = html;
+  $('#docPreviewWrap').style.display = '';
+}
+function hideConverter() {
+  convFile = null;
+  $('#convTargets').style.display = 'none';
+  $('#docPreviewWrap').style.display = 'none';
+  $('#docPreview').innerHTML = '';
+}
+
+const KIND_LABEL = { image: 'Image', pdf: 'PDF document', docx: 'Word document', text: 'Text document', csv: 'CSV spreadsheet', json: 'JSON data' };
+async function handleDocFile(file) {
+  const kind = fileKind(file);
+  if (!kind) return toast('Unsupported file type. Try JPG, PNG, WebP, PDF, DOCX, TXT, MD, HTML, CSV, or JSON.');
+  convFile = file;
+  $('#convTargets').style.display = '';
+  $('#docPreviewWrap').style.display = 'none';
+  $('#convFileTitle').textContent = file.name;
+  $('#convFileKind').textContent = `${KIND_LABEL[kind]} · ${fmtSize(file.size)}`;
+  $('#convNote').textContent = '';
+  const base = baseName(file.name);
+  const T = []; // [label, fn]
+
+  if (kind === 'image') {
+    const ext = file.name.split('.').pop().toLowerCase();
+    if (!['jpg','jpeg'].includes(ext)) T.push(['→ JPG', async () => download(await canvasToBlob(await fileToCanvas(file), 'image/jpeg', 0.92), base + '.jpg')]);
+    if (ext !== 'png') T.push(['→ PNG', async () => download(await canvasToBlob(await fileToCanvas(file), 'image/png'), base + '.png')]);
+    if (ext !== 'webp') T.push(['→ WebP', async () => download(await canvasToBlob(await fileToCanvas(file), 'image/webp', 0.92), base + '.webp')]);
+    T.push(['→ PDF', async () => {
+      const c = await fileToCanvas(file);
+      const jpegBlob = await canvasToBlob(c, 'image/jpeg', 0.92);
+      const bytes = new Uint8Array(await jpegBlob.arrayBuffer());
+      download(buildJpegPdf(bytes, c.width, c.height), base + '.pdf');
+    }]);
+  }
+
+  if (kind === 'pdf') {
+    const renderPages = async (mime, ext, quality) => {
+      const pdfjs = await loadPdfJs();
+      const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+      const n = Math.min(doc.numPages, 20);
+      toast(`Converting ${n} page${n > 1 ? 's' : ''}…`);
+      for (let i = 1; i <= n; i++) {
+        const page = await doc.getPage(i);
+        const vp = page.getViewport({ scale: 2 });
+        const c = document.createElement('canvas');
+        c.width = vp.width; c.height = vp.height;
+        await page.render({ canvasContext: c.getContext('2d'), viewport: vp }).promise;
+        download(await canvasToBlob(c, mime, quality), `${base}-page${i}.${ext}`);
+        await new Promise(r => setTimeout(r, 350)); // let downloads breathe
+      }
+      if (doc.numPages > 20) toast('Converted the first 20 pages.');
+    };
+    T.push(['→ JPG (per page)', () => renderPages('image/jpeg', 'jpg', 0.9)]);
+    T.push(['→ PNG (per page)', () => renderPages('image/png', 'png')]);
+    T.push(['→ TXT', async () => {
+      try {
+        const pdfjs = await loadPdfJs();
+        const doc = await pdfjs.getDocument({ data: await file.arrayBuffer() }).promise;
+        let out = '';
+        for (let i = 1; i <= doc.numPages; i++) {
+          const tc = await (await doc.getPage(i)).getTextContent();
+          out += tc.items.map(it => it.str).join(' ') + '\n\n';
+        }
+        download(new Blob([out], { type: 'text/plain' }), base + '.txt');
+      } catch (e) {
+        const pages = await extractPdfText(await file.arrayBuffer());
+        if (!pages.length) throw new Error('No extractable text (scanned PDF?).');
+        download(new Blob([pages.join('\n\n')], { type: 'text/plain' }), base + '.txt');
+      }
+    }]);
+    $('#convNote').textContent = 'PDF page rendering uses a PDF engine fetched on first use; it needs an internet connection once.';
+  }
+
+  if (kind === 'docx') {
+    const getHtml = async () => docxXmlToHtml(new TextDecoder().decode(await readZipEntry(await file.arrayBuffer(), 'word/document.xml')));
+    T.push(['→ PDF (print)', async () => { showPreviewForPrint(await getHtml(), file.name); $('#docExport').click(); }]);
+    T.push(['→ TXT', async () => {
+      const div = document.createElement('div'); div.innerHTML = await getHtml();
+      download(new Blob([div.innerText], { type: 'text/plain' }), base + '.txt');
+    }]);
+    T.push(['→ HTML', async () => download(new Blob([await getHtml()], { type: 'text/html' }), base + '.html')]);
+  }
+
+  if (kind === 'text') {
+    const ext = file.name.split('.').pop().toLowerCase();
+    const getHtml = async () => ext === 'html' ? await file.text() : mdToHtml(await file.text());
+    T.push(['→ PDF (print)', async () => { showPreviewForPrint(await getHtml(), file.name); $('#docExport').click(); }]);
+    if (ext !== 'html') T.push(['→ HTML', async () => download(new Blob([await getHtml()], { type: 'text/html' }), base + '.html')]);
+    if (ext === 'html') T.push(['→ TXT', async () => {
+      const div = document.createElement('div'); div.innerHTML = await file.text();
+      download(new Blob([div.innerText], { type: 'text/plain' }), base + '.txt');
+    }]);
+  }
+
+  if (kind === 'csv') {
+    T.push(['→ JSON', async () => download(new Blob([JSON.stringify(csvToJson(await file.text()), null, 2)], { type: 'application/json' }), base + '.json')]);
+  }
+  if (kind === 'json') {
+    T.push(['→ CSV', async () => download(new Blob([jsonToCsv(await file.text())], { type: 'text/csv' }), base + '.csv')]);
+  }
+
+  const wrap = $('#convTargetBtns'); wrap.innerHTML = '';
+  T.forEach(([label, fn]) => {
+    const b = document.createElement('button');
+    b.className = 'btn primary';
+    b.textContent = label;
+    b.addEventListener('click', async () => {
+      b.disabled = true; const orig = b.textContent; b.textContent = 'Converting…';
+      try { await fn(); toast('Converted ✓'); awardXp(10, 'file converted'); }
+      catch (err) { toast('Conversion failed: ' + err.message); }
+      finally { b.disabled = false; b.textContent = orig; }
+    });
+    wrap.appendChild(b);
+  });
+}
+
+const docDrop = $('#docDrop');
+docDrop.addEventListener('click', () => $('#docFile').click());
+docDrop.addEventListener('dragover', e => { e.preventDefault(); docDrop.classList.add('drag'); });
+docDrop.addEventListener('dragleave', () => docDrop.classList.remove('drag'));
+docDrop.addEventListener('drop', e => { e.preventDefault(); docDrop.classList.remove('drag'); if (e.dataTransfer.files[0]) handleDocFile(e.dataTransfer.files[0]); });
+$('#docFile').addEventListener('change', e => { if (e.target.files[0]) handleDocFile(e.target.files[0]); e.target.value = ''; });
+$('#docFromText').addEventListener('click', () => {
+  const t = $('#docText').value.trim();
+  if (!t) return toast('Type something first.');
+  showPreviewForPrint(mdToHtml(t), 'your text');
+});
+$('#docClear').addEventListener('click', hideConverter);
+$('#docExport').addEventListener('click', () => {
+  const w = window.open('', '_blank');
+  if (!w) return toast('Allow pop-ups to export.');
+  w.document.write('<html><head><title>' + escapeHtml($('#docFileName').textContent) + '</title><style>body{font-family:Georgia,serif;max-width:680px;margin:48px auto;line-height:1.7;color:#1B2130;padding:0 24px;}h1,h2,h3{line-height:1.25;}</style></head><body>' + $('#docPreview').innerHTML + '</body></html>');
+  w.document.close();
+  setTimeout(() => w.print(), 400);
+});
+
+/* ===== TALK TO YOUR PDF ===== */
+/* Extracts text from PDF content streams (FlateDecode via DecompressionStream). */
+let pdfChunks = []; // {page, text}
+async function inflate(bytes) {
+  const ds = new DecompressionStream('deflate');
+  const stream = new Blob([bytes]).stream().pipeThrough(ds);
+  return new Uint8Array(await new Response(stream).arrayBuffer());
+}
+function latin(bytes) { let s=''; for (let i=0;i<bytes.length;i++) s += String.fromCharCode(bytes[i]); return s; }
+function extractTextOps(content) {
+  // pull text from Tj and TJ operators
+  const out = [];
+  const re = /\((?:\\.|[^\\()])*\)\s*Tj|\[((?:\((?:\\.|[^\\()])*\)|[^\]])*)\]\s*TJ/g;
+  let m;
+  const unescape = s => s.replace(/\\([nrtbf()\\])/g, (_, c) => ({n:'\n',r:'',t:' ',b:'',f:''}[c] ?? c)).replace(/\\(\d{1,3})/g, (_, o) => String.fromCharCode(parseInt(o, 8)));
+  while ((m = re.exec(content))) {
+    if (m[0].endsWith('Tj')) {
+      const inner = m[0].slice(m[0].indexOf('(') + 1, m[0].lastIndexOf(')'));
+      out.push(unescape(inner));
+    } else {
+      const arr = m[1] || '';
+      let s = '';
+      const re2 = /\(((?:\\.|[^\\()])*)\)|(-?\d+(?:\.\d+)?)/g;
+      let m2;
+      while ((m2 = re2.exec(arr))) {
+        if (m2[1] !== undefined) s += unescape(m2[1]);
+        else if (parseFloat(m2[2]) < -100) s += ' ';
+      }
+      out.push(s);
+    }
+  }
+  return out.join(' ');
+}
+async function extractPdfText(buf) {
+  const bytes = new Uint8Array(buf);
+  const raw = latin(bytes);
+  const streams = [];
+  const re = /stream\r?\n/g;
+  let m;
+  while ((m = re.exec(raw))) {
+    const start = m.index + m[0].length;
+    const end = raw.indexOf('endstream', start);
+    if (end < 0) continue;
+    // check the dictionary right before for FlateDecode
+    const dictStart = raw.lastIndexOf('<<', m.index);
+    const dict = raw.slice(dictStart, m.index);
+    const chunk = bytes.slice(start, end);
+    if (/FlateDecode/.test(dict)) {
+      try { streams.push(latin(await inflate(chunk))); } catch(e) {}
+    } else if (!/Image|XObject|FontFile/.test(dict)) {
+      streams.push(latin(chunk));
+    }
+  }
+  let pages = streams.map(extractTextOps).filter(t => t.trim().length > 20);
+  return pages;
+}
+function chunkText(pages) {
+  const chunks = [];
+  pages.forEach((pageText, pi) => {
+    const sentences = pageText.replace(/\s+/g, ' ').split(/(?<=[.!?])\s+/);
+    let cur = '';
+    sentences.forEach(s => {
+      cur += s + ' ';
+      if (cur.length > 320) { chunks.push({ page: pi + 1, text: cur.trim() }); cur = ''; }
+    });
+    if (cur.trim().length > 40) chunks.push({ page: pi + 1, text: cur.trim() });
+  });
+  return chunks;
+}
+const STOP = new Set('the a an and or of to in on for is are was were be been it this that with as by at from your you i we they he she what which how why when where do does can could would should'.split(' '));
+function scoreChunk(chunk, terms) {
+  const lower = chunk.text.toLowerCase();
+  let score = 0;
+  terms.forEach(t => {
+    const count = lower.split(t).length - 1;
+    score += count * (t.length > 6 ? 2 : 1);
+  });
+  return score;
+}
+function answerQuestion(q) {
+  const terms = q.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(t => t.length > 2 && !STOP.has(t));
+  if (!terms.length) return { text: "Try a question with a few specific words from the document.", src: null };
+  const scored = pdfChunks.map(c => ({ c, s: scoreChunk(c, terms) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
+  if (!scored.length) return { text: "I couldn't find anything about that in this PDF. Try different words — I match against the document's own vocabulary.", src: null };
+  const best = scored.slice(0, 2);
+  let html = best.map(x => {
+    let t = escapeHtml(x.c.text);
+    terms.forEach(term => { t = t.replace(new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>'); });
+    return '“…' + t + '…”<span class="src">Section ' + x.c.page + '</span>';
+  }).join('<br><br>');
+  return { html };
+}
+function addMsg(cls, content, isHtml) {
+  const el = document.createElement('div');
+  el.className = 'chat-msg ' + cls;
+  if (isHtml) el.innerHTML = content; else el.textContent = content;
+  $('#chatMsgs').appendChild(el);
+  $('#chatMsgs').scrollTop = $('#chatMsgs').scrollHeight;
+}
+async function handlePdfFile(file) {
+  addMsg('bot', 'Reading ' + file.name + '…');
+  try {
+    const pages = await extractPdfText(await file.arrayBuffer());
+    pdfChunks = chunkText(pages);
+    if (!pdfChunks.length) {
+      addMsg('bot', "I couldn't extract readable text — this PDF may be scanned images or use unusual encoding. Try a text-based PDF.");
+      return;
+    }
+    $('#pdfInfo').style.display = '';
+    $('#pdfName').textContent = file.name;
+    const words = pdfChunks.reduce((a, c) => a + c.text.split(/\s+/).length, 0);
+    $('#pdfStats').textContent = `${pdfChunks.length} passages · ~${words.toLocaleString()} words extracted`;
+    $('#pdfPreview').textContent = pdfChunks.slice(0, 3).map(c => c.text).join('\n\n');
+    $('#chatInput').disabled = false; $('#chatSend').disabled = false;
+    $('#chatChips').style.display = '';
+    addMsg('bot', `Done — I extracted ${pdfChunks.length} passages. Ask away.`);
+    awardXp(15, 'PDF loaded');
+  } catch (err) {
+    addMsg('bot', 'Something went wrong reading that file: ' + err.message);
+  }
+}
+const pdfDrop = $('#pdfDrop');
+pdfDrop.addEventListener('click', () => $('#pdfFile').click());
+pdfDrop.addEventListener('dragover', e => { e.preventDefault(); pdfDrop.classList.add('drag'); });
+pdfDrop.addEventListener('dragleave', () => pdfDrop.classList.remove('drag'));
+pdfDrop.addEventListener('drop', e => { e.preventDefault(); pdfDrop.classList.remove('drag'); if (e.dataTransfer.files[0]) handlePdfFile(e.dataTransfer.files[0]); });
+$('#pdfFile').addEventListener('change', e => { if (e.target.files[0]) handlePdfFile(e.target.files[0]); });
+function askPdf(q) {
+  if (!q.trim() || !pdfChunks.length) return;
+  addMsg('user', q);
+  $('#chatInput').value = '';
+  setTimeout(() => {
+    const a = answerQuestion(q);
+    if (a.html) addMsg('bot', a.html, true); else addMsg('bot', a.text);
+  }, 350);
+}
+$('#chatSend').addEventListener('click', () => askPdf($('#chatInput').value));
+$('#chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') askPdf($('#chatInput').value); });
+$$('.chat-chip').forEach(c => c.addEventListener('click', () => askPdf(c.dataset.q)));
+
+/* ===== DONATE (Razorpay Checkout — order created & verified server-side) ===== */
+$('#wisherCount').textContent = 128 + LS.get('wished', 0);
+let donateAmt = 99;
+$$('.donate-amt').forEach(b => b.addEventListener('click', () => {
+  $$('.donate-amt').forEach(x => { x.classList.remove('active'); x.style.borderColor = ''; x.style.color = ''; });
+  b.classList.add('active'); b.style.borderColor = 'var(--accent)'; b.style.color = 'var(--accent)';
+  donateAmt = +b.dataset.amt;
+  $('#donateCustom').value = '';
+  $('#donateAmtLabel').textContent = donateAmt;
+}));
+$('#donateCustom').addEventListener('input', e => {
+  const v = +e.target.value;
+  if (v >= 10) { donateAmt = v; $('#donateAmtLabel').textContent = v; $$('.donate-amt').forEach(x => { x.classList.remove('active'); x.style.borderColor = ''; x.style.color = ''; }); }
+});
+function loadRazorpay() {
+  return new Promise((resolve, reject) => {
+    if (window.Razorpay) return resolve();
+    const s = document.createElement('script');
+    s.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    s.onload = resolve;
+    s.onerror = () => reject(new Error('Could not load Razorpay — check your connection.'));
+    document.head.appendChild(s);
+  });
+}
+$('#donateBtn').addEventListener('click', async () => {
+  const btn = $('#donateBtn');
+  btn.disabled = true; btn.style.opacity = .7;
+  try {
+    await loadRazorpay();
+    const r = await fetch('/api/create-order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ amount: donateAmt })
+    });
+    const data = await r.json();
+    if (!r.ok) throw new Error(data.error || 'Could not start payment.');
+    const rzp = new Razorpay({
+      key: data.key_id,
+      order_id: data.order.id,
+      amount: data.order.amount,
+      currency: 'INR',
+      name: 'Study Desk',
+      description: 'Donation — keep Study Desk free',
+      theme: { color: '#E27A3F' },
+      handler: async (resp) => {
+        try {
+          const v = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(resp)
+          });
+          const vd = await v.json();
+          if (vd.ok) {
+            LS.set('wished', LS.get('wished', 0) + 1);
+            $('#wisherCount').textContent = 128 + LS.get('wished', 0);
+            confettiBurst(140);
+            toast('Payment received — thank you, well-wisher ♥');
+            awardXp(50, 'supporting the desk');
+          } else {
+            toast('Payment could not be verified. If money was deducted, it will auto-refund.');
+          }
+        } catch (e) { toast('Verification failed — contact support if charged.'); }
+      },
+      modal: { ondismiss: () => toast('No worries — sharing the site helps too ♥') }
+    });
+    rzp.open();
+  } catch (err) {
+    toast(err.message || 'Payment could not start.');
+  } finally {
+    btn.disabled = false; btn.style.opacity = 1;
+  }
+});
+
+/* ===== MOCK TESTS ===== */
+$('#mockNotify').addEventListener('click', () => {
+  const em = $('#mockEmail').value.trim();
+  if (!em.includes('@')) return toast('Enter a valid email.');
+  LS.set('mockWaitlist', em);
+  $('#mockEmail').value = '';
+  confettiBurst(80);
+  toast("You're on the list.");
+});
+
+/* ===== DAILY GOAL + BADGES ===== */
+const GOAL_RING_LEN = 2 * Math.PI * 42;
+function xpStreakDays() {
+  const log = LS.get('xpLog', {});
+  let s = 0;
+  for (let i = 0; i < 365; i++) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    if (log[d.toDateString()]) s++;
+    else if (i > 0) break;
+  }
+  return s;
+}
+function renderGoal() {
+  const goal = LS.get('dailyGoal', 100);
+  $('#goalInput').value = goal;
+  const today = LS.get('xpLog', {})[new Date().toDateString()] || 0;
+  const pct = Math.min(1, today / goal);
+  $('#goalRing').setAttribute('stroke-dashoffset', GOAL_RING_LEN * (1 - pct));
+  $('#goalPct').textContent = Math.round(pct * 100) + '%';
+  $('#goalXp').textContent = `${today} / ${goal}`;
+  if (pct >= 1 && !renderGoal._hit) { renderGoal._hit = LS.get('goalHit:' + new Date().toDateString(), false); if (!renderGoal._hit) { LS.set('goalHit:' + new Date().toDateString(), true); confettiBurst(90); toast('Daily goal hit! 🎯'); renderGoal._hit = true; } }
+  // badges
+  const streak = xpStreakDays();
+  const BADGES = [
+    { d: 3, name: '3-day streak', icon: '🔥' },
+    { d: 7, name: '1 week strong', icon: '⚡' },
+    { d: 14, name: 'Fortnight scholar', icon: '🏅' },
+    { d: 30, name: '30-day legend', icon: '👑' },
+  ];
+  $('#badgeRow').innerHTML = BADGES.map(b =>
+    `<span class="badge ${streak >= b.d ? 'earned' : ''}" title="${streak >= b.d ? 'Earned!' : 'Study ' + b.d + ' days in a row'}">${b.icon} ${b.name}</span>`
+  ).join('');
+}
+$('#goalInput').addEventListener('input', e => {
+  const v = Math.max(10, Math.min(2000, +e.target.value || 100));
+  LS.set('dailyGoal', v);
+  renderGoal();
+});
+
+/* ===== EXAM COUNTDOWN ===== */
+function renderExams() {
+  const exams = LS.get('exams', []).filter(x => new Date(x.date + 'T23:59') >= new Date());
+  LS.set('exams', exams);
+  const wrap = $('#examList'); wrap.innerHTML = '';
+  if (!exams.length) { wrap.innerHTML = '<div class="text-muted">No exams yet. Add one — future you says thanks.</div>'; return; }
+  exams.sort((a, b) => a.date.localeCompare(b.date)).forEach((x, i) => {
+    const days = Math.ceil((new Date(x.date + 'T00:00') - new Date().setHours(0,0,0,0)) / 86400000);
+    const el = document.createElement('div');
+    el.className = 'exam-item' + (days <= 7 ? ' urgent' : '');
+    el.innerHTML = `
+      <div class="exam-days mono">${days}<span class="u">day${days === 1 ? '' : 's'}</span></div>
+      <div class="exam-info">
+        <div class="exam-name">${escapeHtml(x.name)}</div>
+        <div class="exam-date">${new Date(x.date + 'T00:00').toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}</div>
+      </div>
+      <button class="btn ghost sm" data-ex="${i}" style="color: var(--ink-3);">×</button>`;
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('[data-ex]').forEach(b => b.addEventListener('click', e => {
+    const exams2 = LS.get('exams', []).sort((a, b) => a.date.localeCompare(b.date));
+    exams2.splice(+e.target.dataset.ex, 1);
+    LS.set('exams', exams2);
+    renderExams();
+  }));
+}
+$('#examAdd').addEventListener('click', () => {
+  const name = prompt('Exam name?', 'Final exam');
+  if (!name) return;
+  const date = prompt('Date? (YYYY-MM-DD)', new Date(Date.now() + 30 * 86400000).toISOString().slice(0, 10));
+  if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date)) return toast('Use YYYY-MM-DD format.');
+  const exams = LS.get('exams', []);
+  exams.push({ name, date });
+  LS.set('exams', exams);
+  renderExams();
+  toast('Exam added — you got this.');
+});
+
+/* ===== FORMULA SHEETS ===== */
+const FORMULAS = {
+  'Algebra': [
+    ['Quadratic formula', 'x = (-b ± √(b² − 4ac)) / 2a'],
+    ['Discriminant', 'D = b² − 4ac  (D>0: two real roots, D=0: one, D<0: none)'],
+    ['Binomial expansion', '(a + b)ⁿ = Σ C(n,k) · aⁿ⁻ᵏ · bᵏ'],
+    ['Sum of AP', 'Sₙ = n/2 · (2a + (n−1)d)'],
+    ['Sum of GP', 'Sₙ = a(1 − rⁿ)/(1 − r),  S∞ = a/(1 − r) for |r|<1'],
+    ['Logarithm rules', 'log(ab) = log a + log b · log(a/b) = log a − log b · log aⁿ = n log a'],
+    ['Change of base', 'log_b(x) = log(x) / log(b)'],
+  ],
+  'Trigonometry': [
+    ['Pythagorean identity', 'sin²θ + cos²θ = 1'],
+    ['Other identities', '1 + tan²θ = sec²θ · 1 + cot²θ = csc²θ'],
+    ['Sum formulas', 'sin(A±B) = sinA cosB ± cosA sinB · cos(A±B) = cosA cosB ∓ sinA sinB'],
+    ['Double angle', 'sin 2θ = 2 sinθ cosθ · cos 2θ = cos²θ − sin²θ = 1 − 2sin²θ'],
+    ['Law of sines', 'a/sin A = b/sin B = c/sin C = 2R'],
+    ['Law of cosines', 'c² = a² + b² − 2ab cos C'],
+  ],
+  'Calculus': [
+    ['Power rule', 'd/dx(xⁿ) = n·xⁿ⁻¹'],
+    ['Product rule', "(uv)' = u'v + uv'"],
+    ['Quotient rule', "(u/v)' = (u'v − uv') / v²"],
+    ['Chain rule', 'd/dx f(g(x)) = f\'(g(x)) · g\'(x)'],
+    ['Common derivatives', 'd/dx(sin x)=cos x · d/dx(cos x)=−sin x · d/dx(eˣ)=eˣ · d/dx(ln x)=1/x'],
+    ['Integration by parts', '∫u dv = uv − ∫v du'],
+    ['Common integrals', '∫xⁿ dx = xⁿ⁺¹/(n+1) + C · ∫1/x dx = ln|x| + C · ∫eˣ dx = eˣ + C'],
+    ['Fundamental theorem', '∫ₐᵇ f(x) dx = F(b) − F(a)'],
+  ],
+  'Physics — Mechanics': [
+    ['Kinematics', 'v = u + at · s = ut + ½at² · v² = u² + 2as'],
+    ["Newton's 2nd law", 'F = ma'],
+    ['Momentum', 'p = mv · Impulse: FΔt = Δp'],
+    ['Work & energy', 'W = F·d·cosθ · KE = ½mv² · PE = mgh'],
+    ['Circular motion', 'a = v²/r · F = mv²/r'],
+    ['Gravitation', 'F = G·m₁m₂/r² · g = GM/R²'],
+  ],
+  'Physics — Electricity & Waves': [
+    ["Ohm's law", 'V = IR · P = VI = I²R = V²/R'],
+    ["Coulomb's law", 'F = k·q₁q₂/r²,  k = 9×10⁹ N·m²/C²'],
+    ['Capacitance', 'Q = CV · E = ½CV²'],
+    ['Wave equation', 'v = fλ'],
+    ['Lens/mirror', '1/f = 1/v + 1/u (sign conventions apply)'],
+  ],
+  'Chemistry': [
+    ['Moles', 'n = m/M = N/Nₐ = V/22.4L (STP, gas)'],
+    ['Ideal gas law', 'PV = nRT,  R = 8.314 J/(mol·K)'],
+    ['Molarity', 'M = moles of solute / litres of solution'],
+    ['pH', 'pH = −log[H⁺] · pH + pOH = 14'],
+    ['Rate law', 'rate = k[A]ᵐ[B]ⁿ'],
+    ['Nernst equation', 'E = E° − (0.0591/n)·log Q  (at 25°C)'],
+    ['Gibbs free energy', 'ΔG = ΔH − TΔS · ΔG° = −RT ln K'],
+  ],
+};
+function renderFormulas(filter = '') {
+  const wrap = $('#formulaList'); wrap.innerHTML = '';
+  const q = filter.toLowerCase();
+  Object.entries(FORMULAS).forEach(([group, rows]) => {
+    const hits = rows.filter(([name, expr]) => !q || name.toLowerCase().includes(q) || expr.toLowerCase().includes(q) || group.toLowerCase().includes(q));
+    if (!hits.length) return;
+    const card = document.createElement('div');
+    card.className = 'card formula-group';
+    card.innerHTML = `<h3>${group}</h3><div class="card-sub">${hits.length} formula${hits.length === 1 ? '' : 's'}</div>` +
+      hits.map(([name, expr]) => `<div class="formula-row"><div class="f-name">${escapeHtml(name)}</div><div class="f-expr">${escapeHtml(expr)}</div></div>`).join('');
+    wrap.appendChild(card);
+  });
+  if (!wrap.children.length) wrap.innerHTML = '<div class="card"><div class="empty"><span class="serif">No matches</span><div>Try a different word — e.g. "derivative" or "gas".</div></div></div>';
+}
+$('#formulaSearch').addEventListener('input', e => renderFormulas(e.target.value));
+
+/* ===== BACKUP / RESTORE ===== */
+$('#exportData').addEventListener('click', () => {
+  const data = {};
+  for (let i = 0; i < localStorage.length; i++) {
+    const k = localStorage.key(i);
+    if (k.startsWith('sd:')) data[k] = localStorage.getItem(k);
+  }
+  const blob = new Blob([JSON.stringify({ app: 'study-desk', exported: new Date().toISOString(), data }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'study-desk-backup-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Backup downloaded. Keep it somewhere safe.');
+});
+$('#importData').addEventListener('click', () => $('#importFile').click());
+$('#importFile').addEventListener('change', async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try {
+    const parsed = JSON.parse(await f.text());
+    if (parsed.app !== 'study-desk' || !parsed.data) throw new Error('Not a Study Desk backup file.');
+    if (!confirm('Restore this backup? It will replace your current data on this device.')) return;
+    Object.entries(parsed.data).forEach(([k, v]) => localStorage.setItem(k, v));
+    toast('Backup restored — reloading…');
+    setTimeout(() => location.reload(), 800);
+  } catch (err) {
+    toast('Restore failed: ' + err.message);
+  }
+  e.target.value = '';
+});
+
+/* ===== COMMAND PALETTE + KEYBOARD SHORTCUTS ===== */
+const TOOL_INDEX = [
+  { name: 'Dashboard', view: 'dashboard', icon: '◐', kw: 'home today overview' },
+  { name: 'Focus timer', view: 'timer', icon: '◔', kw: 'pomodoro study session clock' },
+  { name: 'Tasks', view: 'tasks', icon: '◇', kw: 'todo to-do checklist' },
+  { name: 'Habits', view: 'habits', icon: '▤', kw: 'streak routine tracker' },
+  { name: 'Notes', view: 'notes', icon: '✎', kw: 'write notebook' },
+  { name: 'Flashcards', view: 'flashcards', icon: '▭', kw: 'deck study review memorize' },
+  { name: 'Weekly planner', view: 'planner', icon: '▨', kw: 'schedule calendar timetable' },
+  { name: 'Formula sheets', view: 'formulas', icon: 'ƒ', kw: 'math physics chemistry equations' },
+  { name: 'Calculator', view: 'calculator', icon: '≡', kw: 'math scientific compute' },
+  { name: 'GPA calculator', view: 'gpa', icon: '∑', kw: 'grades semester credits' },
+  { name: 'Grade target', view: 'grade', icon: '△', kw: 'final exam need score' },
+  { name: 'Unit converter', view: 'converter', icon: '⇌', kw: 'convert length mass temperature' },
+  { name: 'Word counter', view: 'wordcount', icon: '¶', kw: 'essay characters count' },
+  { name: 'Citation maker', view: 'citation', icon: '❝', kw: 'mla apa chicago bibliography reference' },
+  { name: 'File converter', view: 'doc2pdf', icon: '⇄', kw: 'word docx convert export jpg png webp pdf image csv json' },
+  { name: 'Talk to your PDF', view: 'pdfchat', icon: '◈', kw: 'chat ask document question' },
+  { name: 'Mock tests', view: 'mock', icon: '✦', kw: 'exam practice quiz test' },
+  { name: 'About & support', view: 'about', icon: '♥', kw: 'donate story help wisher' },
+];
+let palSel = 0, palItems = [];
+function paletteSearch(q) {
+  q = q.trim().toLowerCase();
+  const tools = TOOL_INDEX
+    .filter(t => !q || t.name.toLowerCase().includes(q) || t.kw.includes(q))
+    .map(t => ({ ...t, kind: 'Tool' }));
+  const noteHits = !q ? [] : LS.get('notes', [])
+    .filter(n => (n.title || '').toLowerCase().includes(q) || (n.body || '').toLowerCase().includes(q))
+    .slice(0, 4)
+    .map(n => ({ name: n.title || 'Untitled', view: 'notes', icon: '✎', kind: 'Note', noteId: n.id }));
+  const formulaHits = !q ? [] : Object.entries(FORMULAS).flatMap(([g, rows]) =>
+    rows.filter(([name]) => name.toLowerCase().includes(q)).map(([name]) => ({ name, view: 'formulas', icon: 'ƒ', kind: 'Formula', fq: name }))
+  ).slice(0, 4);
+  return [...tools.slice(0, 8), ...noteHits, ...formulaHits];
+}
+function renderPalette() {
+  const q = $('#paletteInput').value;
+  palItems = paletteSearch(q);
+  palSel = Math.min(palSel, Math.max(0, palItems.length - 1));
+  $('#paletteResults').innerHTML = palItems.map((it, i) =>
+    `<div class="palette-item ${i === palSel ? 'sel' : ''}" data-pi="${i}">
+      <span class="pi-icon">${it.icon}</span><span>${escapeHtml(it.name)}</span><span class="pi-kind">${it.kind}</span>
+    </div>`).join('') || '<div class="empty" style="padding: 24px;">Nothing found.</div>';
+  $$('#paletteResults .palette-item').forEach(el => {
+    el.addEventListener('click', () => pickPalette(+el.dataset.pi));
+    el.addEventListener('mousemove', () => { palSel = +el.dataset.pi; renderPaletteSel(); });
+  });
+}
+function renderPaletteSel() {
+  $$('#paletteResults .palette-item').forEach((el, i) => el.classList.toggle('sel', i === palSel));
+}
+function pickPalette(i) {
+  const it = palItems[i]; if (!it) return;
+  closePalette();
+  go(it.view);
+  if (it.noteId) setTimeout(() => openNote(it.noteId), 60);
+  if (it.fq) setTimeout(() => { $('#formulaSearch').value = it.fq; renderFormulas(it.fq); }, 60);
+}
+function openPalette() {
+  $('#paletteOverlay').classList.add('open');
+  $('#paletteInput').value = ''; palSel = 0;
+  renderPalette();
+  setTimeout(() => $('#paletteInput').focus(), 30);
+}
+function closePalette() { $('#paletteOverlay').classList.remove('open'); }
+$('#openPalette').addEventListener('click', openPalette);
+$('#paletteOverlay').addEventListener('click', e => { if (e.target === $('#paletteOverlay')) closePalette(); });
+$('#paletteInput').addEventListener('input', () => { palSel = 0; renderPalette(); });
+$('#paletteInput').addEventListener('keydown', e => {
+  if (e.key === 'ArrowDown') { e.preventDefault(); palSel = Math.min(palItems.length - 1, palSel + 1); renderPaletteSel(); }
+  else if (e.key === 'ArrowUp') { e.preventDefault(); palSel = Math.max(0, palSel - 1); renderPaletteSel(); }
+  else if (e.key === 'Enter') pickPalette(palSel);
+  else if (e.key === 'Escape') closePalette();
+});
+
+document.addEventListener('keydown', e => {
+  // palette works everywhere
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openPalette(); return; }
+  if (e.key === 'Escape' && $('#paletteOverlay').classList.contains('open')) { closePalette(); return; }
+  // single-key shortcuts only when not typing
+  const tag = (e.target.tagName || '').toLowerCase();
+  if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (document.body.classList.contains('landing-mode')) return;
+  const k = e.key.toLowerCase();
+  if (k === 't') { go('timer'); }
+  else if (k === 'n') { go('notes'); setTimeout(() => $('#noteNew').click(), 80); }
+  else if (k === 'f') { go('flashcards'); }
+  else if (k === 'd') { go('dashboard'); }
+  else if (k === '/') { e.preventDefault(); openPalette(); }
+  else if (e.key === ' ' && $('#view-flashcards').classList.contains('active')) {
+    e.preventDefault();
+    $('#fcStage').classList.toggle('flipped');
+  }
+  else if (e.key === 'ArrowRight' && $('#view-flashcards').classList.contains('active')) { $('#fcNext').click(); }
+  else if (e.key === 'ArrowLeft' && $('#view-flashcards').classList.contains('active')) { $('#fcPrev').click(); }
+});
+
+renderGoal();
+renderExams();
+renderFormulas();
+
+/* ===== INIT ===== */
+renderGpa();
+renderTimer();
+renderDashboard();
+</script>
+
+</body>
+</html>
