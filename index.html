@@ -645,6 +645,47 @@
   .chat-chip { font-size: 11.5px; padding: 4px 10px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--paper); cursor: pointer; color: var(--ink-2); font-family: inherit; }
   .chat-chip:hover { border-color: var(--accent); color: var(--accent); }
 
+  /* scanner */
+  .scan-empty {
+    display: grid; place-items: center;
+    padding: 60px 24px;
+    background: var(--paper); border: 2px dashed var(--line-2); border-radius: var(--radius-lg);
+  }
+  .scan-empty h3 { font-size: 18px; margin-bottom: 6px; }
+  .scan-empty .row { justify-content: center; gap: 10px; margin-top: 18px; }
+  .scan-stage { display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; }
+  @media (max-width: 900px) { .scan-stage { grid-template-columns: 1fr; } }
+  .scan-editor { background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); padding: 16px; box-shadow: var(--shadow); position: relative; }
+  .scan-canvas-wrap { position: relative; display: grid; place-items: center; background: var(--ground); border-radius: 10px; overflow: hidden; }
+  .scan-canvas-wrap canvas { max-width: 100%; height: auto; display: block; touch-action: none; }
+  .scan-preview-wrap { background: var(--ground); border: 1px solid var(--line); border-radius: 10px; padding: 14px; }
+  .scan-preview-wrap canvas { max-width: 100%; height: auto; display: block; margin: 0 auto; background: #fff; box-shadow: 0 4px 12px rgba(0,0,0,.15); }
+  .filter-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 12px; }
+  .filter-chip { padding: 6px 12px; border-radius: 20px; border: 1px solid var(--line-2); background: var(--paper); font-size: 12px; cursor: pointer; font-family: inherit; }
+  .filter-chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .scan-pages {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 10px;
+    margin-top: 16px;
+  }
+  .scan-thumb {
+    position: relative;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px;
+    padding: 6px; text-align: center;
+  }
+  .scan-thumb canvas { width: 100%; height: auto; display: block; border-radius: 4px; background: #fff; }
+  .scan-thumb .st-num { font-size: 11px; color: var(--ink-3); margin-top: 4px; font-family: 'SF Mono', monospace; }
+  .scan-thumb .st-del { position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; background: rgba(27,33,48,.85); color: #fff; border: none; border-radius: 50%; cursor: pointer; font-size: 13px; line-height: 1; }
+  .video-preview { width: 100%; max-height: 60vh; background: #000; border-radius: 10px; display: block; }
+  .cam-controls { display: flex; gap: 8px; justify-content: center; margin-top: 14px; }
+  .shutter {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: #fff; border: 4px solid var(--accent);
+    cursor: pointer;
+    display: grid; place-items: center;
+  }
+  .shutter::after { content: ''; width: 46px; height: 46px; border-radius: 50%; background: var(--accent); }
+  .shutter:hover::after { background: var(--danger); }
+
   /* converted files list */
   .conv-download {
     display: flex; align-items: center; gap: 12px;
@@ -959,6 +1000,7 @@
       <button class="land-tool" data-enter="gpa"><span class="lt-icon">∑</span><span class="lt-name">GPA calculator</span><span class="lt-desc">Credit-weighted semester and cumulative GPA, saved as you go.</span></button>
       <button class="land-tool" data-enter="flashcards"><span class="lt-icon">▭</span><span class="lt-name">Flashcards</span><span class="lt-desc">Build decks, flip cards, rate yourself Hard or Good to sort weak spots.</span></button>
       <button class="land-tool" data-enter="pdfchat"><span class="lt-icon">◈</span><span class="lt-name">Talk to your PDF</span><span class="lt-desc">Ask questions; get the most relevant passages quoted back — offline.</span></button>
+      <button class="land-tool" data-enter="scanner"><span class="lt-icon">◱</span><span class="lt-name">Document scanner</span><span class="lt-desc">Snap or upload a photo of a page — auto edge-detect, crop, and export as a scan-quality PDF.</span></button>
       <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON — no upload.</span></button>
       <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" — answered in one glance.</span></button>
       <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
@@ -1012,6 +1054,7 @@
 
     <nav class="nav-group">
       <div class="nav-title">Documents</div>
+      <button class="nav-item" data-view="scanner"><span class="nav-icon">◱</span>Doc scanner</button>
       <button class="nav-item" data-view="doc2pdf"><span class="nav-icon">⇄</span>File converter</button>
       <button class="nav-item" data-view="pdfchat"><span class="nav-icon">◈</span>Talk to your PDF</button>
       <button class="nav-item" data-view="mock"><span class="nav-icon">✦</span>Mock tests<span class="nav-badge">New</span></button>
@@ -1650,6 +1693,86 @@
       </div>
 
       <div id="plannerGrid" class="grid" style="grid-template-columns: repeat(7, 1fr); gap: 10px;"></div>
+    </section>
+
+    <!-- ============== DOCUMENT SCANNER ============== -->
+    <section class="view" id="view-scanner">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Document scanner</span>
+          <h1 style="margin-top: 6px;">Point, snap, scan.</h1>
+          <p class="lede">Take a photo of a page — or upload one — and the scanner finds the edges, straightens perspective, and turns it into a clean, scan-quality PDF. Nothing uploaded, everything runs on your device.</p>
+        </div>
+      </div>
+
+      <div id="scanEmpty" class="scan-empty">
+        <h3 class="serif">Start a new scan</h3>
+        <div class="text-muted">Use your camera to snap a page, or drop in an image you already took.</div>
+        <div class="row">
+          <button class="btn primary" id="scanCameraBtn">📷 Use camera</button>
+          <button class="btn" id="scanUploadBtn">Upload photo</button>
+          <input type="file" id="scanFile" accept="image/*" style="display:none;" capture="environment">
+        </div>
+        <div class="text-muted mt-16" style="font-size: 11.5px;">Best results: dark surface, page filling most of the frame, no shadows across the middle.</div>
+      </div>
+
+      <div id="scanCamera" style="display:none;">
+        <div class="card">
+          <video id="scanVideo" class="video-preview" autoplay playsinline muted></video>
+          <div class="cam-controls">
+            <button class="btn" id="scanCamCancel">Cancel</button>
+            <button class="shutter" id="scanShutter" title="Take photo"></button>
+            <button class="btn" id="scanCamFlip">Flip camera</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="scanStage" style="display:none;">
+        <div class="scan-stage">
+          <div class="scan-editor">
+            <h3>Adjust corners</h3>
+            <div class="card-sub">Drag the four handles to fit the page exactly. Green boxes = corners.</div>
+            <div class="scan-canvas-wrap">
+              <canvas id="scanSrc"></canvas>
+            </div>
+            <div class="row mt-16" style="gap: 8px; justify-content: space-between;">
+              <button class="btn sm" id="scanRedetect">↻ Auto-detect again</button>
+              <button class="btn sm" id="scanFullFrame">Use full frame</button>
+            </div>
+          </div>
+          <div>
+            <div class="scan-preview-wrap">
+              <div class="eyebrow" style="margin-bottom: 8px;">Preview</div>
+              <canvas id="scanOut"></canvas>
+              <div class="filter-row">
+                <button class="filter-chip" data-flt="orig">Original</button>
+                <button class="filter-chip active" data-flt="enhance">Enhance</button>
+                <button class="filter-chip" data-flt="gray">Grayscale</button>
+                <button class="filter-chip" data-flt="bw">B&amp;W scan</button>
+              </div>
+            </div>
+            <div class="row mt-16" style="gap: 8px;">
+              <button class="btn accent" id="scanAddPage" style="flex: 1;">＋ Add to document</button>
+              <button class="btn" id="scanDiscard">Discard</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="scanQueue" class="card mt-24" style="display:none;">
+        <div class="row between" style="align-items: center;">
+          <div>
+            <h3>Your document</h3>
+            <div class="card-sub" style="margin: 0;"><span id="scanPageCount">0</span> page(s) in this scan</div>
+          </div>
+          <div class="row" style="gap: 8px;">
+            <button class="btn" id="scanAddMore">＋ Add page</button>
+            <button class="btn" id="scanExportJpgs">Save as JPGs</button>
+            <button class="btn accent" id="scanExportPdf">Save as PDF</button>
+          </div>
+        </div>
+        <div class="scan-pages" id="scanPages"></div>
+      </div>
     </section>
 
     <!-- ============== FILE CONVERTER ============== -->
@@ -3614,6 +3737,466 @@ $('#donateBtn').addEventListener('click', async () => {
   }
 });
 
+/* ==============================================================
+   DOCUMENT SCANNER — auto edge detect, perspective correct, filter
+   ============================================================== */
+
+/* Multi-image PDF (extended from buildJpegPdf to support N pages) */
+function buildImagesPdf(pages) { // pages: [{bytes:Uint8Array, w, h}]
+  const enc = new TextEncoder();
+  const chunks = []; let pos = 0;
+  const offsets = [0];
+  const push = s => { const b = typeof s === 'string' ? enc.encode(s) : s; chunks.push(b); pos += b.length; };
+  const obj = s => { offsets.push(pos); push(s); };
+  const nPages = pages.length;
+  // ids: 1 catalog, 2 pages, then per page: page (id 3+i*2), image (id 4+i*2), content (id 3 + nPages*2 + i)
+  const pageId = i => 3 + i * 2;
+  const imgId = i => 4 + i * 2;
+  const contentId = i => 3 + nPages * 2 + i;
+  push('%PDF-1.4\n');
+  obj('1 0 obj\n<< /Type /Catalog /Pages 2 0 R >>\nendobj\n');
+  const kids = pages.map((_, i) => `${pageId(i)} 0 R`).join(' ');
+  obj(`2 0 obj\n<< /Type /Pages /Kids [${kids}] /Count ${nPages} >>\nendobj\n`);
+  pages.forEach((p, i) => {
+    obj(`${pageId(i)} 0 obj\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${p.w} ${p.h}] /Resources << /XObject << /Im0 ${imgId(i)} 0 R >> >> /Contents ${contentId(i)} 0 R >>\nendobj\n`);
+    offsets.push(pos);
+    push(`${imgId(i)} 0 obj\n<< /Type /XObject /Subtype /Image /Width ${p.w} /Height ${p.h} /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length ${p.bytes.length} >>\nstream\n`);
+    push(p.bytes);
+    push('\nendstream\nendobj\n');
+  });
+  pages.forEach((p, i) => {
+    const cs = `q ${p.w} 0 0 ${p.h} 0 0 cm /Im0 Do Q`;
+    obj(`${contentId(i)} 0 obj\n<< /Length ${cs.length} >>\nstream\n${cs}\nendstream\nendobj\n`);
+  });
+  const total = 2 + nPages * 3;
+  const xrefPos = pos;
+  let xref = `xref\n0 ${total + 1}\n0000000000 65535 f \n`;
+  for (let i = 1; i <= total; i++) xref += String(offsets[i]).padStart(10, '0') + ' 00000 n \n';
+  push(xref);
+  push(`trailer\n<< /Size ${total + 1} /Root 1 0 R >>\nstartxref\n${xrefPos}\n%%EOF`);
+  return new Blob(chunks, { type: 'application/pdf' });
+}
+
+/* Load a file/blob into a canvas at natural resolution */
+async function fileToFullCanvas(fileOrBlob) {
+  const bmp = await createImageBitmap(fileOrBlob);
+  const c = document.createElement('canvas');
+  c.width = bmp.width; c.height = bmp.height;
+  c.getContext('2d').drawImage(bmp, 0, 0);
+  return c;
+}
+
+/* Downscale a canvas for fast processing */
+function downscaleCanvas(src, maxDim) {
+  const scale = Math.min(1, maxDim / Math.max(src.width, src.height));
+  const c = document.createElement('canvas');
+  c.width = Math.round(src.width * scale);
+  c.height = Math.round(src.height * scale);
+  c.getContext('2d').drawImage(src, 0, 0, c.width, c.height);
+  return { canvas: c, scale };
+}
+
+/* Detect the four corners of the page in a photo.
+   Approach: downscale → grayscale → box blur → Otsu threshold → largest
+   connected bright region → convex hull → pick 4 extreme corners.
+   Falls back to the full frame if it can't find a plausible quad. */
+function detectQuad(srcCanvas) {
+  const { canvas: sm, scale } = downscaleCanvas(srcCanvas, 400);
+  const W = sm.width, H = sm.height;
+  const ctx = sm.getContext('2d');
+  const img = ctx.getImageData(0, 0, W, H).data;
+  // grayscale
+  const gray = new Uint8ClampedArray(W * H);
+  for (let i = 0, j = 0; i < img.length; i += 4, j++) gray[j] = (img[i] * 0.3 + img[i + 1] * 0.59 + img[i + 2] * 0.11);
+  // 3x3 box blur
+  const blur = new Uint8ClampedArray(W * H);
+  for (let y = 1; y < H - 1; y++) for (let x = 1; x < W - 1; x++) {
+    let s = 0; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) s += gray[(y + dy) * W + (x + dx)];
+    blur[y * W + x] = s / 9;
+  }
+  // Otsu threshold
+  const hist = new Uint32Array(256);
+  for (let i = 0; i < blur.length; i++) hist[blur[i]]++;
+  const total = W * H;
+  let sum = 0; for (let i = 0; i < 256; i++) sum += i * hist[i];
+  let sumB = 0, wB = 0, wF = 0, maxVar = 0, thr = 128;
+  for (let i = 0; i < 256; i++) {
+    wB += hist[i]; if (!wB) continue;
+    wF = total - wB; if (!wF) break;
+    sumB += i * hist[i];
+    const mB = sumB / wB, mF = (sum - sumB) / wF;
+    const v = wB * wF * (mB - mF) * (mB - mF);
+    if (v > maxVar) { maxVar = v; thr = i; }
+  }
+  // decide polarity: whichever "class" occupies the center is the paper
+  const cx = W >> 1, cy = H >> 1;
+  const centerAvg = (blur[cy * W + cx] + blur[cy * W + cx - 1] + blur[(cy - 1) * W + cx]) / 3;
+  const paperIsBright = centerAvg >= thr;
+  const bin = new Uint8Array(W * H);
+  for (let i = 0; i < blur.length; i++) bin[i] = (paperIsBright ? blur[i] >= thr : blur[i] < thr) ? 1 : 0;
+  // largest connected component via flood fill
+  const seen = new Uint8Array(W * H);
+  let bestPts = null, bestSize = 0;
+  const stack = new Int32Array(W * H); // reusable
+  for (let sy = 0; sy < H; sy += 4) for (let sx = 0; sx < W; sx += 4) {
+    const idx0 = sy * W + sx;
+    if (!bin[idx0] || seen[idx0]) continue;
+    let top = 0; stack[top++] = idx0;
+    const pts = [];
+    while (top) {
+      const idx = stack[--top];
+      if (seen[idx] || !bin[idx]) continue;
+      seen[idx] = 1;
+      const px = idx % W, py = (idx - px) / W;
+      pts.push(px, py);
+      if (px > 0) stack[top++] = idx - 1;
+      if (px < W - 1) stack[top++] = idx + 1;
+      if (py > 0) stack[top++] = idx - W;
+      if (py < H - 1) stack[top++] = idx + W;
+    }
+    if (pts.length / 2 > bestSize) { bestSize = pts.length / 2; bestPts = pts; }
+  }
+  const fallback = () => [{ x: 0, y: 0 }, { x: srcCanvas.width, y: 0 }, { x: srcCanvas.width, y: srcCanvas.height }, { x: 0, y: srcCanvas.height }];
+  if (!bestPts || bestSize < W * H * 0.06) return fallback();
+  // pick four extreme corners from the region's point set
+  let tl = { i: 0, v: Infinity }, tr = { i: 0, v: -Infinity }, br = { i: 0, v: -Infinity }, bl = { i: 0, v: -Infinity };
+  for (let i = 0; i < bestPts.length; i += 2) {
+    const x = bestPts[i], y = bestPts[i + 1];
+    if (x + y < tl.v) { tl.v = x + y; tl.x = x; tl.y = y; }
+    if (x - y > tr.v) { tr.v = x - y; tr.x = x; tr.y = y; }
+    if (x + y > br.v) { br.v = x + y; br.x = x; br.y = y; }
+    if (y - x > bl.v) { bl.v = y - x; bl.x = x; bl.y = y; }
+  }
+  // sanity: quad should cover a decent area of the image
+  const areaQuad = Math.abs((tr.x - tl.x) * (bl.y - tl.y) - (tr.y - tl.y) * (bl.x - tl.x));
+  if (areaQuad < W * H * 0.15) return fallback();
+  // rescale to original image coords
+  const rs = 1 / scale;
+  return [tl, tr, br, bl].map(p => ({ x: p.x * rs, y: p.y * rs }));
+}
+
+/* Solve the perspective mapping from unit square → srcQuad. Returns (u,v)→(x,y). */
+function makeQuadMap(srcQuad) {
+  const [p0, p1, p2, p3] = srcQuad;  // TL, TR, BR, BL
+  const sx = p0.x - p1.x + p2.x - p3.x;
+  const sy = p0.y - p1.y + p2.y - p3.y;
+  const dx1 = p1.x - p2.x, dy1 = p1.y - p2.y;
+  const dx2 = p3.x - p2.x, dy2 = p3.y - p2.y;
+  let g = 0, h = 0;
+  const det = dx1 * dy2 - dx2 * dy1;
+  if (det !== 0) {
+    g = (sx * dy2 - sy * dx2) / det;
+    h = (dx1 * sy - dy1 * sx) / det;
+  }
+  const a = p1.x - p0.x + g * p1.x;
+  const b = p3.x - p0.x + h * p3.x;
+  const c = p0.x;
+  const d = p1.y - p0.y + g * p1.y;
+  const e = p3.y - p0.y + h * p3.y;
+  const f = p0.y;
+  return (u, v) => {
+    const w = g * u + h * v + 1;
+    return [(a * u + b * v + c) / w, (d * u + e * v + f) / w];
+  };
+}
+
+/* Warp srcCanvas region (defined by quad in src pixel coords) into an outW × outH canvas with perspective correction + bilinear sampling. */
+function warpPerspective(srcCanvas, srcQuad, outW, outH) {
+  const src = srcCanvas.getContext('2d').getImageData(0, 0, srcCanvas.width, srcCanvas.height).data;
+  const sW = srcCanvas.width, sH = srcCanvas.height;
+  const dst = document.createElement('canvas');
+  dst.width = outW; dst.height = outH;
+  const dCtx = dst.getContext('2d');
+  const dstData = dCtx.createImageData(outW, outH);
+  const dOut = dstData.data;
+  const map = makeQuadMap(srcQuad);
+  for (let y = 0; y < outH; y++) {
+    const v = y / outH;
+    for (let x = 0; x < outW; x++) {
+      const u = x / outW;
+      const [sx, sy] = map(u, v);
+      const di = (y * outW + x) * 4;
+      if (sx < 0 || sy < 0 || sx >= sW - 1 || sy >= sH - 1) {
+        dOut[di] = 255; dOut[di+1] = 255; dOut[di+2] = 255; dOut[di+3] = 255;
+        continue;
+      }
+      const x0 = Math.floor(sx), y0 = Math.floor(sy);
+      const fx = sx - x0, fy = sy - y0;
+      const i00 = (y0 * sW + x0) * 4;
+      const i10 = i00 + 4;
+      const i01 = i00 + sW * 4;
+      const i11 = i01 + 4;
+      const w00 = (1 - fx) * (1 - fy), w10 = fx * (1 - fy), w01 = (1 - fx) * fy, w11 = fx * fy;
+      dOut[di]     = src[i00]     * w00 + src[i10]     * w10 + src[i01]     * w01 + src[i11]     * w11;
+      dOut[di + 1] = src[i00 + 1] * w00 + src[i10 + 1] * w10 + src[i01 + 1] * w01 + src[i11 + 1] * w11;
+      dOut[di + 2] = src[i00 + 2] * w00 + src[i10 + 2] * w10 + src[i01 + 2] * w01 + src[i11 + 2] * w11;
+      dOut[di + 3] = 255;
+    }
+  }
+  dCtx.putImageData(dstData, 0, 0);
+  return dst;
+}
+
+/* Filter passes: enhance = grayscale + contrast/brightness boost with soft white bg
+   bw = adaptive threshold, gray = plain grayscale */
+function applyScanFilter(srcCanvas, mode) {
+  if (mode === 'orig') return srcCanvas;
+  const c = document.createElement('canvas');
+  c.width = srcCanvas.width; c.height = srcCanvas.height;
+  const g = c.getContext('2d');
+  g.drawImage(srcCanvas, 0, 0);
+  const id = g.getImageData(0, 0, c.width, c.height);
+  const d = id.data;
+  const N = c.width * c.height;
+  // grayscale first
+  const gray = new Uint8ClampedArray(N);
+  for (let i = 0, j = 0; i < d.length; i += 4, j++) gray[j] = d[i] * 0.3 + d[i + 1] * 0.59 + d[i + 2] * 0.11;
+  if (mode === 'gray') {
+    for (let i = 0, j = 0; i < d.length; i += 4, j++) d[i] = d[i+1] = d[i+2] = gray[j];
+  } else if (mode === 'enhance') {
+    // find 90th percentile as "paper white" for normalization
+    const hist = new Uint32Array(256);
+    for (let i = 0; i < N; i++) hist[gray[i]]++;
+    let cum = 0, p90 = 255;
+    for (let i = 255; i >= 0; i--) { cum += hist[i]; if (cum >= N * 0.05) { p90 = i; break; } }
+    const boost = 235 / Math.max(180, p90);
+    for (let i = 0, j = 0; i < d.length; i += 4, j++) {
+      let v = (gray[j] - 30) * 1.35 * boost + 20;
+      if (v > 245) v = 255;
+      if (v < 0) v = 0;
+      d[i] = d[i + 1] = d[i + 2] = v;
+    }
+  } else if (mode === 'bw') {
+    // adaptive threshold with a rolling mean approximation via 16-block downsample
+    const B = 16, cols = Math.ceil(c.width / B), rows = Math.ceil(c.height / B);
+    const means = new Float32Array(cols * rows);
+    const cnts = new Uint32Array(cols * rows);
+    for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) {
+      const bi = (y / B | 0) * cols + (x / B | 0);
+      means[bi] += gray[y * c.width + x];
+      cnts[bi]++;
+    }
+    for (let i = 0; i < means.length; i++) means[i] /= (cnts[i] || 1);
+    for (let y = 0; y < c.height; y++) for (let x = 0; x < c.width; x++) {
+      const bi = (y / B | 0) * cols + (x / B | 0);
+      const v = gray[y * c.width + x] < means[bi] - 12 ? 0 : 255;
+      const i = (y * c.width + x) * 4;
+      d[i] = d[i + 1] = d[i + 2] = v;
+    }
+  }
+  g.putImageData(id, 0, 0);
+  return c;
+}
+
+const scan = {
+  stream: null, facingMode: 'environment',
+  src: null,       // source canvas at full res
+  quad: null,      // [{x,y}*4] in src pixel coords
+  filter: 'enhance',
+  out: null,       // last computed output canvas
+  pages: [],       // {src, quad, filter, out}
+  drag: -1,        // index of corner being dragged
+  scale: 1,        // display scale of scanSrc canvas
+};
+
+async function scanFromBlob(blob) {
+  scan.src = await fileToFullCanvas(blob);
+  scan.quad = detectQuad(scan.src);
+  scan.filter = 'enhance';
+  showScanStage();
+  renderScanSrc();
+  renderScanOut();
+}
+async function startCamera() {
+  scanStopCamera();
+  try {
+    scan.stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: scan.facingMode, width: { ideal: 1920 }, height: { ideal: 1440 } }, audio: false });
+  } catch (e) { return toast('Could not open camera: ' + e.message); }
+  $('#scanEmpty').style.display = 'none';
+  $('#scanCamera').style.display = '';
+  $('#scanStage').style.display = 'none';
+  const v = $('#scanVideo');
+  v.srcObject = scan.stream;
+}
+function scanStopCamera() {
+  if (scan.stream) { scan.stream.getTracks().forEach(t => t.stop()); scan.stream = null; }
+}
+async function shutter() {
+  const v = $('#scanVideo');
+  const c = document.createElement('canvas');
+  c.width = v.videoWidth; c.height = v.videoHeight;
+  c.getContext('2d').drawImage(v, 0, 0);
+  scanStopCamera();
+  $('#scanCamera').style.display = 'none';
+  scan.src = c;
+  scan.quad = detectQuad(c);
+  scan.filter = 'enhance';
+  showScanStage();
+  renderScanSrc();
+  renderScanOut();
+}
+function showScanStage() {
+  $('#scanEmpty').style.display = 'none';
+  $('#scanStage').style.display = '';
+  $('#scanQueue').style.display = scan.pages.length ? '' : 'none';
+}
+function renderScanSrc() {
+  const c = $('#scanSrc');
+  const maxW = Math.min(720, c.parentElement.clientWidth - 4);
+  scan.scale = Math.min(1, maxW / scan.src.width);
+  c.width = scan.src.width * scan.scale;
+  c.height = scan.src.height * scan.scale;
+  const g = c.getContext('2d');
+  g.drawImage(scan.src, 0, 0, c.width, c.height);
+  // quad
+  g.strokeStyle = '#4A7C59'; g.lineWidth = 2.5;
+  g.beginPath();
+  scan.quad.forEach((p, i) => {
+    const x = p.x * scan.scale, y = p.y * scan.scale;
+    if (i === 0) g.moveTo(x, y); else g.lineTo(x, y);
+  });
+  g.closePath();
+  g.stroke();
+  // handles
+  scan.quad.forEach(p => {
+    const x = p.x * scan.scale, y = p.y * scan.scale;
+    g.fillStyle = '#fff'; g.fillRect(x - 8, y - 8, 16, 16);
+    g.fillStyle = '#4A7C59'; g.fillRect(x - 6, y - 6, 12, 12);
+  });
+}
+function renderScanOut() {
+  const [tl, tr, br, bl] = scan.quad;
+  const wTop = Math.hypot(tr.x - tl.x, tr.y - tl.y);
+  const wBot = Math.hypot(br.x - bl.x, br.y - bl.y);
+  const hL = Math.hypot(bl.x - tl.x, bl.y - tl.y);
+  const hR = Math.hypot(br.x - tr.x, br.y - tr.y);
+  const outW = Math.round(Math.max(wTop, wBot));
+  const outH = Math.round(Math.max(hL, hR));
+  // clamp to reasonable output size
+  const maxDim = 1600;
+  const s = Math.min(1, maxDim / Math.max(outW, outH));
+  const warped = warpPerspective(scan.src, scan.quad, Math.round(outW * s), Math.round(outH * s));
+  scan.out = applyScanFilter(warped, scan.filter);
+  const c = $('#scanOut');
+  c.width = scan.out.width; c.height = scan.out.height;
+  c.getContext('2d').drawImage(scan.out, 0, 0);
+}
+
+/* interactions on the source canvas: drag corners */
+(function attachScanDrag() {
+  const c = $('#scanSrc');
+  if (!c) return;
+  const point = e => {
+    const r = c.getBoundingClientRect();
+    const t = e.touches ? e.touches[0] : e;
+    return { x: (t.clientX - r.left) * (c.width / r.width), y: (t.clientY - r.top) * (c.height / r.height) };
+  };
+  const findCorner = p => {
+    for (let i = 0; i < 4; i++) {
+      const q = scan.quad[i];
+      if (Math.hypot(q.x * scan.scale - p.x, q.y * scan.scale - p.y) < 22) return i;
+    }
+    return -1;
+  };
+  const start = e => { e.preventDefault(); if (!scan.src) return; scan.drag = findCorner(point(e)); };
+  const move = e => {
+    if (scan.drag < 0) return;
+    e.preventDefault();
+    const p = point(e);
+    scan.quad[scan.drag] = {
+      x: Math.max(0, Math.min(scan.src.width, p.x / scan.scale)),
+      y: Math.max(0, Math.min(scan.src.height, p.y / scan.scale)),
+    };
+    renderScanSrc();
+    clearTimeout(scan._out); scan._out = setTimeout(renderScanOut, 60);
+  };
+  const end = () => { scan.drag = -1; };
+  c.addEventListener('mousedown', start);
+  c.addEventListener('mousemove', move);
+  c.addEventListener('mouseup', end);
+  c.addEventListener('mouseleave', end);
+  c.addEventListener('touchstart', start, { passive: false });
+  c.addEventListener('touchmove', move, { passive: false });
+  c.addEventListener('touchend', end);
+})();
+
+/* wire up buttons */
+$('#scanCameraBtn').addEventListener('click', startCamera);
+$('#scanCamCancel').addEventListener('click', () => { scanStopCamera(); $('#scanCamera').style.display = 'none'; if (!scan.pages.length) $('#scanEmpty').style.display = ''; else showScanStage(); });
+$('#scanShutter').addEventListener('click', shutter);
+$('#scanCamFlip').addEventListener('click', async () => { scan.facingMode = scan.facingMode === 'environment' ? 'user' : 'environment'; await startCamera(); });
+$('#scanUploadBtn').addEventListener('click', () => $('#scanFile').click());
+$('#scanFile').addEventListener('change', async e => { const f = e.target.files[0]; if (f) await scanFromBlob(f); e.target.value = ''; });
+$('#scanRedetect').addEventListener('click', () => { scan.quad = detectQuad(scan.src); renderScanSrc(); renderScanOut(); toast('Corners re-detected.'); });
+$('#scanFullFrame').addEventListener('click', () => {
+  scan.quad = [{x:0,y:0},{x:scan.src.width,y:0},{x:scan.src.width,y:scan.src.height},{x:0,y:scan.src.height}];
+  renderScanSrc(); renderScanOut();
+});
+$$('.filter-chip').forEach(b => b.addEventListener('click', () => {
+  $$('.filter-chip').forEach(x => x.classList.remove('active'));
+  b.classList.add('active');
+  scan.filter = b.dataset.flt;
+  renderScanOut();
+}));
+$('#scanDiscard').addEventListener('click', () => {
+  scan.src = null; scan.out = null; scan.quad = null;
+  $('#scanStage').style.display = 'none';
+  if (scan.pages.length) $('#scanQueue').style.display = ''; else $('#scanEmpty').style.display = '';
+});
+$('#scanAddPage').addEventListener('click', () => {
+  if (!scan.out) return;
+  const thumb = document.createElement('canvas');
+  const maxT = 200;
+  const ts = Math.min(1, maxT / Math.max(scan.out.width, scan.out.height));
+  thumb.width = scan.out.width * ts; thumb.height = scan.out.height * ts;
+  thumb.getContext('2d').drawImage(scan.out, 0, 0, thumb.width, thumb.height);
+  scan.pages.push({ out: scan.out, thumb });
+  scan.src = null; scan.out = null; scan.quad = null;
+  $('#scanStage').style.display = 'none';
+  $('#scanQueue').style.display = '';
+  renderScanQueue();
+  toast('Page added.');
+  awardXp(8, 'page scanned');
+});
+$('#scanAddMore').addEventListener('click', startCamera);
+function renderScanQueue() {
+  const wrap = $('#scanPages'); wrap.innerHTML = '';
+  $('#scanPageCount').textContent = scan.pages.length;
+  scan.pages.forEach((p, i) => {
+    const el = document.createElement('div');
+    el.className = 'scan-thumb';
+    el.innerHTML = `<button class="st-del" data-sd="${i}">×</button><div class="st-num">Page ${i + 1}</div>`;
+    el.insertBefore(p.thumb, el.firstChild);
+    wrap.appendChild(el);
+  });
+  wrap.querySelectorAll('[data-sd]').forEach(b => b.addEventListener('click', e => {
+    scan.pages.splice(+e.target.dataset.sd, 1);
+    renderScanQueue();
+    if (!scan.pages.length) { $('#scanQueue').style.display = 'none'; $('#scanEmpty').style.display = ''; }
+  }));
+}
+$('#scanExportPdf').addEventListener('click', async () => {
+  if (!scan.pages.length) return;
+  const pdfPages = [];
+  for (const p of scan.pages) {
+    const jpeg = await new Promise(r => p.out.toBlob(r, 'image/jpeg', 0.9));
+    const bytes = new Uint8Array(await jpeg.arrayBuffer());
+    pdfPages.push({ bytes, w: p.out.width, h: p.out.height });
+  }
+  download(buildImagesPdf(pdfPages), 'scan-' + new Date().toISOString().slice(0, 10) + '.pdf');
+  toast('Scan saved as PDF.');
+  awardXp(15, 'document scanned');
+});
+$('#scanExportJpgs').addEventListener('click', async () => {
+  if (!scan.pages.length) return;
+  for (let i = 0; i < scan.pages.length; i++) {
+    const jpeg = await new Promise(r => scan.pages[i].out.toBlob(r, 'image/jpeg', 0.92));
+    download(jpeg, `scan-page-${i + 1}.jpg`);
+    await new Promise(r => setTimeout(r, 250));
+  }
+  toast('All pages saved.');
+});
+
 /* ===== MOCK TESTS (v1 — fully client-side) ===== */
 const SAMPLE_TEST = {
   id: 'sample',
@@ -3981,6 +4564,7 @@ const TOOL_INDEX = [
   { name: 'Word counter', view: 'wordcount', icon: '¶', kw: 'essay characters count' },
   { name: 'Citation maker', view: 'citation', icon: '❝', kw: 'mla apa chicago bibliography reference' },
   { name: 'File converter', view: 'doc2pdf', icon: '⇄', kw: 'word docx convert export jpg png webp pdf image csv json' },
+  { name: 'Document scanner', view: 'scanner', icon: '◱', kw: 'scan camera photo camscanner crop perspective page' },
   { name: 'Talk to your PDF', view: 'pdfchat', icon: '◈', kw: 'chat ask document question' },
   { name: 'Mock tests', view: 'mock', icon: '✦', kw: 'exam practice quiz test' },
   { name: 'About & support', view: 'about', icon: '♥', kw: 'donate story help wisher' },
