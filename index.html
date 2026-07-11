@@ -2745,25 +2745,101 @@
         </div>
       </div>
       <div class="card" style="padding: 0; overflow: hidden; background: #fff; border-radius: 12px; border: 1px solid var(--line); position: relative;">
-        <div style="position: absolute; top: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 10;">
-          <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line);">
-            <button class="btn sm active" id="wbToolPen" style="min-width: 40px; justify-content: center; border-color: var(--accent); color: var(--accent);">Pen</button>
-            <button class="btn sm ghost" id="wbToolErase" style="min-width: 40px; justify-content: center;">Eraser</button>
+        <div style="position: absolute; top: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 10; max-height: 80vh; overflow-y: auto;">
+          <!-- Tools Row 1: Drawing Tools -->
+          <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); flex-wrap: wrap;">
+            <button class="btn sm active" id="wbToolPen" title="Pen" style="min-width: 40px; justify-content: center; border-color: var(--accent); color: var(--accent);">✏️</button>
+            <button class="btn sm ghost" id="wbToolErase" title="Eraser" style="min-width: 40px; justify-content: center;">🗑</button>
+            <button class="btn sm ghost" id="wbToolLine" title="Line" style="min-width: 40px; justify-content: center;">📏</button>
+            <button class="btn sm ghost" id="wbToolRect" title="Rectangle" style="min-width: 40px; justify-content: center;">▭</button>
+            <button class="btn sm ghost" id="wbToolCircle" title="Circle" style="min-width: 40px; justify-content: center;">●</button>
+            <button class="btn sm ghost" id="wbToolText" title="Text" style="min-width: 40px; justify-content: center;">𝐀</button>
           </div>
-          <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); align-items: center;" id="wbOptions">
-            <button class="wb-color active" data-c="#1B2130" style="width: 20px; height: 20px; border-radius: 50%; background: #1B2130; border: 2px solid var(--accent); cursor: pointer; padding: 0;"></button>
-            <button class="wb-color" data-c="#E03131" style="width: 20px; height: 20px; border-radius: 50%; background: #E03131; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
-            <button class="wb-color" data-c="#1971C2" style="width: 20px; height: 20px; border-radius: 50%; background: #1971C2; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
-            <button class="wb-color" data-c="#2F9E44" style="width: 20px; height: 20px; border-radius: 50%; background: #2F9E44; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
+          <!-- Tools Row 2: Colors & Thickness -->
+          <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); align-items: center; flex-wrap: wrap;" id="wbOptions">
+            <button class="wb-color active" data-c="#1B2130" title="Black" style="width: 20px; height: 20px; border-radius: 50%; background: #1B2130; border: 2px solid var(--accent); cursor: pointer; padding: 0;"></button>
+            <button class="wb-color" data-c="#E03131" title="Red" style="width: 20px; height: 20px; border-radius: 50%; background: #E03131; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
+            <button class="wb-color" data-c="#1971C2" title="Blue" style="width: 20px; height: 20px; border-radius: 50%; background: #1971C2; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
+            <button class="wb-color" data-c="#2F9E44" title="Green" style="width: 20px; height: 20px; border-radius: 50%; background: #2F9E44; border: 2px solid transparent; cursor: pointer; padding: 0;"></button>
+            <button class="btn sm ghost" id="wbColorPicker" title="Custom color" style="min-width: 40px; justify-content: center;">🎨</button>
             <div style="width: 1px; height: 20px; background: var(--line); margin: 0 4px;"></div>
-            <button class="wb-thick active" data-w="2" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; background: var(--ground); cursor: pointer; padding: 0;"><div style="width: 12px; height: 2px; background: var(--ink); border-radius: 1px;"></div></button>
-            <button class="wb-thick" data-w="5" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid transparent; display: flex; align-items: center; justify-content: center; background: transparent; cursor: pointer; padding: 0;"><div style="width: 12px; height: 5px; background: var(--ink); border-radius: 2.5px;"></div></button>
-            <button class="wb-thick" data-w="10" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid transparent; display: flex; align-items: center; justify-content: center; background: transparent; cursor: pointer; padding: 0;"><div style="width: 12px; height: 10px; background: var(--ink); border-radius: 5px;"></div></button>
+            <button class="wb-thick active" data-w="2" title="Thin" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; background: var(--ground); cursor: pointer; padding: 0;"><div style="width: 12px; height: 2px; background: var(--ink); border-radius: 1px;"></div></button>
+            <button class="wb-thick" data-w="5" title="Medium" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid transparent; display: flex; align-items: center; justify-content: center; background: transparent; cursor: pointer; padding: 0;"><div style="width: 12px; height: 5px; background: var(--ink); border-radius: 2.5px;"></div></button>
+            <button class="wb-thick" data-w="10" title="Thick" style="width: 24px; height: 24px; border-radius: 4px; border: 1px solid transparent; display: flex; align-items: center; justify-content: center; background: transparent; cursor: pointer; padding: 0;"><div style="width: 12px; height: 10px; background: var(--ink); border-radius: 5px;"></div></button>
+          </div>
+          <!-- Tools Row 3: Edit & View -->
+          <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); flex-wrap: wrap;">
+            <button class="btn sm ghost" id="wbUndo" title="Undo (Ctrl+Z)" style="min-width: 40px; justify-content: center;">↶</button>
+            <button class="btn sm ghost" id="wbRedo" title="Redo (Ctrl+Y)" style="min-width: 40px; justify-content: center;">↷</button>
+            <button class="btn sm ghost" id="wbToggleGrid" title="Toggle grid" style="min-width: 40px; justify-content: center;">▦</button>
+            <button class="btn sm ghost" id="wbImportImage" title="Import image" style="min-width: 40px; justify-content: center;">📷</button>
+            <button class="btn sm ghost" id="wbSaveSketches" title="Manage sketches" style="min-width: 40px; justify-content: center;">💾</button>
           </div>
         </div>
         <canvas id="wbCanvas" width="800" height="600" style="display: block; width: 100%; height: 600px; touch-action: none; cursor: crosshair;"></canvas>
+        <input type="file" id="wbImageInput" accept="image/*" style="display: none;">
       </div>
     </section>
+
+    <!-- Whiteboard Color Picker Modal -->
+    <div class="qr-modal" id="wbColorModal" style="display:none;">
+      <div class="qr-modal-content">
+        <h3 style="margin: 0 0 16px 0;">Custom Color</h3>
+        <div style="display: flex; gap: 16px;">
+          <div>
+            <label style="display: block; margin-bottom: 8px; font-size: 13px;">Hex</label>
+            <input type="text" id="wbColorHex" placeholder="#000000" maxlength="7" style="padding: 8px; border: 1px solid var(--line); border-radius: 6px; font-family: monospace; width: 120px;">
+          </div>
+          <div style="flex: 1;">
+            <label style="display: block; margin-bottom: 8px; font-size: 13px;">Preview</label>
+            <div id="wbColorPreview" style="width: 100%; height: 40px; border-radius: 6px; border: 1px solid var(--line); background: #000000;"></div>
+          </div>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 16px;">
+          <button class="btn primary" id="wbColorOk" style="flex: 1;">Use Color</button>
+          <button class="btn ghost" id="wbColorCancel" style="flex: 1;">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Whiteboard Text Tool Modal -->
+    <div class="qr-modal" id="wbTextModal" style="display:none;">
+      <div class="qr-modal-content">
+        <h3 style="margin: 0 0 16px 0;">Add Text</h3>
+        <textarea id="wbTextInput" placeholder="Type your text..." style="width: 100%; height: 80px; padding: 8px; border: 1px solid var(--line); border-radius: 6px; font-family: inherit; resize: vertical;"></textarea>
+        <label style="display: block; margin-top: 12px; margin-bottom: 4px; font-size: 13px;">Font Size</label>
+        <input type="range" id="wbFontSize" min="12" max="72" value="24" style="width: 100%; margin-bottom: 12px;">
+        <div style="display: flex; gap: 8px;">
+          <button class="btn primary" id="wbTextOk" style="flex: 1;">Add Text</button>
+          <button class="btn ghost" id="wbTextCancel" style="flex: 1;">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Whiteboard Sketch Manager Modal -->
+    <div class="qr-modal" id="wbSketchModal" style="display:none;">
+      <div class="qr-modal-content" style="max-width: 500px; max-height: 80vh; overflow-y: auto;">
+        <div class="row between" style="margin-bottom: 16px;">
+          <h3 style="margin: 0;">Saved Sketches</h3>
+          <button class="btn ghost sm" onclick="document.getElementById('wbSketchModal').style.display='none'" style="padding: 4px 8px;">×</button>
+        </div>
+        <div id="wbSketchList" style="display: flex; flex-direction: column; gap: 8px; max-height: 60vh; overflow-y: auto;">
+          <p style="color: var(--ink-2); font-size: 13px;">No saved sketches yet. Save one using the save button!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Whiteboard Save Sketch Modal -->
+    <div class="qr-modal" id="wbSaveModal" style="display:none;">
+      <div class="qr-modal-content">
+        <h3 style="margin: 0 0 16px 0;">Save Sketch</h3>
+        <input type="text" id="wbSketchName" placeholder="Enter sketch name..." style="width: 100%; padding: 8px; border: 1px solid var(--line); border-radius: 6px; margin-bottom: 12px; box-sizing: border-box;">
+        <div style="display: flex; gap: 8px;">
+          <button class="btn primary" id="wbSaveOk" style="flex: 1;">Save</button>
+          <button class="btn ghost" id="wbSaveCancel" style="flex: 1;">Cancel</button>
+        </div>
+      </div>
+    </div>
 
   </main>
 </div>
@@ -6057,7 +6133,7 @@ document.getElementById('syllabusList')?.addEventListener('click', (e) => {
 
 renderSyllabus();
 
-/* ===== WHITEBOARD ===== */
+/* ===== WHITEBOARD (ENHANCED) ===== */
 const wbCanvas = document.getElementById('wbCanvas');
 if (wbCanvas) {
   const wbCtx = wbCanvas.getContext('2d');
@@ -6065,17 +6141,91 @@ if (wbCanvas) {
   let wbTool = 'pen';
   let wbColor = '#1B2130';
   let wbThickness = 2;
-  let lastX = 0;
-  let lastY = 0;
+  let wbShowGrid = false;
+  let wbFontSize = 24;
+  let startX = 0, startY = 0;
   let canvasInited = false;
+  let undoStack = [];
+  let redoStack = [];
+  let backgroundImage = null;
+  let backgroundImageAlpha = 0.5;
+  const MAX_UNDO = 20;
+
+  function getMousePos(e) {
+    const rect = wbCanvas.getBoundingClientRect();
+    if (e.touches && e.touches.length > 0) {
+      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    }
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
 
   function resizeCanvas() {
     const rect = wbCanvas.parentElement.getBoundingClientRect();
     if (rect.width === 0) return;
     wbCanvas.width = rect.width;
     wbCanvas.height = 600;
+    redrawCanvas();
+  }
+
+  function saveState() {
+    undoStack.push(wbCanvas.toDataURL());
+    if (undoStack.length > MAX_UNDO) undoStack.shift();
+    redoStack = [];
+  }
+
+  function redrawCanvas() {
     wbCtx.fillStyle = '#ffffff';
     wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+    
+    if (wbShowGrid) {
+      wbCtx.strokeStyle = '#e0e0e0';
+      wbCtx.lineWidth = 0.5;
+      for (let x = 0; x < wbCanvas.width; x += 20) {
+        wbCtx.beginPath();
+        wbCtx.moveTo(x, 0);
+        wbCtx.lineTo(x, wbCanvas.height);
+        wbCtx.stroke();
+      }
+      for (let y = 0; y < wbCanvas.height; y += 20) {
+        wbCtx.beginPath();
+        wbCtx.moveTo(0, y);
+        wbCtx.lineTo(wbCanvas.width, y);
+        wbCtx.stroke();
+      }
+    }
+
+    if (backgroundImage) {
+      wbCtx.globalAlpha = backgroundImageAlpha;
+      wbCtx.drawImage(backgroundImage, 0, 0, wbCanvas.width, wbCanvas.height);
+      wbCtx.globalAlpha = 1;
+    }
+  }
+
+  function undo() {
+    if (undoStack.length > 0) {
+      redoStack.push(wbCanvas.toDataURL());
+      const data = undoStack.pop();
+      const img = new Image();
+      img.onload = () => {
+        wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+        wbCtx.drawImage(img, 0, 0);
+        redrawCanvas();
+      };
+      img.src = data;
+    }
+  }
+
+  function redo() {
+    if (redoStack.length > 0) {
+      undoStack.push(wbCanvas.toDataURL());
+      const data = redoStack.pop();
+      const img = new Image();
+      img.onload = () => {
+        wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+        wbCtx.drawImage(img, 0, 0);
+      };
+      img.src = data;
+    }
   }
   
   const observer = new IntersectionObserver(entries => {
@@ -6086,36 +6236,75 @@ if (wbCanvas) {
   });
   observer.observe(wbCanvas);
 
-  function getMousePos(e) {
-    const rect = wbCanvas.getBoundingClientRect();
-    if (e.touches && e.touches.length > 0) {
-      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
-    }
-    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  function drawLine(fromX, fromY, toX, toY) {
+    wbCtx.beginPath();
+    wbCtx.moveTo(fromX, fromY);
+    wbCtx.lineTo(toX, toY);
+    wbCtx.strokeStyle = wbColor;
+    wbCtx.lineWidth = wbThickness;
+    wbCtx.lineCap = 'round';
+    wbCtx.stroke();
   }
 
   function startDraw(e) {
+    if (!canvasInited) return;
+    saveState();
     isDrawing = true;
     const pos = getMousePos(e);
-    lastX = pos.x;
-    lastY = pos.y;
-    wbCtx.beginPath();
-    wbCtx.moveTo(lastX, lastY);
+    startX = pos.x;
+    startY = pos.y;
+    if (wbTool === 'pen' || wbTool === 'erase') {
+      wbCtx.beginPath();
+      wbCtx.moveTo(startX, startY);
+    }
     if(e.cancelable) e.preventDefault();
   }
+
   function draw(e) {
     if (!isDrawing) return;
     const pos = getMousePos(e);
-    wbCtx.lineTo(pos.x, pos.y);
-    wbCtx.strokeStyle = wbTool === 'pen' ? wbColor : '#ffffff';
-    wbCtx.lineWidth = wbTool === 'pen' ? wbThickness : 20;
-    wbCtx.lineCap = 'round';
-    wbCtx.stroke();
-    lastX = pos.x;
-    lastY = pos.y;
+    
+    if (wbTool === 'pen') {
+      wbCtx.strokeStyle = wbColor;
+      wbCtx.lineWidth = wbThickness;
+      wbCtx.lineCap = 'round';
+      wbCtx.lineJoin = 'round';
+      wbCtx.lineTo(pos.x, pos.y);
+      wbCtx.stroke();
+    } else if (wbTool === 'erase') {
+      wbCtx.clearRect(pos.x - wbThickness * 2, pos.y - wbThickness * 2, wbThickness * 4, wbThickness * 4);
+      redrawCanvas();
+    } else if (['line', 'rect', 'circle'].includes(wbTool)) {
+      const img = new Image();
+      img.src = undoStack[undoStack.length - 1] || '';
+      if (img.src) {
+        img.onload = () => {
+          wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height);
+          wbCtx.drawImage(img, 0, 0);
+          redrawCanvas();
+          wbCtx.strokeStyle = wbColor;
+          wbCtx.lineWidth = wbThickness;
+          
+          if (wbTool === 'line') {
+            drawLine(startX, startY, pos.x, pos.y);
+          } else if (wbTool === 'rect') {
+            const w = pos.x - startX;
+            const h = pos.y - startY;
+            wbCtx.strokeRect(startX, startY, w, h);
+          } else if (wbTool === 'circle') {
+            const r = Math.sqrt(Math.pow(pos.x - startX, 2) + Math.pow(pos.y - startY, 2));
+            wbCtx.beginPath();
+            wbCtx.arc(startX, startY, r, 0, Math.PI * 2);
+            wbCtx.stroke();
+          }
+        };
+      }
+    }
     if(e.cancelable) e.preventDefault();
   }
+
   function stopDraw(e) {
+    if (!isDrawing) return;
     isDrawing = false;
     wbCtx.closePath();
   }
@@ -6130,70 +6319,178 @@ if (wbCanvas) {
   wbCanvas.addEventListener('touchend', stopDraw);
   wbCanvas.addEventListener('touchcancel', stopDraw);
 
-  document.getElementById('wbToolPen').addEventListener('click', (e) => {
-    wbTool = 'pen';
-    e.target.classList.add('active');
-    e.target.classList.remove('ghost');
-    e.target.style.borderColor = 'var(--accent)';
-    e.target.style.color = 'var(--accent)';
-    const erase = document.getElementById('wbToolErase');
-    erase.classList.remove('active');
-    erase.classList.add('ghost');
-    erase.style.borderColor = 'transparent';
-    erase.style.color = 'inherit';
+  document.addEventListener('keydown', (e) => {
+    if (location.hash !== '#whiteboard') return;
+    if (e.ctrlKey && e.key === 'z') { e.preventDefault(); undo(); }
+    if (e.ctrlKey && e.key === 'y') { e.preventDefault(); redo(); }
   });
 
-  document.getElementById('wbToolErase').addEventListener('click', (e) => {
-    wbTool = 'erase';
-    e.target.classList.add('active');
-    e.target.classList.remove('ghost');
-    e.target.style.borderColor = 'var(--accent)';
-    e.target.style.color = 'var(--accent)';
-    const pen = document.getElementById('wbToolPen');
-    pen.classList.remove('active');
-    pen.classList.add('ghost');
-    pen.style.borderColor = 'transparent';
-    pen.style.color = 'inherit';
+  function setActiveTool(toolName) {
+    wbTool = toolName;
+    $$('[id^="wbTool"]').forEach(btn => {
+      btn.classList.toggle('active', btn.id === 'wbTool' + (toolName.charAt(0).toUpperCase() + toolName.slice(1)));
+      btn.classList.toggle('ghost', btn.id !== 'wbTool' + (toolName.charAt(0).toUpperCase() + toolName.slice(1)));
+    });
+  }
+
+  $('#wbToolPen').addEventListener('click', () => setActiveTool('pen'));
+  $('#wbToolErase').addEventListener('click', () => setActiveTool('erase'));
+  $('#wbToolLine').addEventListener('click', () => setActiveTool('line'));
+  $('#wbToolRect').addEventListener('click', () => setActiveTool('rect'));
+  $('#wbToolCircle').addEventListener('click', () => setActiveTool('circle'));
+  $('#wbToolText').addEventListener('click', () => {
+    document.getElementById('wbTextModal').style.display = 'flex';
+    setActiveTool('text');
   });
 
-  document.querySelectorAll('.wb-color').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      wbColor = e.target.dataset.c;
-      document.querySelectorAll('.wb-color').forEach(b => {
-        b.classList.remove('active');
-        b.style.borderColor = 'transparent';
+  $('#wbUndo').addEventListener('click', undo);
+  $('#wbRedo').addEventListener('click', redo);
+
+  $('#wbToggleGrid').addEventListener('click', () => {
+    wbShowGrid = !wbShowGrid;
+    redrawCanvas();
+    $('#wbToggleGrid').classList.toggle('active', wbShowGrid);
+  });
+
+  $('#wbColorPicker').addEventListener('click', () => {
+    document.getElementById('wbColorModal').style.display = 'flex';
+    document.getElementById('wbColorHex').value = wbColor;
+    document.getElementById('wbColorPreview').style.background = wbColor;
+  });
+
+  $('#wbColorHex').addEventListener('input', (e) => {
+    if (/^#[0-9A-F]{6}$/i.test(e.target.value)) {
+      document.getElementById('wbColorPreview').style.background = e.target.value;
+    }
+  });
+
+  $('#wbColorOk').addEventListener('click', () => {
+    const hex = document.getElementById('wbColorHex').value;
+    if (/^#[0-9A-F]{6}$/i.test(hex)) {
+      wbColor = hex;
+      document.getElementById('wbColorModal').style.display = 'none';
+    }
+  });
+
+  $('#wbColorCancel').addEventListener('click', () => {
+    document.getElementById('wbColorModal').style.display = 'none';
+  });
+
+  $('#wbTextOk').addEventListener('click', () => {
+    const text = document.getElementById('wbTextInput').value.trim();
+    wbFontSize = parseInt(document.getElementById('wbFontSize').value, 10);
+    if (text) {
+      saveState();
+      wbCtx.font = `${wbFontSize}px sans-serif`;
+      wbCtx.fillStyle = wbColor;
+      wbCtx.fillText(text, 50, 100);
+      document.getElementById('wbTextModal').style.display = 'none';
+      document.getElementById('wbTextInput').value = '';
+    }
+  });
+
+  $('#wbTextCancel').addEventListener('click', () => {
+    document.getElementById('wbTextModal').style.display = 'none';
+  });
+
+  $('#wbImportImage').addEventListener('click', () => {
+    document.getElementById('wbImageInput').click();
+  });
+
+  document.getElementById('wbImageInput').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (evt) => {
+        const img = new Image();
+        img.onload = () => {
+          backgroundImage = img;
+          redrawCanvas();
+          toast('Image imported! Draw on top of it.');
+        };
+        img.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  $('#wbSaveSketches').addEventListener('click', () => {
+    const sketches = LS.get('wbSketches', []);
+    const list = document.getElementById('wbSketchList');
+    list.innerHTML = '';
+    if (sketches.length === 0) {
+      list.innerHTML = '<p style="color: var(--ink-2); font-size: 13px;">No saved sketches yet.</p>';
+    } else {
+      sketches.forEach((sketch, idx) => {
+        const item = document.createElement('div');
+        item.style.cssText = 'padding: 12px; background: var(--ground); border-radius: 6px; display: flex; justify-content: space-between; align-items: center;';
+        item.innerHTML = `<span>${sketch.name}</span><div style="display: flex; gap: 8px;"><button class="btn sm ghost" onclick="(function(){const sketches = LS.get('wbSketches', []); const img = new Image(); img.onload = () => { wbCtx.clearRect(0, 0, wbCanvas.width, wbCanvas.height); wbCtx.drawImage(img, 0, 0); }; img.src = sketches[${idx}].data; document.getElementById('wbSketchModal').style.display = 'none';})()" style="padding: 4px 8px;">Load</button><button class="btn sm ghost" onclick="(function(){let sketches = LS.get('wbSketches', []); sketches.splice(${idx}, 1); LS.set('wbSketches', sketches); document.getElementById('wbSaveSketches').click();})()" style="padding: 4px 8px;">Delete</button></div>`;
+        list.appendChild(item);
       });
-      e.target.classList.add('active');
-      e.target.style.borderColor = 'var(--accent)';
-      document.getElementById('wbToolPen').click();
+    }
+    
+    const saveBtn = document.createElement('button');
+    saveBtn.className = 'btn primary';
+    saveBtn.textContent = 'Save Current Drawing';
+    saveBtn.style.marginTop = '12px';
+    saveBtn.addEventListener('click', () => {
+      document.getElementById('wbSaveModal').style.display = 'flex';
+      document.getElementById('wbSketchModal').style.display = 'none';
+    });
+    list.appendChild(saveBtn);
+    
+    document.getElementById('wbSketchModal').style.display = 'flex';
+  });
+
+  $('#wbSaveOk').addEventListener('click', () => {
+    const name = document.getElementById('wbSketchName').value.trim();
+    if (name) {
+      let sketches = LS.get('wbSketches', []);
+      sketches.push({ name, data: wbCanvas.toDataURL() });
+      LS.set('wbSketches', sketches);
+      document.getElementById('wbSaveModal').style.display = 'none';
+      document.getElementById('wbSketchName').value = '';
+      toast('Sketch saved!');
+    }
+  });
+
+  $('#wbSaveCancel').addEventListener('click', () => {
+    document.getElementById('wbSaveModal').style.display = 'none';
+  });
+
+  $$('.wb-color').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wbColor = btn.dataset.c;
+      $$('.wb-color').forEach(b => {
+        b.style.borderColor = b === btn ? 'var(--accent)' : 'transparent';
+      });
     });
   });
 
-  document.querySelectorAll('.wb-thick').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      wbThickness = parseInt(e.currentTarget.dataset.w);
-      document.querySelectorAll('.wb-thick').forEach(b => {
-        b.classList.remove('active');
-        b.style.borderColor = 'transparent';
-        b.style.background = 'transparent';
+  $$('.wb-thick').forEach(btn => {
+    btn.addEventListener('click', () => {
+      wbThickness = parseInt(btn.dataset.w, 10);
+      $$('.wb-thick').forEach(b => {
+        b.style.borderColor = b === btn ? 'var(--line)' : 'transparent';
+        b.style.background = b === btn ? 'var(--ground)' : 'transparent';
       });
-      e.currentTarget.classList.add('active');
-      e.currentTarget.style.borderColor = 'var(--line)';
-      e.currentTarget.style.background = 'var(--ground)';
-      document.getElementById('wbToolPen').click();
     });
   });
 
   document.getElementById('wbClear').addEventListener('click', () => {
-    wbCtx.fillStyle = '#ffffff';
-    wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+    if (confirm('Clear entire canvas?')) {
+      saveState();
+      wbCtx.fillStyle = '#ffffff';
+      wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+      redrawCanvas();
+    }
   });
 
   document.getElementById('wbExport').addEventListener('click', () => {
     const dataUrl = wbCanvas.toDataURL('image/png');
     const a = document.createElement('a');
     a.href = dataUrl;
-    a.download = 'study-desk-whiteboard.png';
+    a.download = `study-desk-whiteboard-${new Date().toISOString().slice(0, 10)}.png`;
     a.click();
     toast('Exported to PNG!');
   });
