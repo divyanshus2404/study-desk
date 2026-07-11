@@ -1235,6 +1235,11 @@
     70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(42, 92, 246, 0); }
     100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(42, 92, 246, 0); }
   }
+  @keyframes cuteBounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+  }
   .waitlist-form {
     display: flex;
     flex-direction: column;
@@ -2310,8 +2315,10 @@
             </div>
             <button type="submit" class="waitlist-btn">Join Waitlist</button>
           </form>
-          <div class="waitlist-success" id="waitlistSuccessLive" style="display:none; margin-top: 16px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; color: var(--ink); font-weight: 500;">
-            Thanks for joining! We'll be in touch soon.
+          <div class="waitlist-success" id="waitlistSuccessLive" style="display:none; margin-top: 20px; padding: 24px; background: rgba(42, 92, 246, 0.08); border: 1px solid rgba(42, 92, 246, 0.2); border-radius: 12px; text-align: center;">
+            <div style="font-size: 38px; display: inline-block; animation: cuteBounce 2s infinite;">🎉</div>
+            <div style="font-weight: 700; font-size: 18px; margin-top: 12px; color: var(--accent);">You're on the list!</div>
+            <div style="font-size: 14px; color: var(--ink-2); margin-top: 6px;">Thank you so much! We're building something amazing and can't wait to share it with you.</div>
           </div>
         </div>
 
@@ -2357,8 +2364,10 @@
             </div>
             <button type="submit" class="waitlist-btn">Join Waitlist</button>
           </form>
-          <div class="waitlist-success" id="waitlistSuccessMock" style="display:none; margin-top: 16px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; color: var(--ink); font-weight: 500;">
-            Thanks for joining! We'll be in touch soon.
+          <div class="waitlist-success" id="waitlistSuccessMock" style="display:none; margin-top: 20px; padding: 24px; background: rgba(42, 92, 246, 0.08); border: 1px solid rgba(42, 92, 246, 0.2); border-radius: 12px; text-align: center;">
+            <div style="font-size: 38px; display: inline-block; animation: cuteBounce 2s infinite;">🥳</div>
+            <div style="font-weight: 700; font-size: 18px; margin-top: 12px; color: var(--accent);">You're on the list!</div>
+            <div style="font-size: 14px; color: var(--ink-2); margin-top: 6px;">Thank you so much! We're building something amazing and can't wait to share it with you.</div>
           </div>
         </div>
 
