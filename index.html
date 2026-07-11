@@ -1185,6 +1185,113 @@
   ::-webkit-scrollbar-track { background: transparent; }
   ::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+  /* ===== WAITLIST UI ===== */
+  .waitlist-container {
+    max-width: 500px;
+    margin: 32px auto 0;
+    padding: 28px;
+    background: rgba(255, 255, 255, 0.4);
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lift);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+  @media (prefers-color-scheme: dark) {
+    .waitlist-container {
+      background: rgba(30, 30, 30, 0.4);
+    }
+  }
+  .waitlist-container::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent-soft));
+  }
+  .waitlist-counter-display {
+    font-family: "Iowan Old Style", Georgia, serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s;
+  }
+  .waitlist-counter-display span.pulse {
+    display: inline-block;
+    width: 10px; height: 10px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: waitlistPulse 1.5s infinite;
+  }
+  @keyframes waitlistPulse {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(42, 92, 246, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(42, 92, 246, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(42, 92, 246, 0); }
+  }
+  .waitlist-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-top: 24px;
+  }
+  .waitlist-form .row-inputs {
+    display: flex;
+    gap: 12px;
+  }
+  .waitlist-form .row-inputs > div {
+    flex: 1;
+  }
+  .waitlist-form label {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--ink-2);
+    margin-bottom: 8px;
+    display: block;
+  }
+  .waitlist-form input, .waitlist-form textarea {
+    width: 100%;
+    background: var(--canvas);
+    border: 1px solid var(--line);
+    padding: 12px 14px;
+    border-radius: var(--radius);
+    font-size: 14px;
+    color: var(--ink);
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .waitlist-form input:focus, .waitlist-form textarea:focus {
+    border-color: var(--accent);
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  .waitlist-form textarea {
+    resize: vertical;
+    min-height: 90px;
+  }
+  .waitlist-btn {
+    background: var(--accent);
+    color: #fff;
+    border: none;
+    padding: 16px;
+    font-size: 15px;
+    font-weight: 700;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+    margin-top: 4px;
+  }
+  .waitlist-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+    filter: brightness(1.1);
+  }
 </style>
 
 <div class="landing">
@@ -2171,6 +2278,42 @@
           <span class="pill muted">Room codes, not accounts</span>
           <span class="pill muted">End-to-end, peer-to-peer</span>
         </div>
+
+        <div class="waitlist-container">
+          <div class="waitlist-counter-display">
+            <span class="pulse"></span> <span class="waitlist-count" data-base="1245">1,245</span> people on waitlist
+          </div>
+          <p style="font-size: 13.5px; color: var(--ink-3); margin-bottom: 12px;">Join the waitlist to get early access when we launch.</p>
+          <form class="waitlist-form" action="https://formsubmit.co/divyanshus2404@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Waitlist Signup: Live Study Together">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <div class="row-inputs">
+              <div>
+                <label>First Name</label>
+                <input type="text" name="First Name" required placeholder="Jane">
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input type="text" name="Last Name" required placeholder="Doe">
+              </div>
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" name="Email" required placeholder="jane@example.com">
+            </div>
+            <div>
+              <label>What do you expect from the study together feature?</label>
+              <textarea name="Expectations" required placeholder="I hope it helps me focus..."></textarea>
+            </div>
+            <div>
+              <label>What additions would you like to suggest?</label>
+              <textarea name="Suggestions" placeholder="It would be cool if..."></textarea>
+            </div>
+            <button type="submit" class="waitlist-btn">Join Waitlist</button>
+          </form>
+        </div>
+
         <div class="text-muted mt-24" style="font-size: 12px;">Being built now. Everything else in Study Desk is ready to use in the meantime.</div>
       </div>
     </section>
@@ -2181,6 +2324,42 @@
         <div class="mock-badge">Coming soon</div>
         <h1>Mock tests are on the way.</h1>
         <p class="lede" style="max-width: 52ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Timed practice exams with instant scoring, question banks by subject, and weak-topic analysis that feeds straight back into your flashcards. Being built now.</p>
+        
+        <div class="waitlist-container">
+          <div class="waitlist-counter-display">
+            <span class="pulse"></span> <span class="waitlist-count" data-base="892">892</span> people on waitlist
+          </div>
+          <p style="font-size: 13.5px; color: var(--ink-3); margin-bottom: 12px;">Join the waitlist to get early access when we launch.</p>
+          <form class="waitlist-form" action="https://formsubmit.co/divyanshus2404@gmail.com" method="POST">
+            <input type="hidden" name="_subject" value="New Waitlist Signup: Mock Tests">
+            <input type="hidden" name="_captcha" value="false">
+            <input type="hidden" name="_template" value="table">
+            <div class="row-inputs">
+              <div>
+                <label>First Name</label>
+                <input type="text" name="First Name" required placeholder="Jane">
+              </div>
+              <div>
+                <label>Last Name</label>
+                <input type="text" name="Last Name" required placeholder="Doe">
+              </div>
+            </div>
+            <div>
+              <label>Email</label>
+              <input type="email" name="Email" required placeholder="jane@example.com">
+            </div>
+            <div>
+              <label>What do you expect from the mock tests feature?</label>
+              <textarea name="Expectations" required placeholder="I hope it has realistic exam simulation..."></textarea>
+            </div>
+            <div>
+              <label>What additions would you like to suggest?</label>
+              <textarea name="Suggestions" placeholder="It would be cool if..."></textarea>
+            </div>
+            <button type="submit" class="waitlist-btn">Join Waitlist</button>
+          </form>
+        </div>
+
         <div class="text-muted mt-24" style="font-size: 12px;">Check back soon. Everything else in Study Desk is ready to use in the meantime.</div>
       </div>
     </section>
@@ -5296,6 +5475,31 @@ renderOneThing();
       if (raf) cancelAnimationFrame(raf);
       card.style.transform = '';
     });
+  });
+})();
+
+/* ===== WAITLIST COUNTER MOCK ===== */
+(function initWaitlistCounters() {
+  const counters = document.querySelectorAll('.waitlist-count');
+  counters.forEach(counter => {
+    let base = parseInt(counter.getAttribute('data-base'), 10) || 1000;
+    // Add a small daily offset so it slowly creeps up
+    const dayOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % 1000;
+    let currentVal = base + dayOffset;
+    counter.textContent = currentVal.toLocaleString();
+    
+    // Periodically simulate someone joining the waitlist
+    setInterval(() => {
+      if (Math.random() > 0.6) {
+        currentVal++;
+        counter.textContent = currentVal.toLocaleString();
+        // Brief pulse effect on the number
+        counter.style.color = 'var(--ink)';
+        setTimeout(() => {
+          counter.style.color = '';
+        }, 400);
+      }
+    }, 5000); // Check every 5s
   });
 })();
 
