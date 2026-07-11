@@ -1020,6 +1020,13 @@
   body.landing-mode .app { display: none; }
 
   #heroCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+  #hero3dCanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  @media (prefers-reduced-motion: reduce) { #hero3dCanvas { display: none; } }
+
+  /* Tool cards get a gentle 3D tilt on hover */
+  .land-tool { transform-style: preserve-3d; will-change: transform; }
+  .land-tool > * { transform: translateZ(12px); }
+  @media (prefers-reduced-motion: reduce) { .land-tool { transform: none !important; } }
   .land-hero-zone { position: relative; }
   .land-hero-zone > .land-nav, .land-hero-zone > .land-hero { position: relative; z-index: 1; }
   .land-nav { display: flex; align-items: center; justify-content: space-between; max-width: 1100px; width: 100%; margin: 0 auto; padding: 22px 32px; }
@@ -1183,6 +1190,7 @@
 <div class="landing">
  <div class="land-hero-zone">
   <canvas id="heroCanvas"></canvas>
+  <canvas id="hero3dCanvas"></canvas>
   <nav class="land-nav">
     <div class="brand">
       <div class="brand-mark">S</div>
@@ -5171,6 +5179,107 @@ const soundscape = (function () {
 })();
 
 renderOneThing();
+
+/* ===== SUBTLE 3D WIREFRAME IN HERO ===== */
+(function hero3d() {
+  const c = document.getElementById('hero3dCanvas');
+  if (!c) return;
+  const zone = document.querySelector('.land-hero-zone');
+  if (!zone) return;
+  const ctx = c.getContext('2d');
+  let W, H, dpr;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = c.width = zone.offsetWidth * dpr;
+    H = c.height = zone.offsetHeight * dpr;
+    c.style.width = zone.offsetWidth + 'px';
+    c.style.height = zone.offsetHeight + 'px';
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const phi = (1 + Math.sqrt(5)) / 2;
+  const V = [
+    [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+    [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+    [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1],
+  ];
+  const E = [];
+  for (let i = 0; i < V.length; i++) {
+    for (let j = i + 1; j < V.length; j++) {
+      const dx = V[i][0] - V[j][0], dy = V[i][1] - V[j][1], dz = V[i][2] - V[j][2];
+      if (Math.abs(Math.sqrt(dx*dx + dy*dy + dz*dz) - 2) < 0.01) E.push([i, j]);
+    }
+  }
+
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    const isMobile = W / dpr < 720;
+    const cx = isMobile ? W * 0.78 : W * 0.86;
+    const cy = isMobile ? H * 0.18 : H * 0.32;
+    const r = Math.min(W, H) * (isMobile ? 0.06 : 0.075);
+    const ax = t * 0.0035, ay = t * 0.0052;
+    const cosX = Math.cos(ax), sinX = Math.sin(ax);
+    const cosY = Math.cos(ay), sinY = Math.sin(ay);
+    const proj = V.map(v => {
+      let x = v[0], y = v[1], z = v[2];
+      let nx = x * cosY + z * sinY;
+      z = -x * sinY + z * cosY; x = nx;
+      let ny = y * cosX - z * sinX;
+      z = y * sinX + z * cosX; y = ny;
+      const persp = 4 / (4 + z);
+      return [cx + x * r * persp, cy + y * r * persp, z];
+    });
+    ctx.lineWidth = 1.1 * dpr;
+    E.forEach(([i, j]) => {
+      const p1 = proj[i], p2 = proj[j];
+      const avgZ = (p1[2] + p2[2]) / 2;
+      const depth = (avgZ + phi) / (2 * phi);
+      ctx.strokeStyle = `rgba(230, 102, 88, ${0.14 + 0.28 * (1 - depth)})`;
+      ctx.beginPath();
+      ctx.moveTo(p1[0], p1[1]);
+      ctx.lineTo(p2[0], p2[1]);
+      ctx.stroke();
+    });
+    proj.forEach(p => {
+      ctx.fillStyle = 'rgba(230, 102, 88, 0.55)';
+      ctx.beginPath();
+      ctx.arc(p[0], p[1], 1.6 * dpr, 0, Math.PI * 2);
+      ctx.fill();
+    });
+    t++;
+    if (document.body.classList.contains('landing-mode')) requestAnimationFrame(frame);
+    else hero3d._stopped = true;
+  }
+  frame();
+  window.addEventListener('hashchange', () => {
+    if (document.body.classList.contains('landing-mode') && hero3d._stopped) {
+      hero3d._stopped = false; resize(); frame();
+    }
+  });
+})();
+
+/* ===== GENTLE 3D TILT ON TOOL CARDS ===== */
+(function cardTilt() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  document.querySelectorAll('.land-tool').forEach(card => {
+    let raf = null;
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width - 0.5;
+      const y = (e.clientY - r.top) / r.height - 0.5;
+      if (raf) cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        card.style.transform = `perspective(700px) rotateX(${-y * 4}deg) rotateY(${x * 4}deg) translateY(-3px)`;
+      });
+    });
+    card.addEventListener('mouseleave', () => {
+      if (raf) cancelAnimationFrame(raf);
+      card.style.transform = '';
+    });
+  });
+})();
 
 /* ===== INIT ===== */
 renderGpa();
