@@ -1248,6 +1248,7 @@
       <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON. Nothing ever uploaded.</span></button>
       <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" Answered in one glance.</span></button>
       <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
+      <button class="land-tool" data-enter="live"><span class="lt-soon">Soon</span><span class="lt-icon">◉</span><span class="lt-name">Live study together</span><span class="lt-desc">Room codes, synced timer, shared soundscape. Study with friends, no accounts. Coming soon.</span></button>
       <button class="land-tool" data-enter="mock"><span class="lt-soon">Soon</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Timed practice exams with weak-topic analysis. Coming soon.</span></button>
     </div>
   </section>
@@ -1285,6 +1286,7 @@
       <button class="nav-item" data-view="timer"><span class="nav-icon">◔</span>Focus timer</button>
       <button class="nav-item" data-view="tasks"><span class="nav-icon">◇</span>Tasks</button>
       <button class="nav-item" data-view="habits"><span class="nav-icon">▤</span>Habits</button>
+      <button class="nav-item" data-view="live"><span class="nav-icon">◉</span>Study together<span class="nav-badge">Soon</span></button>
     </nav>
 
     <nav class="nav-group">
@@ -2155,6 +2157,21 @@
             <button class="btn primary" id="chatSend" disabled>Ask</button>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- ============== LIVE STUDY TOGETHER (coming soon) ============== -->
+    <section class="view" id="view-live">
+      <div class="mock-hero">
+        <div class="mock-badge">Coming soon</div>
+        <h1>Live study together.</h1>
+        <p class="lede" style="max-width: 56ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Open a study room, share a 6-digit code with a friend or your whole group, and study side by side. Synced pomodoro. Shared soundscape. A silent "focus with me" presence bar so it feels like you're at the library together, from wherever you are.</p>
+        <div class="row" style="justify-content: center; gap: 8px; margin: 22px 0 8px; flex-wrap: wrap;">
+          <span class="pill muted">No sign-up, ever</span>
+          <span class="pill muted">Room codes, not accounts</span>
+          <span class="pill muted">End-to-end, peer-to-peer</span>
+        </div>
+        <div class="text-muted mt-24" style="font-size: 12px;">Being built now. Everything else in Study Desk is ready to use in the meantime.</div>
       </div>
     </section>
 
@@ -4864,6 +4881,7 @@ const TOOL_INDEX = [
   { name: 'Document scanner', view: 'scanner', icon: '◱', kw: 'scan camera photo camscanner crop perspective page' },
   { name: 'Talk to your PDF', view: 'pdfchat', icon: '◈', kw: 'chat ask document question' },
   { name: 'Mock tests', view: 'mock', icon: '✦', kw: 'exam practice quiz test' },
+  { name: 'Live study together', view: 'live', icon: '◉', kw: 'live room together friends group study session coming soon' },
   { name: 'About & support', view: 'about', icon: '♥', kw: 'donate story help wisher' },
 ];
 let palSel = 0, palItems = [];
