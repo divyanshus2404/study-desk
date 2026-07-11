@@ -1468,6 +1468,7 @@
       <button class="nav-item" data-view="flashcards"><span class="nav-icon">▭</span>Flashcards</button>
       <button class="nav-item" data-view="planner"><span class="nav-icon">▨</span>Weekly planner</button>
       <button class="nav-item" data-view="syllabus"><span class="nav-icon">📊</span>Syllabus Tracker</button>
+      <button class="nav-item" data-view="whiteboard"><span class="nav-icon">🖍️</span>Whiteboard</button>
       <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
     </nav>
 
@@ -2666,6 +2667,28 @@
         <h3 style="margin-top: 0;">No subjects added yet</h3>
         <p class="text-muted" style="margin-bottom: 24px;">Add your first subject to start tracking your syllabus completion.</p>
         <button class="btn primary" id="addSubjectBtnEmpty" style="margin: 0 auto;">+ Add Subject</button>
+      </div>
+    </section>
+
+    <!-- ============== WHITEBOARD ============== -->
+    <section class="view" id="view-whiteboard">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Digital Whiteboard</span>
+          <h1 style="margin-top: 6px;">Sketch your thoughts.</h1>
+          <p class="lede">A temporary scratchpad. Draw, erase, and export to PNG.</p>
+        </div>
+        <div class="view-head-actions" style="gap: 12px; display: flex;">
+          <button class="btn ghost" id="wbClear">Clear All</button>
+          <button class="btn accent" id="wbExport">Export PNG</button>
+        </div>
+      </div>
+      <div class="card" style="padding: 0; overflow: hidden; background: #fff; border-radius: 12px; border: 1px solid var(--line); position: relative;">
+        <div style="position: absolute; top: 16px; left: 16px; display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); z-index: 10;">
+          <button class="btn sm active" id="wbToolPen" style="min-width: 40px; justify-content: center; border-color: var(--accent); color: var(--accent);">Pen</button>
+          <button class="btn sm ghost" id="wbToolErase" style="min-width: 40px; justify-content: center;">Eraser</button>
+        </div>
+        <canvas id="wbCanvas" width="800" height="600" style="display: block; width: 100%; height: 600px; touch-action: none; cursor: crosshair;"></canvas>
       </div>
     </section>
 
@@ -5918,6 +5941,118 @@ document.getElementById('syllabusList')?.addEventListener('click', (e) => {
 });
 
 renderSyllabus();
+
+/* ===== WHITEBOARD ===== */
+const wbCanvas = document.getElementById('wbCanvas');
+if (wbCanvas) {
+  const wbCtx = wbCanvas.getContext('2d');
+  let isDrawing = false;
+  let wbTool = 'pen';
+  let lastX = 0;
+  let lastY = 0;
+  let canvasInited = false;
+
+  function resizeCanvas() {
+    const rect = wbCanvas.parentElement.getBoundingClientRect();
+    if (rect.width === 0) return;
+    wbCanvas.width = rect.width;
+    wbCanvas.height = 600;
+    wbCtx.fillStyle = '#ffffff';
+    wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+  }
+  
+  const observer = new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !canvasInited) {
+      canvasInited = true;
+      resizeCanvas();
+    }
+  });
+  observer.observe(wbCanvas);
+
+  function getMousePos(e) {
+    const rect = wbCanvas.getBoundingClientRect();
+    if (e.touches && e.touches.length > 0) {
+      return { x: e.touches[0].clientX - rect.left, y: e.touches[0].clientY - rect.top };
+    }
+    return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+  }
+
+  function startDraw(e) {
+    isDrawing = true;
+    const pos = getMousePos(e);
+    lastX = pos.x;
+    lastY = pos.y;
+    wbCtx.beginPath();
+    wbCtx.moveTo(lastX, lastY);
+    if(e.cancelable) e.preventDefault();
+  }
+  function draw(e) {
+    if (!isDrawing) return;
+    const pos = getMousePos(e);
+    wbCtx.lineTo(pos.x, pos.y);
+    wbCtx.strokeStyle = wbTool === 'pen' ? '#1B2130' : '#ffffff';
+    wbCtx.lineWidth = wbTool === 'pen' ? 2 : 20;
+    wbCtx.lineCap = 'round';
+    wbCtx.stroke();
+    lastX = pos.x;
+    lastY = pos.y;
+    if(e.cancelable) e.preventDefault();
+  }
+  function stopDraw(e) {
+    isDrawing = false;
+    wbCtx.closePath();
+  }
+
+  wbCanvas.addEventListener('mousedown', startDraw);
+  wbCanvas.addEventListener('mousemove', draw);
+  wbCanvas.addEventListener('mouseup', stopDraw);
+  wbCanvas.addEventListener('mouseout', stopDraw);
+
+  wbCanvas.addEventListener('touchstart', startDraw, { passive: false });
+  wbCanvas.addEventListener('touchmove', draw, { passive: false });
+  wbCanvas.addEventListener('touchend', stopDraw);
+  wbCanvas.addEventListener('touchcancel', stopDraw);
+
+  document.getElementById('wbToolPen').addEventListener('click', (e) => {
+    wbTool = 'pen';
+    e.target.classList.add('active');
+    e.target.classList.remove('ghost');
+    e.target.style.borderColor = 'var(--accent)';
+    e.target.style.color = 'var(--accent)';
+    const erase = document.getElementById('wbToolErase');
+    erase.classList.remove('active');
+    erase.classList.add('ghost');
+    erase.style.borderColor = 'transparent';
+    erase.style.color = 'inherit';
+  });
+
+  document.getElementById('wbToolErase').addEventListener('click', (e) => {
+    wbTool = 'erase';
+    e.target.classList.add('active');
+    e.target.classList.remove('ghost');
+    e.target.style.borderColor = 'var(--accent)';
+    e.target.style.color = 'var(--accent)';
+    const pen = document.getElementById('wbToolPen');
+    pen.classList.remove('active');
+    pen.classList.add('ghost');
+    pen.style.borderColor = 'transparent';
+    pen.style.color = 'inherit';
+  });
+
+  document.getElementById('wbClear').addEventListener('click', () => {
+    wbCtx.fillStyle = '#ffffff';
+    wbCtx.fillRect(0, 0, wbCanvas.width, wbCanvas.height);
+  });
+
+  document.getElementById('wbExport').addEventListener('click', () => {
+    const dataUrl = wbCanvas.toDataURL('image/png');
+    const a = document.createElement('a');
+    a.href = dataUrl;
+    a.download = 'study-desk-whiteboard.png';
+    a.click();
+    toast('Exported to PNG!');
+  });
+}
 
 /* ===== CUSTOM WAITLIST SUBMISSION ===== */
 function attachWaitlistHandler(formId, successId) {
