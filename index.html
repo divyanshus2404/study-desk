@@ -5477,14 +5477,14 @@ document.addEventListener('keydown', e => {
   else if (k === 'd') { go('dashboard'); }
   else if (k === '/') { e.preventDefault(); openPalette(); }
   else if (k === 'z') { e.preventDefault(); $('#zenModeBtn')?.click(); }
-  else if (k === 'c' && location.hash === '#view-whiteboard') { e.preventDefault(); document.getElementById('wbClear')?.click(); }
-  else if (e.key === ' ' && location.hash === '#view-timer') { e.preventDefault(); $('#timerToggle').click(); }
-  else if (e.key === ' ' && location.hash === '#view-flashcards') {
+  else if (k === 'c' && location.hash === '#whiteboard') { e.preventDefault(); document.getElementById('wbClear')?.click(); }
+  else if (e.key === ' ' && location.hash === '#timer') { e.preventDefault(); $('#timerStart')?.click(); }
+  else if (e.key === ' ' && location.hash === '#flashcards') {
     e.preventDefault();
-    if ($('#fcShowAnswer').style.display !== 'none') $('#fcShowAnswer').click();
+    if ($('#fcShowAnswer')?.style.display !== 'none') $('#fcShowAnswer')?.click();
   }
-  else if (e.key === 'ArrowRight' && location.hash === '#view-flashcards') { $('#fcNext')?.click(); }
-  else if (e.key === 'ArrowLeft' && location.hash === '#view-flashcards') { $('#fcPrev')?.click(); }
+  else if (e.key === 'ArrowRight' && location.hash === '#flashcards') { $('#fcGood')?.click(); }
+  else if (e.key === 'ArrowLeft' && location.hash === '#flashcards') { $('#fcHard')?.click(); }
 });
 
 renderGoal();
