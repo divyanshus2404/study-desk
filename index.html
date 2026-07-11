@@ -1273,6 +1273,7 @@
     justify-content: center;
     backdrop-filter: blur(4px);
   }
+  }
   .qr-modal-content {
     background: var(--bg);
     width: 90%;
@@ -1281,6 +1282,43 @@
     padding: 24px;
     box-shadow: 0 20px 40px rgba(0,0,0,0.2);
     border: 1px solid var(--line);
+  }
+
+  /* ===== SYLLABUS TRACKER ===== */
+  .syllabus-card {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .syllabus-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .syllabus-title {
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .syllabus-progress-wrap {
+    height: 8px;
+    background: var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .syllabus-progress-fill {
+    height: 100%;
+    background: var(--accent);
+    transition: width 0.3s ease;
+  }
+  .syllabus-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 
   .waitlist-form input, .waitlist-form textarea {
@@ -1429,6 +1467,7 @@
       <button class="nav-item" data-view="notes"><span class="nav-icon">✎</span>Notes</button>
       <button class="nav-item" data-view="flashcards"><span class="nav-icon">▭</span>Flashcards</button>
       <button class="nav-item" data-view="planner"><span class="nav-icon">▨</span>Weekly planner</button>
+      <button class="nav-item" data-view="syllabus"><span class="nav-icon">📊</span>Syllabus Tracker</button>
       <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
     </nav>
 
@@ -2606,6 +2645,30 @@
       </div>
     </section>
 
+    <!-- ============== SYLLABUS ============== -->
+    <section class="view" id="view-syllabus">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Syllabus Tracker</span>
+          <h1 style="margin-top: 6px;">Track your progress.</h1>
+          <p class="lede">See exactly how much you've covered for each class.</p>
+        </div>
+        <div class="view-head-actions">
+          <button class="btn accent" id="addSubjectBtn">+ Add Subject</button>
+        </div>
+      </div>
+      
+      <div class="syllabus-list" id="syllabusList" style="max-width: 600px;">
+        <!-- JS will render subjects here -->
+      </div>
+      <div id="syllabusEmpty" style="display: none; padding: 48px; text-align: center; background: var(--paper); border: 1px dashed var(--line); border-radius: 12px; margin-top: 24px; max-width: 600px;">
+        <div style="font-size: 32px; margin-bottom: 12px;">📚</div>
+        <h3 style="margin-top: 0;">No subjects added yet</h3>
+        <p class="text-muted" style="margin-bottom: 24px;">Add your first subject to start tracking your syllabus completion.</p>
+        <button class="btn primary" id="addSubjectBtnEmpty" style="margin: 0 auto;">+ Add Subject</button>
+      </div>
+    </section>
+
   </main>
 </div>
 
@@ -2644,6 +2707,26 @@
     </div>
     <div id="sharedContent" style="margin-bottom:24px; padding:16px; background:var(--bg); border:1px solid var(--line); border-radius:8px; font-size:14px; white-space:pre-wrap;"></div>
     <button class="btn primary" id="sharedImportBtn" style="width:100%; justify-content:center;">Save to my workspace</button>
+  </div>
+</div>
+
+<div class="qr-modal" id="addSubjectModal" style="display:none;">
+  <div class="qr-modal-content">
+    <div class="row between" style="margin-bottom:16px;">
+      <h3 style="margin:0;">Add Subject</h3>
+      <button class="btn ghost sm" onclick="document.getElementById('addSubjectModal').style.display='none'">×</button>
+    </div>
+    <form id="addSubjectForm" style="display:flex; flex-direction:column; gap:16px;">
+      <div>
+        <label style="font-size:12.5px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:8px;">Subject Name</label>
+        <input type="text" name="name" required placeholder="e.g. Physics 101" style="width:100%; background:var(--canvas); border:1px solid var(--line); padding:12px; border-radius:8px; font-size:14px; color:var(--ink);">
+      </div>
+      <div>
+        <label style="font-size:12.5px; font-weight:600; color:var(--ink-2); display:block; margin-bottom:8px;">Total Chapters/Lectures</label>
+        <input type="number" name="total" required min="1" max="1000" placeholder="e.g. 15" style="width:100%; background:var(--canvas); border:1px solid var(--line); padding:12px; border-radius:8px; font-size:14px; color:var(--ink);">
+      </div>
+      <button type="submit" class="btn primary" style="width:100%; justify-content:center;">Save Subject</button>
+    </form>
   </div>
 </div>
 
@@ -5744,6 +5827,97 @@ if ('serviceWorker' in navigator) {
     });
   });
 }
+
+/* ===== SYLLABUS TRACKER ===== */
+let syllabus = LS.get('syllabus', []);
+
+function renderSyllabus() {
+  const list = document.getElementById('syllabusList');
+  const empty = document.getElementById('syllabusEmpty');
+  if (!list) return;
+
+  if (syllabus.length === 0) {
+    list.style.display = 'none';
+    empty.style.display = 'block';
+  } else {
+    list.style.display = 'block';
+    empty.style.display = 'none';
+    
+    list.innerHTML = '';
+    syllabus.forEach((sub, idx) => {
+      const pct = sub.total > 0 ? Math.round((sub.completed / sub.total) * 100) : 0;
+      const card = document.createElement('div');
+      card.className = 'syllabus-card';
+      card.innerHTML = `
+        <div class="syllabus-head">
+          <div class="syllabus-title">${escapeHtml(sub.name)}</div>
+          <div style="font-size: 14px; color: var(--ink-2); font-variant-numeric: tabular-nums;">
+            ${sub.completed} / ${sub.total} (${pct}%)
+          </div>
+        </div>
+        <div class="syllabus-progress-wrap">
+          <div class="syllabus-progress-fill" style="width: ${pct}%"></div>
+        </div>
+        <div class="syllabus-controls">
+          <button class="btn ghost sm syllabus-dec" data-idx="${idx}">-</button>
+          <button class="btn accent sm syllabus-inc" data-idx="${idx}">+ Completed</button>
+          <div style="flex:1"></div>
+          <button class="btn ghost sm syllabus-del" data-idx="${idx}" style="color: var(--danger);">Delete</button>
+        </div>
+      `;
+      list.appendChild(card);
+    });
+  }
+}
+
+document.getElementById('addSubjectBtn')?.addEventListener('click', () => {
+  document.getElementById('addSubjectModal').style.display = 'flex';
+});
+document.getElementById('addSubjectBtnEmpty')?.addEventListener('click', () => {
+  document.getElementById('addSubjectModal').style.display = 'flex';
+});
+document.getElementById('addSubjectForm')?.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  const name = formData.get('name').trim();
+  const total = parseInt(formData.get('total'), 10);
+  if (name && total > 0) {
+    syllabus.push({ name, total, completed: 0 });
+    LS.set('syllabus', syllabus);
+    renderSyllabus();
+    document.getElementById('addSubjectModal').style.display = 'none';
+    e.target.reset();
+  }
+});
+
+document.getElementById('syllabusList')?.addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  const idx = parseInt(btn.dataset.idx, 10);
+  if (isNaN(idx) || !syllabus[idx]) return;
+
+  if (btn.classList.contains('syllabus-inc')) {
+    if (syllabus[idx].completed < syllabus[idx].total) {
+      syllabus[idx].completed++;
+      LS.set('syllabus', syllabus);
+      renderSyllabus();
+    }
+  } else if (btn.classList.contains('syllabus-dec')) {
+    if (syllabus[idx].completed > 0) {
+      syllabus[idx].completed--;
+      LS.set('syllabus', syllabus);
+      renderSyllabus();
+    }
+  } else if (btn.classList.contains('syllabus-del')) {
+    if (confirm('Delete this subject?')) {
+      syllabus.splice(idx, 1);
+      LS.set('syllabus', syllabus);
+      renderSyllabus();
+    }
+  }
+});
+
+renderSyllabus();
 
 /* ===== CUSTOM WAITLIST SUBMISSION ===== */
 function attachWaitlistHandler(formId, successId) {
