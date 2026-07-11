@@ -2284,34 +2284,35 @@
             <span class="pulse"></span> <span class="waitlist-count" data-base="1245">1,245</span> people on waitlist
           </div>
           <p style="font-size: 13.5px; color: var(--ink-3); margin-bottom: 12px;">Join the waitlist to get early access when we launch.</p>
-          <form class="waitlist-form" action="https://formsubmit.co/divyanshus2404@gmail.com" method="POST">
-            <input type="hidden" name="_subject" value="New Waitlist Signup: Live Study Together">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
+          <form class="waitlist-form" id="waitlistFormLive">
+            <input type="hidden" name="source" value="Live Study Together">
             <div class="row-inputs">
               <div>
                 <label>First Name</label>
-                <input type="text" name="First Name" placeholder="Jane">
+                <input type="text" name="firstName" placeholder="Jane">
               </div>
               <div>
                 <label>Last Name</label>
-                <input type="text" name="Last Name" placeholder="Doe">
+                <input type="text" name="lastName" placeholder="Doe">
               </div>
             </div>
             <div>
               <label>Email</label>
-              <input type="email" name="Email" required placeholder="jane@example.com">
+              <input type="email" name="email" required placeholder="jane@example.com">
             </div>
             <div>
               <label>What do you expect from the study together feature?</label>
-              <textarea name="Expectations" placeholder="I hope it helps me focus..."></textarea>
+              <textarea name="expectations" placeholder="I hope it helps me focus..."></textarea>
             </div>
             <div>
               <label>What additions would you like to suggest?</label>
-              <textarea name="Suggestions" placeholder="It would be cool if..."></textarea>
+              <textarea name="suggestions" placeholder="It would be cool if..."></textarea>
             </div>
             <button type="submit" class="waitlist-btn">Join Waitlist</button>
           </form>
+          <div class="waitlist-success" id="waitlistSuccessLive" style="display:none; margin-top: 16px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; color: var(--ink); font-weight: 500;">
+            Thanks for joining! We'll be in touch soon.
+          </div>
         </div>
 
         <div class="text-muted mt-24" style="font-size: 12px;">Being built now. Everything else in Study Desk is ready to use in the meantime.</div>
@@ -2330,34 +2331,35 @@
             <span class="pulse"></span> <span class="waitlist-count" data-base="892">892</span> people on waitlist
           </div>
           <p style="font-size: 13.5px; color: var(--ink-3); margin-bottom: 12px;">Join the waitlist to get early access when we launch.</p>
-          <form class="waitlist-form" action="https://formsubmit.co/divyanshus2404@gmail.com" method="POST">
-            <input type="hidden" name="_subject" value="New Waitlist Signup: Mock Tests">
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_template" value="table">
+          <form class="waitlist-form" id="waitlistFormMock">
+            <input type="hidden" name="source" value="Mock Tests">
             <div class="row-inputs">
               <div>
                 <label>First Name</label>
-                <input type="text" name="First Name" placeholder="Jane">
+                <input type="text" name="firstName" placeholder="Jane">
               </div>
               <div>
                 <label>Last Name</label>
-                <input type="text" name="Last Name" placeholder="Doe">
+                <input type="text" name="lastName" placeholder="Doe">
               </div>
             </div>
             <div>
               <label>Email</label>
-              <input type="email" name="Email" required placeholder="jane@example.com">
+              <input type="email" name="email" required placeholder="jane@example.com">
             </div>
             <div>
               <label>What do you expect from the mock tests feature?</label>
-              <textarea name="Expectations" placeholder="I hope it has realistic exam simulation..."></textarea>
+              <textarea name="expectations" placeholder="I hope it has realistic exam simulation..."></textarea>
             </div>
             <div>
               <label>What additions would you like to suggest?</label>
-              <textarea name="Suggestions" placeholder="It would be cool if..."></textarea>
+              <textarea name="suggestions" placeholder="It would be cool if..."></textarea>
             </div>
             <button type="submit" class="waitlist-btn">Join Waitlist</button>
           </form>
+          <div class="waitlist-success" id="waitlistSuccessMock" style="display:none; margin-top: 16px; padding: 16px; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 8px; color: var(--ink); font-weight: 500;">
+            Thanks for joining! We'll be in touch soon.
+          </div>
         </div>
 
         <div class="text-muted mt-24" style="font-size: 12px;">Check back soon. Everything else in Study Desk is ready to use in the meantime.</div>
@@ -5502,6 +5504,48 @@ renderOneThing();
     }, 5000); // Check every 5s
   });
 })();
+
+/* ===== CUSTOM WAITLIST SUBMISSION ===== */
+function attachWaitlistHandler(formId, successId) {
+  const form = document.getElementById(formId);
+  const successBox = document.getElementById(successId);
+  if (!form) return;
+  
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector('button[type="submit"]');
+    const originalText = btn.textContent;
+    btn.textContent = "Joining...";
+    btn.disabled = true;
+    
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+    
+    try {
+      const res = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      
+      if (res.ok) {
+        form.style.display = 'none';
+        successBox.style.display = 'block';
+      } else {
+        alert('There was an issue submitting your request. Please try again.');
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    } catch (err) {
+      console.error(err);
+      alert('There was an issue submitting your request. Please try again.');
+      btn.textContent = originalText;
+      btn.disabled = false;
+    }
+  });
+}
+attachWaitlistHandler('waitlistFormLive', 'waitlistSuccessLive');
+attachWaitlistHandler('waitlistFormMock', 'waitlistSuccessMock');
 
 /* ===== INIT ===== */
 renderGpa();
