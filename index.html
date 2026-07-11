@@ -1067,7 +1067,7 @@
   .kind-card > * { position: relative; }
   .kind-card .kind-eye { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
   .kind-card h3 { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 24px; margin: 10px 0 12px; line-height: 1.25; }
-  .kind-card p { color: var(--ink-2); font-size: 14.5px; line-height: 1.7; max-width: 60ch; margin: 0 auto; }
+  .kind-card p { color: var(--ink-2); font-size: 14.5px; line-height: 1.7; max-width: 58ch; margin: 0 auto; text-align: left; }
   .kind-card .kind-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
   .kind-card .kind-btn {
     font-family: inherit; cursor: pointer; padding: 11px 22px; border-radius: 10px;
@@ -1208,9 +1208,9 @@
   <header class="land-hero">
     <div class="land-kicker">✦ 15 tools · zero sign-up · works offline</div>
     <h1>Every tool a student needs, on <span class="hl">one desk</span>.</h1>
-    <p class="land-sub">Focus timer, GPA calculator, flashcards, notes, habit tracker, PDF tools, and more — free, private, and saved right in your browser. No accounts, no ads, no uploads.</p>
+    <p class="land-sub">Focus timer, GPA calculator, flashcards, notes, habit tracker, PDF tools, and more. Free, private, and saved right in your browser. No accounts, no ads, no uploads.</p>
     <div class="land-cta-row">
-      <button class="land-cta" id="landOpen">Start studying — it's free</button>
+      <button class="land-cta" id="landOpen">Start studying, it's free</button>
       <button class="land-cta secondary" id="landTour">See the tools ↓</button>
     </div>
     <p class="land-note">Your data never leaves your device. Everything runs locally.</p>
@@ -1229,8 +1229,8 @@
   <div class="kind-strip">
     <div class="kind-card">
       <div class="kind-eye">✦ a small note from the founder</div>
-      <h3>Free forever — kept alive by kindness.</h3>
-      <p>I built Study Desk because every "free" study site I used as an engineering student either wanted my email, gated the good stuff behind a paywall, or slapped ads on my flashcards. This one asks for nothing. No account. No email. No premium tier — <em>ever</em>. If Study Desk saved you an afternoon of assignment stress, a small donation keeps the servers on and lets me keep building. Even ₹49 — one chai — goes a long way. Or share it with one classmate. Both mean the world. ♥</p>
+      <h3>Free forever. Kept alive by kindness.</h3>
+      <p>I built Study Desk because every "free" study site I used as an engineering student either wanted my email, gated the good stuff behind a paywall, or slapped ads on my flashcards. This one asks for nothing. No account. No email. No premium tier, <em>ever</em>. If Study Desk saved you an afternoon of assignment stress, a small donation keeps the servers on and lets me keep building. Even ₹49 (about one chai) goes a long way. Or share it with a classmate. Both mean the world. ♥</p>
       <div class="kind-actions">
         <button class="kind-btn" id="kindDonate">♥ Support Study Desk</button>
         <button class="kind-btn ghost" id="kindShare">Share with a classmate</button>
@@ -1243,16 +1243,16 @@
       <button class="land-tool" data-enter="timer"><span class="lt-icon">◔</span><span class="lt-name">Focus timer</span><span class="lt-desc">Pomodoro blocks with session tracking, subjects, and a completion chime.</span></button>
       <button class="land-tool" data-enter="gpa"><span class="lt-icon">∑</span><span class="lt-name">GPA calculator</span><span class="lt-desc">Credit-weighted semester and cumulative GPA, saved as you go.</span></button>
       <button class="land-tool" data-enter="flashcards"><span class="lt-icon">▭</span><span class="lt-name">Flashcards</span><span class="lt-desc">Build decks, flip cards, rate yourself Hard or Good to sort weak spots.</span></button>
-      <button class="land-tool" data-enter="pdfchat"><span class="lt-icon">◈</span><span class="lt-name">Talk to your PDF</span><span class="lt-desc">Ask questions; get the most relevant passages quoted back — offline.</span></button>
-      <button class="land-tool" data-enter="scanner"><span class="lt-icon">◱</span><span class="lt-name">Document scanner</span><span class="lt-desc">Snap or upload a photo of a page — auto edge-detect, crop, and export as a scan-quality PDF.</span></button>
-      <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON — no upload.</span></button>
-      <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" — answered in one glance.</span></button>
+      <button class="land-tool" data-enter="pdfchat"><span class="lt-icon">◈</span><span class="lt-name">Talk to your PDF</span><span class="lt-desc">Ask questions; get the most relevant passages quoted back, fully offline.</span></button>
+      <button class="land-tool" data-enter="scanner"><span class="lt-icon">◱</span><span class="lt-name">Document scanner</span><span class="lt-desc">Snap or upload a photo of a page. Auto edge-detect, crop, and export as a scan-quality PDF.</span></button>
+      <button class="land-tool" data-enter="doc2pdf"><span class="lt-icon">⇄</span><span class="lt-name">File converter</span><span class="lt-desc">JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/text, DOCX → PDF, CSV ⇄ JSON. Nothing ever uploaded.</span></button>
+      <button class="land-tool" data-enter="grade"><span class="lt-icon">△</span><span class="lt-name">Grade target</span><span class="lt-desc">"What do I need on the final?" Answered in one glance.</span></button>
       <button class="land-tool" data-enter="habits"><span class="lt-icon">▤</span><span class="lt-name">Habit tracker</span><span class="lt-desc">A 7-day grid with streaks, plus XP for every habit you keep.</span></button>
       <button class="land-tool" data-enter="mock"><span class="lt-soon">Soon</span><span class="lt-icon">✦</span><span class="lt-name">Mock tests</span><span class="lt-desc">Timed practice exams with weak-topic analysis. Coming soon.</span></button>
     </div>
   </section>
 
-  <footer class="land-foot">Study Desk — plus notes, tasks, weekly planner, scientific calculator, unit converter, word counter &amp; citation maker inside.<br><button class="land-cta secondary" id="landAboutFoot" style="margin-top: 14px; padding: 8px 18px; font-size: 12.5px;">Built by a broke engineering student — read the story ♥</button></footer>
+  <footer class="land-foot">Study Desk. Plus notes, tasks, weekly planner, scientific calculator, unit converter, word counter &amp; citation maker inside.<br><button class="land-cta secondary" id="landAboutFoot" style="margin-top: 14px; padding: 8px 18px; font-size: 12.5px;">Built by a broke engineering student. Read the story ♥</button></footer>
 </div>
 
 <div class="app">
@@ -1523,7 +1523,7 @@
 
           <div class="card">
             <h3>What you'll work on</h3>
-            <div class="card-sub">Optional — helps track focus by subject.</div>
+            <div class="card-sub">Optional. Helps track focus by subject.</div>
             <input type="text" id="focusSubject" placeholder="e.g. Calculus problem set">
             <div class="mt-16">
               <div class="eyebrow">Recent focus</div>
@@ -1983,7 +1983,7 @@
         <div>
           <span class="eyebrow">Document scanner</span>
           <h1 style="margin-top: 6px;">Point, snap, scan.</h1>
-          <p class="lede">Take a photo of a page — or upload one — and the scanner finds the edges, straightens perspective, and turns it into a clean, scan-quality PDF. Nothing uploaded, everything runs on your device.</p>
+          <p class="lede">Take a photo of a page (or upload one) and the scanner finds the edges, straightens perspective, and turns it into a clean, scan-quality PDF. Nothing uploaded, everything runs on your device.</p>
         </div>
       </div>
 
@@ -2063,14 +2063,14 @@
         <div>
           <span class="eyebrow">File converter</span>
           <h1 style="margin-top: 6px;">Any file, any format.</h1>
-          <p class="lede">Drop a file and convert between the formats students actually use — images, PDFs, Word docs, text, CSV. Everything happens in your browser; nothing is ever uploaded.</p>
+          <p class="lede">Drop a file and convert between the formats students actually use. Images, PDFs, Word docs, text, CSV. Everything happens in your browser; nothing is ever uploaded.</p>
         </div>
       </div>
 
       <div class="dropzone" id="docDrop">
         <div class="dz-icon">⇄</div>
         <div class="dz-title">Drop any file here</div>
-        <div class="dz-sub">JPG · PNG · WebP · PDF · DOCX · TXT · MD · HTML · CSV · JSON — converted locally, never uploaded</div>
+        <div class="dz-sub">JPG · PNG · WebP · PDF · DOCX · TXT · MD · HTML · CSV · JSON. Converted locally, never uploaded.</div>
         <input type="file" id="docFile" accept=".jpg,.jpeg,.png,.webp,.gif,.bmp,.pdf,.docx,.txt,.md,.html,.csv,.json" style="display:none;">
       </div>
 
@@ -2090,18 +2090,18 @@
 
       <div class="mt-24" id="docPreviewWrap" style="display:none;">
         <div class="row between" style="margin-bottom: 10px;">
-          <div class="eyebrow">Preview — <span id="docFileName"></span></div>
+          <div class="eyebrow">Preview: <span id="docFileName"></span></div>
           <span class="row" style="gap: 6px;">
             <button class="btn accent sm" id="docDownloadPdf">Download PDF</button>
             <button class="btn sm" id="docExport">Print…</button>
           </span>
         </div>
         <div class="doc-preview" id="docPreview"></div>
-        <p class="text-muted mt-8">The print dialog opens — choose "Save as PDF" as the destination.</p>
+        <p class="text-muted mt-8">The print dialog opens. Choose "Save as PDF" as the destination.</p>
       </div>
 
       <div class="grid g-4 mt-24">
-        <div class="card"><h3 style="font-size:15px;">Images ⇄ Images</h3><div class="card-sub" style="margin-bottom:0;">JPG, PNG, WebP — re-encode instantly, pick any target.</div></div>
+        <div class="card"><h3 style="font-size:15px;">Images ⇄ Images</h3><div class="card-sub" style="margin-bottom:0;">JPG, PNG, WebP. Re-encode instantly, pick any target.</div></div>
         <div class="card"><h3 style="font-size:15px;">Image → PDF</h3><div class="card-sub" style="margin-bottom:0;">Wraps your image into a real PDF file, built byte-by-byte in your browser.</div></div>
         <div class="card"><h3 style="font-size:15px;">PDF → JPG / PNG / Text</h3><div class="card-sub" style="margin-bottom:0;">Each page rendered to an image, or all text extracted.</div></div>
         <div class="card"><h3 style="font-size:15px;">DOCX / MD / CSV…</h3><div class="card-sub" style="margin-bottom:0;">Word → PDF/TXT/HTML, Markdown → PDF, CSV ⇄ JSON.</div></div>
@@ -2121,7 +2121,7 @@
         <div>
           <span class="eyebrow">Talk to your PDF</span>
           <h1 style="margin-top: 6px;">Ask your PDF a question.</h1>
-          <p class="lede">Load a PDF and ask questions in plain language. The reader finds and quotes the most relevant passages — fully offline, your file never leaves the browser.</p>
+          <p class="lede">Load a PDF and ask questions in plain language. The reader finds and quotes the most relevant passages, fully offline. Your file never leaves the browser.</p>
         </div>
       </div>
 
@@ -2164,7 +2164,7 @@
         <div class="mock-badge">Coming soon</div>
         <h1>Mock tests are on the way.</h1>
         <p class="lede" style="max-width: 52ch; margin: 14px auto 0; color: var(--ink-3); font-size: 14.5px;">Timed practice exams with instant scoring, question banks by subject, and weak-topic analysis that feeds straight back into your flashcards. Being built now.</p>
-        <div class="text-muted mt-24" style="font-size: 12px;">Check back soon — everything else in Study Desk is ready to use in the meantime.</div>
+        <div class="text-muted mt-24" style="font-size: 12px;">Check back soon. Everything else in Study Desk is ready to use in the meantime.</div>
       </div>
     </section>
     <div style="display:none;" aria-hidden="true">
@@ -2288,14 +2288,14 @@
 
       <div class="about-wrap">
         <div class="letter">
-          <p class="salute">Hey, friend —</p>
+          <p class="salute">Hey, friend,</p>
           <p>I'm an engineering student, just like a lot of you. And for years, my "study workflow" looked like this: one website for a GPA calculator, another for a word counter, a third for converting a document to PDF, a fourth for flashcards. Every single one of them wanted something from me first.</p>
-          <p><span class="about-hl">Sign up to continue. Only 3 free conversions per day. Upgrade to Pro to unlock this feature.</span> Some of them were straight-up sketchy — asking me to upload my documents to who-knows-where just to convert a file. I'd spend more time dodging paywalls and pop-ups than actually studying.</p>
-          <p>One night, in the middle of exam week, juggling five tabs just to finish one assignment, I thought: <em>why does something this simple have to be this annoying?</em> So I built the thing I wished existed — every tool a student actually needs, on one desk. No sign-up. No limits. No "premium pack." Your files never even leave your browser.</p>
+          <p><span class="about-hl">Sign up to continue. Only 3 free conversions per day. Upgrade to Pro to unlock this feature.</span> Some of them were straight-up sketchy, asking me to upload my documents to who-knows-where just to convert a file. I'd spend more time dodging paywalls and pop-ups than actually studying.</p>
+          <p>One night, in the middle of exam week, juggling five tabs just to finish one assignment, I thought: <em>why does something this simple have to be this annoying?</em> So I built the thing I wished existed. Every tool a student actually needs, on one desk. No sign-up. No limits. No "premium pack." Your files never even leave your browser.</p>
           <p>And it will stay that way. <span class="about-hl">Everything here is free, for everyone, forever.</span></p>
-          <p>But I'll be honest with you, the way a friend would be: I'm a student. I'm not rich. Keeping a website running — the domain, the hosting, the time to build new tools like the mock tests you've been asking about — costs money I sometimes don't have. Instead of locking features behind a paywall like everyone else, I decided to just… ask.</p>
-          <p>If Study Desk has saved you time, helped you pass a class, or even just spared you one shady sign-up form — consider chipping in whatever you can. Think of it as buying a friend a coffee for helping you study. And if you can't, that's completely fine too. Share it with a classmate instead; that helps just as much.</p>
-          <p class="sig">— your friend behind the desk
+          <p>But I'll be honest with you, the way a friend would be. I'm a student. I'm not rich. Keeping a website running (the domain, the hosting, the time to build new tools like the mock tests you've been asking about) costs money I sometimes don't have. Instead of locking features behind a paywall like everyone else, I decided to just… ask.</p>
+          <p>If Study Desk has saved you time, helped you pass a class, or even just spared you one shady sign-up form, consider chipping in whatever you can. Think of it as buying a friend a coffee for helping you study. And if you can't, that's completely fine too. Share it with a classmate instead; that helps just as much.</p>
+          <p class="sig">Your friend behind the desk,
             <span class="who">Engineering student · builder of Study Desk</span>
           </p>
         </div>
@@ -2303,14 +2303,14 @@
         <div class="donate-card">
           <span class="eyebrow" style="color: var(--accent);">Support the desk</span>
           <h2 style="margin-top: 8px;">Become a well-wisher</h2>
-          <p class="text-muted" style="max-width: 42ch; margin: 10px auto 0; font-size: 13.5px;">Every contribution — however small — goes directly into keeping this site online and building the next tool. No premium packs, ever. Just people helping people study.</p>
+          <p class="text-muted" style="max-width: 42ch; margin: 10px auto 0; font-size: 13.5px;">Every contribution, however small, goes directly into keeping this site online and building the next tool. No premium packs, ever. Just people helping people study.</p>
           <div class="row" style="justify-content: center; gap: 8px; margin-top: 20px; flex-wrap: wrap;">
             <button class="btn donate-amt" data-amt="49">₹49</button>
             <button class="btn donate-amt active" data-amt="99" style="border-color: var(--accent); color: var(--accent);">₹99</button>
             <button class="btn donate-amt" data-amt="199">₹199</button>
             <input type="number" id="donateCustom" placeholder="Custom ₹" min="10" max="50000" style="width: 110px;">
           </div>
-          <button class="donate-btn" id="donateBtn">♥ Donate ₹<span id="donateAmtLabel">99</span> — keep it free</button>
+          <button class="donate-btn" id="donateBtn">♥ Donate ₹<span id="donateAmtLabel">99</span> and keep it free</button>
           <div class="donate-alt">Secured by Razorpay · UPI, cards, netbanking · or support without paying: share Study Desk with one classmate</div>
           <div class="wisher-count">♥ <span id="wisherCount">128</span> well-wishers so far</div>
         </div>
@@ -2850,9 +2850,9 @@ function computeGrade() {
   const needed = (goal - cur * (1 - w)) / w;
   $('#gtResult').textContent = needed.toFixed(1) + '%';
   let verdict = `on the final to earn a ${goal}% overall.`;
-  if (needed > 100) verdict = `Not mathematically possible — even 100% gives you ${(cur*(1-w) + w*100).toFixed(1)}%.`;
-  else if (needed < 0) verdict = `You've already got it — even a 0% keeps you above ${goal}%.`;
-  else if (needed > 90) verdict = `${verdict} That's a stretch — plan to study hard.`;
+  if (needed > 100) verdict = `Not mathematically possible. Even 100% only gives you ${(cur*(1-w) + w*100).toFixed(1)}%.`;
+  else if (needed < 0) verdict = `You've already got it. Even a 0% keeps you above ${goal}%.`;
+  else if (needed > 90) verdict = `${verdict} That's a stretch, plan to study hard.`;
   else if (needed < 50) verdict = `${verdict} Well within reach.`;
   $('#gtVerdict').textContent = verdict;
 }
