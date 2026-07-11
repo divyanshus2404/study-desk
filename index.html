@@ -1556,9 +1556,11 @@
     <div style="padding: 12px 16px;">
       <label style="font-size: 11px; font-weight: 600; color: var(--ink-2); text-transform: uppercase;">Theme</label>
       <select id="themeSelect" style="width: 100%; margin-top: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px; font-size: 13px; color: var(--ink);">
-        <option value="midnight">Midnight Blue (Default)</option>
-        <option value="matcha">Matcha Green</option>
-        <option value="charcoal">Charcoal Black</option>
+        <option value="auto">System Default (OG Orange)</option>
+        <option value="light">Light Theme</option>
+        <option value="dark">Dark Theme</option>
+        <option value="matcha">Customize: Matcha Green</option>
+        <option value="charcoal">Customize: Charcoal Black</option>
       </select>
     </div>
 
@@ -6174,28 +6176,32 @@ $('#zenModeBtn')?.addEventListener('click', toggleZenMode);
 
 function applyTheme(theme) {
   const root = document.documentElement;
-  if(theme === 'matcha') {
+  // Clean up custom overrides to let base CSS handle standard themes
+  ['--primary', '--primary-soft', '--accent', '--ink', '--paper', '--ground'].forEach(p => root.style.removeProperty(p));
+  
+  if (theme === 'matcha') {
+    root.setAttribute('data-theme', 'light');
     root.style.setProperty('--primary', '#3C5A3E');
     root.style.setProperty('--primary-soft', '#D3E0D4');
     root.style.setProperty('--accent', '#E27A3F');
-  } else if(theme === 'charcoal') {
+  } else if (theme === 'charcoal') {
+    root.setAttribute('data-theme', 'dark');
     root.style.setProperty('--primary', '#222222');
     root.style.setProperty('--primary-soft', '#E0E0E0');
     root.style.setProperty('--accent', '#888888');
     root.style.setProperty('--ink', '#111111');
     root.style.setProperty('--paper', '#F5F5F5');
     root.style.setProperty('--ground', '#EAEAEA');
+  } else if (theme === 'light') {
+    root.setAttribute('data-theme', 'light');
+  } else if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
   } else {
-    // Default midnight
-    root.style.setProperty('--primary', '#2B4870');
-    root.style.setProperty('--primary-soft', '#DDE4EF');
-    root.style.setProperty('--accent', '#E27A3F');
-    root.style.setProperty('--ink', '#1B2130');
-    root.style.setProperty('--paper', '#FBF8F1');
-    root.style.setProperty('--ground', '#F5F1E8');
+    // auto / OG
+    root.removeAttribute('data-theme');
   }
 }
-const savedTheme = LS.get('theme', 'midnight');
+const savedTheme = LS.get('theme', 'auto');
 if($('#themeSelect')) $('#themeSelect').value = savedTheme;
 applyTheme(savedTheme);
 
