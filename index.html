@@ -1571,10 +1571,7 @@
       <div class="xp-rank" id="xpRank">Freshman</div>
     </div>
 
-    <button class="theme-toggle" id="themeToggle" style="margin-top: 0;">
-      <span>Light / Dark</span>
-      <span id="themeIcon">◑</span>
-    </button>
+
   </aside>
 
   <main class="workspace">
@@ -2974,25 +2971,7 @@ $('#backHome').addEventListener('click', () => { location.hash = '#home'; });
 if (!location.hash) history.replaceState(null, '', '#home');
 renderRoute();
 
-/* ===== THEME ===== */
-const applyTheme = (t) => {
-  document.documentElement.setAttribute('data-theme', t);
-  $('#themeIcon').textContent = t === 'dark' ? '☾' : '☀';
-  LS.set('theme', t);
-};
-const initTheme = () => {
-  const saved = LS.get('theme');
-  if (saved) return applyTheme(saved);
-  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(dark ? 'dark' : 'light');
-};
-$('#themeToggle').addEventListener('click', () => {
-  const cur = document.documentElement.getAttribute('data-theme');
-  applyTheme(cur === 'dark' ? 'light' : 'dark');
-});
-initTheme();
-
-/* ===== DASHBOARD ===== */
+/* ===== THEME (Old logic removed to avoid conflict) ===== *//* ===== DASHBOARD ===== */
 const QUOTES = [
   "The expert in anything was once a beginner.",
   "It always seems impossible until it's done.",
