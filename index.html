@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#1B2130">
-<meta name="description" content="Study Desk - every tool a student needs on one desk. Free, private, no sign-up.">
-<title>Study Desk — a student's toolkit</title>
+<title>Study Desk — every tool a student needs</title>
+<meta name="description" content="Free student toolkit — focus timer, GPA calculator, flashcards, notes, PDF tools, document scanner. No sign-up, no ads, everything runs in your browser.">
 </head>
 <body>
 <title>Study Desk — a student's toolkit</title>
@@ -1049,6 +1049,102 @@
   .land-cta.secondary { background: transparent; color: var(--ink); border-color: var(--line-2); box-shadow: none; }
   .land-note { font-size: 12px; color: var(--ink-3); margin-top: 14px; }
 
+  /* Warm kindness strip on landing */
+  .kind-strip { max-width: 780px; margin: 8px auto 0; padding: 0 32px; }
+  .kind-card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg);
+    padding: 26px 30px; text-align: center; position: relative; overflow: hidden;
+    box-shadow: var(--shadow);
+  }
+  .kind-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% -20%, var(--accent-soft), transparent 65%); pointer-events: none; }
+  .kind-card > * { position: relative; }
+  .kind-card .kind-eye { font-size: 11px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
+  .kind-card h3 { font-family: "Iowan Old Style", Georgia, serif; font-weight: 400; font-size: 24px; margin: 10px 0 12px; line-height: 1.25; }
+  .kind-card p { color: var(--ink-2); font-size: 14.5px; line-height: 1.7; max-width: 60ch; margin: 0 auto; }
+  .kind-card .kind-actions { display: flex; gap: 10px; justify-content: center; margin-top: 20px; flex-wrap: wrap; }
+  .kind-card .kind-btn {
+    font-family: inherit; cursor: pointer; padding: 11px 22px; border-radius: 10px;
+    font-size: 14px; font-weight: 600; background: var(--accent); color: #fff;
+    border: 1px solid var(--accent); transition: transform .16s, filter .16s;
+  }
+  .kind-card .kind-btn:hover { transform: translateY(-1px); filter: brightness(1.06); }
+  .kind-card .kind-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
+  @media (max-width: 600px) { .kind-strip { padding: 0 20px; } .kind-card { padding: 22px 20px; } .kind-card h3 { font-size: 20px; } }
+
+  /* Floating donate FAB */
+  .fab-donate {
+    position: fixed; right: 22px; bottom: 22px; z-index: 150;
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px 12px 14px; border-radius: 999px;
+    background: var(--accent); color: #fff; border: 1px solid var(--accent);
+    box-shadow: 0 6px 14px rgba(230,102,88,.28), 0 20px 40px rgba(230,102,88,.18);
+    cursor: pointer; font-family: inherit; font-weight: 600; font-size: 13.5px;
+    opacity: 0; transform: translateY(14px) scale(.94); pointer-events: none;
+    transition: opacity .35s ease, transform .35s cubic-bezier(.3,.9,.3,1), box-shadow .2s;
+  }
+  .fab-donate.on { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; animation: fabBreath 5s ease-in-out 1.2s infinite; }
+  .fab-donate:hover { animation-play-state: paused; box-shadow: 0 8px 18px rgba(230,102,88,.34), 0 22px 46px rgba(230,102,88,.22); }
+  .fab-donate .fab-heart { display: inline-block; font-size: 15px; line-height: 1; animation: fabHeart 1.6s ease-in-out infinite; }
+  .fab-donate .fab-label { white-space: nowrap; }
+  .fab-donate .fab-close {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; border-radius: 50%; margin-left: 4px; margin-right: -4px;
+    background: rgba(255,255,255,.18); color: #fff; border: none; cursor: pointer;
+    font-size: 13px; line-height: 1; opacity: .75; transition: opacity .15s, background .15s;
+  }
+  .fab-donate .fab-close:hover { opacity: 1; background: rgba(255,255,255,.28); }
+  @keyframes fabBreath {
+    0%, 100% { transform: translateY(0) scale(1); box-shadow: 0 6px 14px rgba(230,102,88,.28), 0 20px 40px rgba(230,102,88,.18); }
+    50% { transform: translateY(-2px) scale(1.03); box-shadow: 0 8px 20px rgba(230,102,88,.36), 0 24px 50px rgba(230,102,88,.24); }
+  }
+  @keyframes fabHeart {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.18); }
+    60% { transform: scale(.95); }
+  }
+  @media (max-width: 600px) {
+    .fab-donate { right: 14px; bottom: 14px; padding: 10px 14px 10px 12px; font-size: 12.5px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .fab-donate.on { animation: none; }
+    .fab-donate .fab-heart { animation: none; }
+  }
+
+  /* Today's One Thing */
+  .one-thing { position: relative; overflow: hidden; }
+  .one-thing::before { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse at 100% 0%, var(--accent-soft), transparent 55%); pointer-events: none; }
+  .one-thing > * { position: relative; }
+  .one-thing .ot-eye { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
+  .one-thing .ot-set { display: flex; gap: 8px; margin-top: 10px; }
+  .one-thing .ot-set input { flex: 1; }
+  .one-thing .ot-show { display: flex; align-items: center; gap: 12px; padding: 14px; border: 1px dashed var(--line-2); border-radius: 10px; margin-top: 10px; }
+  .one-thing .ot-show.done { border-style: solid; background: var(--ground); }
+  .one-thing .ot-check {
+    width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--line-2);
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+    color: transparent; font-size: 15px; font-weight: 800; transition: all .15s; flex-shrink: 0;
+  }
+  .one-thing .ot-check.done { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .one-thing .ot-text { flex: 1; font-family: "Iowan Old Style", Georgia, serif; font-size: 16.5px; line-height: 1.35; }
+  .one-thing .ot-text.done { text-decoration: line-through; color: var(--ink-3); }
+  .one-thing .ot-clear { background: transparent; border: none; color: var(--ink-3); cursor: pointer; font-size: 12px; padding: 4px 6px; }
+  .one-thing .ot-clear:hover { color: var(--ink); }
+
+  /* Soundscapes */
+  .sound-scape .ss-eye { font-size: 10.5px; letter-spacing: .18em; text-transform: uppercase; font-weight: 700; color: var(--accent); }
+  .sound-scape .ss-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-top: 10px; }
+  .sound-scape .ss-btn {
+    padding: 12px 8px; border-radius: 10px; border: 1px solid var(--line);
+    background: var(--paper); cursor: pointer; font-family: inherit; color: var(--ink);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    font-size: 12px; transition: all .15s;
+  }
+  .sound-scape .ss-btn:hover { border-color: var(--line-2); transform: translateY(-1px); }
+  .sound-scape .ss-btn.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .sound-scape .ss-btn .ss-glyph { font-size: 20px; line-height: 1; }
+  .sound-scape .ss-vol { display: flex; align-items: center; gap: 10px; margin-top: 14px; font-size: 12px; color: var(--ink-3); }
+  .sound-scape .ss-vol input[type=range] { flex: 1; }
+
   .land-tools { max-width: 1100px; width: 100%; margin: 24px auto 0; padding: 0 32px 72px; }
   .land-tools-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
   @media (max-width: 900px) { .land-tools-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -1119,6 +1215,18 @@
       <div class="land-stat"><div class="v">0</div><div class="k">Accounts needed</div></div>
       <div class="land-stat"><div class="v">100%</div><div class="k">Local &amp; private</div></div>
       <div class="land-stat"><div class="v">∞</div><div class="k">XP to earn</div></div>
+    </div>
+  </div>
+
+  <div class="kind-strip">
+    <div class="kind-card">
+      <div class="kind-eye">✦ a small note from the founder</div>
+      <h3>Free forever — kept alive by kindness.</h3>
+      <p>I built Study Desk because every "free" study site I used as an engineering student either wanted my email, gated the good stuff behind a paywall, or slapped ads on my flashcards. This one asks for nothing. No account. No email. No premium tier — <em>ever</em>. If Study Desk saved you an afternoon of assignment stress, a small donation keeps the servers on and lets me keep building. Even ₹49 — one chai — goes a long way. Or share it with one classmate. Both mean the world. ♥</p>
+      <div class="kind-actions">
+        <button class="kind-btn" id="kindDonate">♥ Support Study Desk</button>
+        <button class="kind-btn ghost" id="kindShare">Share with a classmate</button>
+      </div>
     </div>
   </div>
 
@@ -1317,6 +1425,31 @@
           </div>
           <div class="card-sub">The dates that matter, always in sight.</div>
           <div class="col" id="examList" style="gap: 10px;"></div>
+        </div>
+      </div>
+
+      <div class="grid g-2 mt-24">
+        <div class="card one-thing">
+          <div class="ot-eye">Today's one thing</div>
+          <h3 style="margin-top: 6px;">Pick the single thing that would make today count.</h3>
+          <div class="card-sub">One sentence. One tick. That's the whole game.</div>
+          <div id="otBody"></div>
+        </div>
+        <div class="card sound-scape">
+          <div class="ss-eye">Study soundscapes</div>
+          <h3 style="margin-top: 6px;">Ambient focus, generated live.</h3>
+          <div class="card-sub">No downloads, no accounts, no ads. Runs entirely in your browser.</div>
+          <div class="ss-row">
+            <button class="ss-btn" data-scape="off"><span class="ss-glyph">◯</span><span>Off</span></button>
+            <button class="ss-btn" data-scape="brown"><span class="ss-glyph">≋</span><span>Brown noise</span></button>
+            <button class="ss-btn" data-scape="rain"><span class="ss-glyph">☂</span><span>Rain</span></button>
+            <button class="ss-btn" data-scape="cafe"><span class="ss-glyph">☕</span><span>Café hum</span></button>
+          </div>
+          <div class="ss-vol">
+            <span>Volume</span>
+            <input type="range" id="ssVol" min="0" max="100" value="55">
+            <span class="mono" id="ssVolLabel">55</span>
+          </div>
         </div>
       </div>
 
@@ -4805,6 +4938,239 @@ document.addEventListener('keydown', e => {
 renderGoal();
 renderExams();
 renderFormulas();
+
+/* ===== FLOATING DONATE FAB ===== */
+(function fabDonate() {
+  const DISMISS_KEY = 'fabDismissUntil';
+  const dismissUntil = +LS.get(DISMISS_KEY, 0);
+  if (Date.now() < dismissUntil) return;
+
+  const fab = document.createElement('button');
+  fab.className = 'fab-donate';
+  fab.setAttribute('aria-label', 'Support Study Desk');
+  fab.innerHTML = '<span class="fab-heart">♥</span><span class="fab-label">Keep it free</span><span class="fab-close" aria-label="Dismiss">×</span>';
+  document.body.appendChild(fab);
+
+  const shouldHide = () => location.hash === '#about';
+  const sync = () => {
+    if (shouldHide()) fab.classList.remove('on');
+    else fab.classList.add('on');
+  };
+
+  setTimeout(sync, 14000);
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 400) sync();
+  }, { passive: true });
+  window.addEventListener('hashchange', sync);
+
+  fab.addEventListener('click', (e) => {
+    if (e.target.classList.contains('fab-close')) {
+      e.stopPropagation();
+      LS.set(DISMISS_KEY, Date.now() + 3 * 24 * 3600 * 1000);
+      fab.classList.remove('on');
+      setTimeout(() => fab.remove(), 400);
+      return;
+    }
+    if (document.body.classList.contains('landing-mode')) {
+      document.body.classList.remove('landing-mode');
+      location.hash = '#about';
+    } else {
+      go('about');
+    }
+    setTimeout(() => {
+      const card = document.querySelector('#view-about .donate-card') || document.querySelector('.donate-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 120);
+  });
+})();
+
+/* Landing "kindness strip" buttons */
+(function kindStrip() {
+  const donateBtn = $('#kindDonate');
+  const shareBtn = $('#kindShare');
+  if (donateBtn) donateBtn.addEventListener('click', () => {
+    document.body.classList.remove('landing-mode');
+    location.hash = '#about';
+    setTimeout(() => {
+      const card = document.querySelector('#view-about .donate-card');
+      if (card) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 140);
+  });
+  if (shareBtn) shareBtn.addEventListener('click', async () => {
+    const url = 'https://thestudydesk.vercel.app';
+    const text = 'Study Desk — every tool a student needs, free forever, no sign-up. Give it a try:';
+    try {
+      if (navigator.share) {
+        await navigator.share({ title: 'Study Desk', text, url });
+      } else {
+        await navigator.clipboard.writeText(text + ' ' + url);
+        toast('Link copied — send it to a classmate ♥');
+      }
+    } catch (_) {}
+  });
+})();
+
+/* ===== TODAY'S ONE THING ===== */
+function otKey() {
+  const d = new Date();
+  return 'oneThing:' + d.getFullYear() + '-' + (d.getMonth()+1) + '-' + d.getDate();
+}
+function renderOneThing() {
+  const box = $('#otBody');
+  if (!box) return;
+  const st = LS.get(otKey(), null);
+  if (!st) {
+    box.innerHTML = `
+      <div class="ot-set">
+        <input type="text" id="otInput" placeholder="e.g. Finish chapter 4 problems" maxlength="120">
+        <button class="btn primary" id="otSave">Commit</button>
+      </div>
+      <div class="card-sub mt-8" style="font-size: 12px;">Resets every night. No pressure — just one thing.</div>
+    `;
+    const inp = $('#otInput'), btn = $('#otSave');
+    const save = () => {
+      const v = inp.value.trim();
+      if (!v) return;
+      LS.set(otKey(), { text: v, done: false });
+      renderOneThing();
+    };
+    btn.addEventListener('click', save);
+    inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') save(); });
+    inp.focus();
+  } else {
+    box.innerHTML = `
+      <div class="ot-show ${st.done ? 'done' : ''}">
+        <div class="ot-check ${st.done ? 'done' : ''}" id="otCheck">✓</div>
+        <div class="ot-text ${st.done ? 'done' : ''}">${escapeHtml(st.text)}</div>
+        <button class="ot-clear" id="otClear" title="Pick a different one">change</button>
+      </div>
+    `;
+    $('#otCheck').addEventListener('click', () => {
+      const now = LS.get(otKey(), null);
+      if (!now) return;
+      if (!now.done) {
+        LS.set(otKey(), { ...now, done: true });
+        if (typeof earnXP === 'function') earnXP(30, 'One Thing done');
+        else confettiBurst(80);
+        confettiBurst(80);
+        toast('One thing done. Real momentum. ♥');
+      } else {
+        LS.set(otKey(), { ...now, done: false });
+      }
+      renderOneThing();
+    });
+    $('#otClear').addEventListener('click', () => {
+      LS.set(otKey(), null);
+      renderOneThing();
+    });
+  }
+}
+
+/* ===== STUDY SOUNDSCAPES ===== */
+const soundscape = (function () {
+  let ctx = null, src = null, gain = null, filter = null, filter2 = null;
+  let current = 'off';
+  let vol = +LS.get('ssVol', 55) / 100;
+
+  function makeNoiseBuffer(kind) {
+    const dur = 4;
+    const sr = ctx.sampleRate;
+    const buf = ctx.createBuffer(1, sr * dur, sr);
+    const d = buf.getChannelData(0);
+    if (kind === 'brown') {
+      let last = 0;
+      for (let i = 0; i < d.length; i++) {
+        const white = Math.random() * 2 - 1;
+        last = (last + 0.02 * white) / 1.02;
+        d[i] = last * 3.5;
+      }
+    } else {
+      // pink-ish noise via Voss algorithm approximation
+      let b0=0,b1=0,b2=0,b3=0,b4=0,b5=0,b6=0;
+      for (let i = 0; i < d.length; i++) {
+        const w = Math.random() * 2 - 1;
+        b0 = 0.99886*b0 + w*0.0555179;
+        b1 = 0.99332*b1 + w*0.0750759;
+        b2 = 0.96900*b2 + w*0.1538520;
+        b3 = 0.86650*b3 + w*0.3104856;
+        b4 = 0.55000*b4 + w*0.5329522;
+        b5 = -0.7616*b5 - w*0.0168980;
+        d[i] = (b0+b1+b2+b3+b4+b5+b6 + w*0.5362) * 0.11;
+        b6 = w * 0.115926;
+      }
+    }
+    return buf;
+  }
+
+  function stop() {
+    if (src) { try { src.stop(); } catch(e){} src.disconnect(); src = null; }
+    if (gain) { gain.disconnect(); gain = null; }
+    if (filter) { filter.disconnect(); filter = null; }
+    if (filter2) { filter2.disconnect(); filter2 = null; }
+    current = 'off';
+  }
+
+  function play(kind) {
+    if (!ctx) ctx = new (window.AudioContext || window.webkitAudioContext)();
+    if (ctx.state === 'suspended') ctx.resume();
+    stop();
+    if (kind === 'off') return;
+    const noiseKind = kind === 'brown' ? 'brown' : 'pink';
+    src = ctx.createBufferSource();
+    src.buffer = makeNoiseBuffer(noiseKind);
+    src.loop = true;
+    gain = ctx.createGain();
+    gain.gain.value = vol;
+
+    if (kind === 'rain') {
+      filter = ctx.createBiquadFilter();
+      filter.type = 'highpass'; filter.frequency.value = 900;
+      filter2 = ctx.createBiquadFilter();
+      filter2.type = 'lowpass'; filter2.frequency.value = 4200;
+      src.connect(filter).connect(filter2).connect(gain).connect(ctx.destination);
+    } else if (kind === 'cafe') {
+      filter = ctx.createBiquadFilter();
+      filter.type = 'lowpass'; filter.frequency.value = 700;
+      src.connect(filter).connect(gain).connect(ctx.destination);
+    } else {
+      src.connect(gain).connect(ctx.destination);
+    }
+    src.start();
+    current = kind;
+  }
+
+  function setVol(v) {
+    vol = v;
+    if (gain) gain.gain.setTargetAtTime(vol, ctx.currentTime, 0.05);
+    LS.set('ssVol', Math.round(v * 100));
+  }
+
+  return { play, stop, setVol, get current(){ return current; } };
+})();
+
+(function wireSoundscape() {
+  const btns = $$('.sound-scape .ss-btn');
+  const vol = $('#ssVol'), volLabel = $('#ssVolLabel');
+  if (!btns.length || !vol) return;
+  const savedVol = +LS.get('ssVol', 55);
+  vol.value = savedVol;
+  volLabel.textContent = savedVol;
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.remove('on'));
+    b.classList.add('on');
+    soundscape.play(b.dataset.scape);
+    LS.set('ssLast', b.dataset.scape);
+  }));
+  const off = btns.find(b => b.dataset.scape === 'off');
+  if (off) off.classList.add('on');
+  vol.addEventListener('input', () => {
+    volLabel.textContent = vol.value;
+    soundscape.setVol(vol.value / 100);
+  });
+  window.addEventListener('beforeunload', () => soundscape.stop());
+})();
+
+renderOneThing();
 
 /* ===== INIT ===== */
 renderGpa();
