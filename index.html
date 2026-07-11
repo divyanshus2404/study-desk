@@ -1358,6 +1358,53 @@
     box-shadow: 0 6px 16px rgba(0,0,0,0.15);
     filter: brightness(1.1);
   }
+  /* ===== ZEN MODE & MOBILE ===== */
+  body.zen-mode .sidebar { display: none !important; }
+  body.zen-mode .workspace { width: 100% !important; margin: 0 !important; }
+  
+  .hamburger { display: none; background: none; border: none; font-size: 24px; cursor: pointer; padding: 8px; color: var(--ink); }
+  @media (max-width: 768px) {
+    .sidebar { display: none; position: fixed; top: 0; left: 0; bottom: 0; z-index: 999; box-shadow: 0 0 20px rgba(0,0,0,0.1); width: 280px; }
+    .sidebar.mobile-open { display: flex; }
+    .hamburger { display: block; }
+    .workspace { margin-left: 0 !important; padding: 16px !important; }
+  }
+
+  /* ===== HEATMAP ===== */
+  .heatmap-day {
+    width: 14px;
+    height: 14px;
+    background: var(--line);
+    border-radius: 3px;
+    transition: transform 0.1s;
+  }
+  .heatmap-day:hover { transform: scale(1.2); }
+  .heatmap-day[data-level="1"] { background: var(--primary-soft); }
+  .heatmap-day[data-level="2"] { background: var(--accent-soft); }
+  .heatmap-day[data-level="3"] { background: var(--accent); }
+  .heatmap-day[data-level="4"] { background: var(--primary); }
+
+  /* ===== CALCULATOR WIDGET ===== */
+  #calcWidget {
+    position: fixed;
+    top: 60px; right: 24px;
+    width: 260px;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    z-index: 1000;
+    display: none;
+    overflow: hidden;
+  }
+  #calcWidget.open { display: block; }
+  .calc-header { background: var(--ground); padding: 8px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; cursor: move; }
+  .calc-display { padding: 16px; font-size: 24px; font-variant-numeric: tabular-nums; text-align: right; background: var(--paper); border-bottom: 1px solid var(--line); word-break: break-all; }
+  .calc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--line); }
+  .calc-btn { background: var(--paper); border: none; padding: 16px; font-size: 16px; cursor: pointer; transition: background 0.1s; color: var(--ink); }
+  .calc-btn:hover { background: var(--ground); }
+  .calc-btn.op { background: var(--primary-soft); color: var(--primary); font-weight: 600; }
+  .calc-btn.eq { background: var(--accent); color: #fff; font-weight: 600; }
 </style>
 
 <div class="landing">
@@ -1440,6 +1487,9 @@
         <div class="brand-name">Study Desk</div>
       </div>
     </div>
+    <div style="flex:1"></div>
+    <button class="btn ghost sm" id="zenModeBtn" title="Zen Mode (Z)">Zen</button>
+    <button class="btn ghost sm" id="calcToggleBtn" title="Quick Calculator">≡</button>
     <div class="xp-mini mono" id="xpMini">0 XP</div>
   </header>
   <div class="drawer-scrim" id="drawerScrim"></div>
@@ -1467,8 +1517,8 @@
       <button class="nav-item" data-view="notes"><span class="nav-icon">✎</span>Notes</button>
       <button class="nav-item" data-view="flashcards"><span class="nav-icon">▭</span>Flashcards</button>
       <button class="nav-item" data-view="planner"><span class="nav-icon">▨</span>Weekly planner</button>
-      <button class="nav-item" data-view="syllabus"><span class="nav-icon">📊</span>Syllabus Tracker</button>
-      <button class="nav-item" data-view="whiteboard"><span class="nav-icon">🖍️</span>Whiteboard</button>
+      <button class="nav-item" data-view="syllabus"><span class="nav-icon">◫</span>Syllabus Tracker</button>
+      <button class="nav-item" data-view="whiteboard"><span class="nav-icon">▢</span>Whiteboard</button>
       <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
     </nav>
 
@@ -1496,13 +1546,21 @@
 
     <nav class="nav-group">
       <div class="nav-title">More</div>
-      <button class="nav-item" data-view="roadmap"><span class="nav-icon">💡</span>Feature Requests</button>
+      <button class="nav-item" data-view="roadmap"><span class="nav-icon">✧</span>Feature Requests</button>
       <button class="nav-item" data-view="about"><span class="nav-icon">♥</span>About &amp; support</button>
       <button class="nav-item" id="exportData"><span class="nav-icon">⇣</span>Backup data</button>
       <button class="nav-item" id="importData"><span class="nav-icon">⇡</span>Restore backup</button>
       <input type="file" id="importFile" accept=".json" style="display:none;">
       <button class="nav-item" id="openPalette"><span class="nav-icon">⌘</span>Search<span class="nav-badge" style="background:var(--ground);color:var(--ink-3);border:1px solid var(--line);">Ctrl K</span></button>
     </nav>
+    <div style="padding: 12px 16px;">
+      <label style="font-size: 11px; font-weight: 600; color: var(--ink-2); text-transform: uppercase;">Theme</label>
+      <select id="themeSelect" style="width: 100%; margin-top: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px; font-size: 13px; color: var(--ink);">
+        <option value="midnight">Midnight Blue (Default)</option>
+        <option value="matcha">Matcha Green</option>
+        <option value="charcoal">Charcoal Black</option>
+      </select>
+    </div>
 
     <div class="xp-widget" style="margin-top: auto;">
       <div class="xp-top">
@@ -1547,6 +1605,14 @@
             <div class="stat-value mono" id="dashNotes">0</div>
           </div>
         </div>
+      </div>
+
+      <div class="card mt-24">
+        <div class="row between">
+          <h3>Study Heatmap</h3>
+          <div class="text-muted" style="font-size: 13px;">Last 30 days</div>
+        </div>
+        <div id="heatmapGrid" style="display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap;"></div>
       </div>
 
       <div class="grid g-3 mt-24">
@@ -5414,17 +5480,22 @@ document.addEventListener('keydown', e => {
   if (tag === 'input' || tag === 'textarea' || tag === 'select' || e.ctrlKey || e.metaKey || e.altKey) return;
   if (document.body.classList.contains('landing-mode')) return;
   const k = e.key.toLowerCase();
+  
+  // Power user shortcuts
   if (k === 't') { go('timer'); }
   else if (k === 'n') { go('notes'); setTimeout(() => $('#noteNew').click(), 80); }
   else if (k === 'f') { go('flashcards'); }
   else if (k === 'd') { go('dashboard'); }
   else if (k === '/') { e.preventDefault(); openPalette(); }
-  else if (e.key === ' ' && $('#view-flashcards').classList.contains('active')) {
+  else if (k === 'z') { e.preventDefault(); $('#zenModeBtn')?.click(); }
+  else if (k === 'c' && location.hash === '#view-whiteboard') { e.preventDefault(); document.getElementById('wbClear')?.click(); }
+  else if (e.key === ' ' && location.hash === '#view-timer') { e.preventDefault(); $('#timerToggle').click(); }
+  else if (e.key === ' ' && location.hash === '#view-flashcards') {
     e.preventDefault();
-    $('#fcStage').classList.toggle('flipped');
+    if ($('#fcShowAnswer').style.display !== 'none') $('#fcShowAnswer').click();
   }
-  else if (e.key === 'ArrowRight' && $('#view-flashcards').classList.contains('active')) { $('#fcNext').click(); }
-  else if (e.key === 'ArrowLeft' && $('#view-flashcards').classList.contains('active')) { $('#fcPrev').click(); }
+  else if (e.key === 'ArrowRight' && location.hash === '#view-flashcards') { $('#fcNext')?.click(); }
+  else if (e.key === 'ArrowLeft' && location.hash === '#view-flashcards') { $('#fcPrev')?.click(); }
 });
 
 renderGoal();
@@ -6108,6 +6179,125 @@ if (wbCanvas) {
     toast('Exported to PNG!');
   });
 }
+
+/* ===== ZEN MODE & THEMES ===== */
+function toggleZenMode() {
+  document.body.classList.toggle('zen-mode');
+  if (document.body.classList.contains('zen-mode')) {
+    if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{});
+  } else {
+    if (document.fullscreenElement && document.exitFullscreen) document.exitFullscreen().catch(()=>{});
+  }
+}
+$('#zenModeBtn')?.addEventListener('click', toggleZenMode);
+
+function applyTheme(theme) {
+  const root = document.documentElement;
+  if(theme === 'matcha') {
+    root.style.setProperty('--primary', '#3C5A3E');
+    root.style.setProperty('--primary-soft', '#D3E0D4');
+    root.style.setProperty('--accent', '#E27A3F');
+  } else if(theme === 'charcoal') {
+    root.style.setProperty('--primary', '#222222');
+    root.style.setProperty('--primary-soft', '#E0E0E0');
+    root.style.setProperty('--accent', '#888888');
+    root.style.setProperty('--ink', '#111111');
+    root.style.setProperty('--paper', '#F5F5F5');
+    root.style.setProperty('--ground', '#EAEAEA');
+  } else {
+    // Default midnight
+    root.style.setProperty('--primary', '#2B4870');
+    root.style.setProperty('--primary-soft', '#DDE4EF');
+    root.style.setProperty('--accent', '#E27A3F');
+    root.style.setProperty('--ink', '#1B2130');
+    root.style.setProperty('--paper', '#FBF8F1');
+    root.style.setProperty('--ground', '#F5F1E8');
+  }
+}
+const savedTheme = LS.get('theme', 'midnight');
+if($('#themeSelect')) $('#themeSelect').value = savedTheme;
+applyTheme(savedTheme);
+
+$('#themeSelect')?.addEventListener('change', e => {
+  const t = e.target.value;
+  LS.set('theme', t);
+  applyTheme(t);
+});
+
+/* ===== QUICK CALCULATOR ===== */
+$('#calcToggleBtn')?.addEventListener('click', () => $('#calcWidget').classList.toggle('open'));
+
+let calcExpr = '';
+$$('#calcGrid .calc-btn').forEach(btn => {
+  btn.addEventListener('click', e => {
+    const v = e.target.dataset.val;
+    if (v === 'C') { calcExpr = ''; $('#calcDisplay').textContent = '0'; return; }
+    if (v === '=') {
+      try {
+        const res = new Function('return ' + calcExpr)();
+        calcExpr = String(Math.round(res * 10000000) / 10000000);
+        $('#calcDisplay').textContent = calcExpr;
+      } catch(err) {
+        $('#calcDisplay').textContent = 'Error';
+        calcExpr = '';
+      }
+      return;
+    }
+    calcExpr += v;
+    $('#calcDisplay').textContent = calcExpr;
+  });
+});
+
+let calcDragging = false, cX = 0, cY = 0;
+const w = $('#calcWidget');
+$('#calcWidget .calc-header')?.addEventListener('mousedown', e => {
+  calcDragging = true; cX = e.clientX - w.getBoundingClientRect().left; cY = e.clientY - w.getBoundingClientRect().top;
+});
+document.addEventListener('mousemove', e => {
+  if(!calcDragging) return;
+  w.style.left = (e.clientX - cX) + 'px';
+  w.style.top = (e.clientY - cY) + 'px';
+  w.style.right = 'auto';
+});
+document.addEventListener('mouseup', () => calcDragging = false);
+
+/* ===== HEATMAP RENDER ===== */
+function renderHeatmap() {
+  const grid = $('#heatmapGrid');
+  if (!grid) return;
+  grid.innerHTML = '';
+  const history = LS.get('timerHistory', []);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+  
+  const days = {};
+  for(let i=29; i>=0; i--) {
+    const d = new Date(today);
+    d.setDate(d.getDate() - i);
+    days[d.toISOString().slice(0,10)] = 0;
+  }
+  
+  history.forEach(h => {
+    const date = new Date(h.time).toISOString().slice(0,10);
+    if(days[date] !== undefined) days[date] += h.dur;
+  });
+  
+  Object.keys(days).forEach(date => {
+    const min = days[date];
+    let level = 0;
+    if(min > 0) level = 1;
+    if(min >= 25) level = 2;
+    if(min >= 60) level = 3;
+    if(min >= 120) level = 4;
+    
+    const square = document.createElement('div');
+    square.className = 'heatmap-day';
+    square.dataset.level = level;
+    square.title = `${date}: ${min} mins`;
+    grid.appendChild(square);
+  });
+}
+renderHeatmap();
 
 /* ===== CUSTOM WAITLIST SUBMISSION ===== */
 function attachWaitlistHandler(formId, successId) {
