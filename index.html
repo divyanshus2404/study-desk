@@ -3715,6 +3715,10 @@ window.loadMedicalTopic = function(topicName) {
       <button class="btn ghost" style="padding:4px 8px;" onclick="window.toggleBookmarkUI(this, '${topicName}')">${isBookmarked ? '⭐️ Bookmarked' : '☆ Bookmark'}</button>
     </div>
   `;
+  if (data.image) {
+    html += `<img src="${data.image}" alt="${topicName}" style="width:100%; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--line);">`;
+  }
+  
   if (data.type === 'disease') {
     if(data.overview) html += `<div style="margin-bottom: 12px;"><b>Overview:</b> ${data.overview}</div>`;
     if(data.anatomy) html += `<div style="margin-bottom: 12px;"><b>Anatomy/Physiology:</b> ${data.anatomy}</div>`;

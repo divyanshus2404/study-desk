@@ -138,6 +138,7 @@ const medicalData = {
   content: {
     "Asthma": {
       type: "disease",
+      image: "lungs_diagram.jpg",
       overview: "Asthma is a chronic inflammatory disorder of the airways characterized by reversible airflow obstruction and bronchospasm.",
       anatomy: "Involves the tracheobronchial tree. Smooth muscle hypertrophy, mucosal edema, and mucus plugging occur in the small airways (bronchioles).",
       etiology: "Multifactorial. Triggers include allergens (pollen, dust mites, pet dander), respiratory infections (viral), cold air, exercise, smoke, and stress. Genetic predisposition (atopy) plays a major role.",
@@ -175,6 +176,7 @@ const medicalData = {
     },
     "Hypertension": {
       type: "disease",
+      image: "heart_diagram.jpg",
       overview: "Hypertension (HTN), commonly known as high blood pressure, is a long-term medical condition in which the blood pressure in the arteries is persistently elevated.",
       anatomy: "Involves the cardiovascular system, primarily the heart (which pumps against increased resistance) and the arterial blood vessels (which may undergo remodeling). Key regulatory systems include the Renin-Angiotensin-Aldosterone System (RAAS) and the sympathetic nervous system.",
       etiology: "Primary (Essential) HTN (90-95%): No specific identifiable medical cause; multifactorial (genetics, diet, lifestyle). Secondary HTN (5-10%): Caused by an underlying condition like renal artery stenosis, primary aldosteronism, pheochromocytoma, or OSA.",
