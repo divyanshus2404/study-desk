@@ -60,6 +60,9 @@
       --shadow-lift: 0 4px 8px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
       --grid-line: rgba(127,160,212,.06);
     }
+    input[type=text], input[type=number], input[type=date], input[type=email], select, textarea {
+      background: color-mix(in srgb, var(--paper) 40%, #000000);
+    }
   }
   :root[data-theme="dark"] {
     --ground: #14171F;
@@ -82,6 +85,9 @@
     --shadow: 0 1px 2px rgba(0,0,0,.3), 0 4px 12px rgba(0,0,0,.35);
     --shadow-lift: 0 4px 8px rgba(0,0,0,.4), 0 16px 40px rgba(0,0,0,.5);
     --grid-line: rgba(127,160,212,.06);
+  }
+  [data-theme="dark"] input[type=text], [data-theme="dark"] input[type=number], [data-theme="dark"] input[type=date], [data-theme="dark"] input[type=email], [data-theme="dark"] select, [data-theme="dark"] textarea {
+    background: color-mix(in srgb, var(--paper) 40%, #000000);
   }
   :root[data-theme="light"] {
     --ground: #F5F1E8;
@@ -206,9 +212,9 @@
     width: 100%;
     font-family: inherit;
   }
-  .nav-item:hover { background: var(--paper); color: var(--ink); }
-  .nav-item.active { background: var(--ink); color: var(--paper); }
-  .nav-item.active .nav-icon { color: var(--accent); }
+  .nav-item:hover { background: var(--primary-soft); color: var(--ink); }
+  .nav-item.active { background: var(--primary); color: #FFFFFF; font-weight: 500; }
+  .nav-item.active .nav-icon { color: var(--highlight); }
   .nav-icon { width: 16px; display: inline-flex; opacity: .85; }
 
   .theme-toggle {
@@ -421,7 +427,7 @@
     font-family: inherit;
     font-size: 14px;
     color: var(--ink);
-    background: var(--paper);
+    background: color-mix(in srgb, var(--paper) 40%, #ffffff);
     border: 1px solid var(--line-2);
     border-radius: 8px;
     padding: 8px 12px;
@@ -866,6 +872,23 @@
   .mock-score-ring { font-family: "Iowan Old Style", Georgia, serif; font-size: 64px; font-weight: 700; line-height: 1; }
   .mock-review-q { padding: 16px 0; border-bottom: 1px solid var(--line); }
   .mock-review-q:last-child { border-bottom: none; }
+  /* MEDICAL BOOK */
+  .book-container { display: flex; justify-content: center; align-items: center; margin-top: 40px; perspective: 1200px; padding-bottom: 20px; }
+  .book { position: relative; width: 320px; height: 440px; transform-style: preserve-3d; }
+  .page {
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+    transform-origin: left center; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
+    z-index: calc(10 - var(--i));
+  }
+  .page.flipped { transform: rotateY(-180deg); z-index: var(--i); }
+  .page-front, .page-back {
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden;
+    padding: 24px; background: #fff;
+    box-shadow: inset 4px 0 10px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; color: #333;
+  }
+  .page-front { border-radius: 4px 12px 12px 4px; }
+  .page-back { transform: rotateY(180deg); border-radius: 12px 4px 4px 12px; box-shadow: inset -4px 0 10px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08); }
+  [data-theme="dark"] .page-front, [data-theme="dark"] .page-back { background: var(--paper); color: var(--ink); box-shadow: inset 4px 0 10px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3); }
 
   /* mock tests teaser */
   .mock-hero { text-align: center; padding: 60px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; overflow: hidden; }
@@ -1575,12 +1598,14 @@
       <button class="nav-item" data-view="whiteboard"><span class="nav-icon">▢</span>Whiteboard</button>
       <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
       <button class="nav-item" data-view="ai"><span class="nav-icon">✦</span>AI Study Helper</button>
+      <button class="nav-item" data-view="medical"><span class="nav-icon">⚕</span>Medical Helper</button>
     </nav>
 
     <nav class="nav-group">
       <div class="nav-title">Calculate</div>
       <button class="nav-item" data-view="calculator"><span class="nav-icon">≡</span>Calculator</button>
       <button class="nav-item" data-view="gpa"><span class="nav-icon">∑</span>GPA</button>
+      <button class="nav-item" data-view="ssims"><span class="nav-icon">◴</span>SSIMS Attendance</button>
       <button class="nav-item" data-view="grade"><span class="nav-icon">△</span>Grade target</button>
       <button class="nav-item" data-view="converter"><span class="nav-icon">⇌</span>Unit converter</button>
     </nav>
@@ -1619,7 +1644,7 @@
       <div class="xp-rank" id="xpRank">Freshman</div>
     </div>
     
-    <dialog id="xpInfoDialog" style="border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); padding: 24px; max-width: 400px; box-shadow: 0 12px 32px rgba(0,0,0,0.15); margin: auto;">
+    <dialog id="xpInfoDialog" style="border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); padding: 24px; width: 90vw; max-width: 400px; box-shadow: 0 12px 32px rgba(0,0,0,0.15); margin: auto;">
       <h3 style="margin-top: 0;">How to earn XP</h3>
       <ul style="padding-left: 20px; line-height: 1.6; margin-bottom: 24px; font-size: 14px;">
         <li><b>+30 XP</b>: Completing your "One Thing"</li>
@@ -1959,6 +1984,101 @@
               <div class="stat-value mono" id="gpaCumCredits" style="text-align:right;">0</div>
             </div>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== MEDICAL HELPER ============== -->
+    <section class="view" id="view-medical">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Medical Helper</span>
+          <h1 style="margin-top: 6px;">Theories, NEET & Key Topics.</h1>
+          <p class="lede">Flip through this interactive glossy guide for your medical studies.</p>
+        </div>
+      </div>
+      <div class="book-container">
+        <div class="book" id="medicalBook">
+          <!-- Page 1 (Cover) -->
+          <div class="page page-cover" style="--i:1;">
+            <div class="page-front" style="background: linear-gradient(135deg, #E27A3F, #D07364); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+              <h2 style="color:#fff; text-align:center; font-size:28px;">NEET & Medical<br>Study Guide</h2>
+              <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px; font-weight:500;">Click to open</div>
+            </div>
+            <div class="page-back">
+              <h3>Table of Contents</h3>
+              <ul style="margin-top:20px; line-height:2;">
+                <li><b>1.</b> Cell Biology</li>
+                <li><b>2.</b> Human Physiology</li>
+                <li><b>3.</b> Genetics & Evolution</li>
+              </ul>
+            </div>
+          </div>
+          <!-- Page 2 -->
+          <div class="page" style="--i:2;">
+            <div class="page-front">
+              <h3>1. Cell Biology</h3>
+              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('cell_biology.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
+              <p style="font-size:13px; line-height:1.6;">The cell is the basic structural and functional unit of life. Key organelles include the nucleus, mitochondria, and endoplasmic reticulum. High yield for NEET.</p>
+            </div>
+            <div class="page-back">
+              <h3>2. Human Physiology</h3>
+              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('heart_diagram.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
+              <p style="font-size:13px; line-height:1.6;">Human physiology explores the functions of the human body, including the circulatory, respiratory, and nervous systems.</p>
+            </div>
+          </div>
+          <!-- Page 3 -->
+          <div class="page" style="--i:3;">
+            <div class="page-front">
+              <h3>3. Genetics</h3>
+              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('dna_helix.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
+              <p style="font-size:13px; line-height:1.6;">Mendelian genetics, DNA structure, replication, and transcription are crucial topics. Focus on the central dogma of molecular biology.</p>
+            </div>
+            <div class="page-back" style="background: linear-gradient(135deg, #1B2130, #3D4557); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+              <h2 style="color:#fff; text-align:center;">End of Guide</h2>
+              <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px;">Review daily for best results.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:32px; display:flex; gap:16px; justify-content:center;">
+        <button class="btn" id="bookPrevBtn">Previous Page</button>
+        <button class="btn primary" id="bookNextBtn">Next Page</button>
+      </div>
+    </section>
+
+    <!-- ============== SSIMS ATTENDANCE ============== -->
+    <section class="view" id="view-ssims">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">SSIMS Attendance</span>
+          <h1 style="margin-top: 6px;">Stay above the threshold.</h1>
+          <p class="lede">Track your NMC-mandated 75% Theory and 80% Practical attendance. See exactly how many classes you need to attend or can safely skip.</p>
+        </div>
+      </div>
+      <div class="card" style="max-width: 600px; margin-bottom: 24px;">
+        <div class="row-inputs" style="grid-template-columns: 1fr 1fr; gap: 16px;">
+          <div>
+            <label style="font-weight:600; color:var(--primary);">Theory Attendance</label>
+            <div style="font-size:12px; color:var(--ink-3); margin-bottom:8px;">NMC target: 75%</div>
+            <label>Conducted Classes</label>
+            <input type="number" id="ssimsThCond" min="0" placeholder="e.g. 40">
+            <label style="margin-top:12px;">Attended Classes</label>
+            <input type="number" id="ssimsThAtt" min="0" placeholder="e.g. 31">
+            <div id="ssimsThRes" style="margin-top:16px; padding:12px; border-radius:8px; background:var(--ground); border:1px solid var(--line); font-size:14px; font-weight:500;">Fill out fields to calculate</div>
+          </div>
+          <div>
+            <label style="font-weight:600; color:var(--primary);">Practical Attendance</label>
+            <div style="font-size:12px; color:var(--ink-3); margin-bottom:8px;">NMC target: 80%</div>
+            <label>Conducted Classes</label>
+            <input type="number" id="ssimsPrCond" min="0" placeholder="e.g. 20">
+            <label style="margin-top:12px;">Attended Classes</label>
+            <input type="number" id="ssimsPrAtt" min="0" placeholder="e.g. 18">
+            <div id="ssimsPrRes" style="margin-top:16px; padding:12px; border-radius:8px; background:var(--ground); border:1px solid var(--line); font-size:14px; font-weight:500;">Fill out fields to calculate</div>
+          </div>
+        </div>
+        <div style="margin-top:24px; text-align:right;">
+          <button class="btn primary" id="ssimsCalcBtn">Calculate Minimum Classes</button>
         </div>
       </div>
     </section>
@@ -3514,6 +3634,46 @@ $('#gpaClear').addEventListener('click', () => {
   renderGpa();
 });
 
+/* ===== SSIMS ATTENDANCE ===== */
+function calcSSIMS(cond, att, target) {
+  if (isNaN(cond) || isNaN(att) || cond === 0) return "Enter valid numbers.";
+  if (att > cond) return "Attended cannot exceed conducted.";
+  const pct = (att / cond) * 100;
+  if (pct >= target * 100) {
+    const canSkip = Math.floor((att - target * cond) / target);
+    return `Current: <b>${pct.toFixed(1)}%</b>. You can safely skip <b>${canSkip}</b> upcoming class(es) and remain above ${target*100}%.`;
+  } else {
+    const need = Math.ceil((target * cond - att) / (1 - target));
+    return `Current: <b style="color:var(--danger);">${pct.toFixed(1)}%</b>. You MUST attend the next <b>${need}</b> class(es) to hit ${target*100}%.`;
+  }
+}
+$('#ssimsCalcBtn')?.addEventListener('click', () => {
+  const tc = parseInt($('#ssimsThCond').value);
+  const ta = parseInt($('#ssimsThAtt').value);
+  const pc = parseInt($('#ssimsPrCond').value);
+  const pa = parseInt($('#ssimsPrAtt').value);
+  $('#ssimsThRes').innerHTML = calcSSIMS(tc, ta, 0.75);
+  $('#ssimsPrRes').innerHTML = calcSSIMS(pc, pa, 0.80);
+});
+
+/* ===== MEDICAL HELPER ===== */
+let medCurrentPage = 1;
+const medPages = document.querySelectorAll('#medicalBook .page');
+$('#bookNextBtn')?.addEventListener('click', () => {
+  if (medCurrentPage <= medPages.length) {
+    const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
+    if (p) p.classList.add('flipped');
+    medCurrentPage++;
+  }
+});
+$('#bookPrevBtn')?.addEventListener('click', () => {
+  if (medCurrentPage > 1) {
+    medCurrentPage--;
+    const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
+    if (p) p.classList.remove('flipped');
+  }
+});
+
 /* ===== GRADE TARGET ===== */
 function computeGrade() {
   const cur = +$('#gtCurrent').value;
@@ -3937,6 +4097,7 @@ updateCiteFields(); renderSavedCites();
 
 /* ===== HABITS ===== */
 let habits = LS.get('habits', []);
+if (!Array.isArray(habits)) habits = [];
 function renderHabits() {
   const header = $('#habitHeader'); header.innerHTML = '<div class="habit-name" style="font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--ink-3);font-weight:600;">Habit</div>';
   const days = getLast7Days();
@@ -4628,11 +4789,16 @@ const STOP = new Set('the a an and or of to in on for is are was were be been it
 function scoreChunk(chunk, terms) {
   const lower = chunk.text.toLowerCase();
   let score = 0;
+  let uniqueMatches = 0;
   terms.forEach(t => {
     const count = lower.split(t).length - 1;
-    score += count * (t.length > 6 ? 2 : 1);
+    if (count > 0) {
+      uniqueMatches++;
+      score += Math.log2(count + 1) * (t.length > 5 ? 2 : 1);
+    }
   });
-  return score;
+  // Heavily prioritize chunks that contain multiple DIFFERENT keywords
+  return score * (uniqueMatches * uniqueMatches);
 }
 function answerQuestion(q) {
   const terms = q.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(t => t.length > 2 && !STOP.has(t));
@@ -5590,8 +5756,10 @@ const TOOL_INDEX = [
   { name: 'Syllabus tracker', view: 'syllabus', icon: '◫', kw: 'course class semester progress completion' },
   { name: 'Whiteboard', view: 'whiteboard', icon: '▢', kw: 'draw sketch scratchpad notes pen erase' },
   { name: 'Formula sheets', view: 'formulas', icon: 'ƒ', kw: 'math physics chemistry equations' },
+  { name: 'Medical Helper', view: 'medical', icon: '⚕', kw: 'medicine neet topics glossary flashcards' },
   { name: 'Calculator', view: 'calculator', icon: '≡', kw: 'math scientific compute' },
   { name: 'GPA calculator', view: 'gpa', icon: '∑', kw: 'grades semester credits' },
+  { name: 'SSIMS Attendance', view: 'ssims', icon: '◴', kw: 'attendance ssims tracker medical 75 80 absent present' },
   { name: 'Grade target', view: 'grade', icon: '△', kw: 'final exam need score' },
   { name: 'Unit converter', view: 'converter', icon: '⇌', kw: 'convert length mass temperature' },
   { name: 'Word counter', view: 'wordcount', icon: '¶', kw: 'essay characters count' },
