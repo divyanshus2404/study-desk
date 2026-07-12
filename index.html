@@ -2938,6 +2938,47 @@
       </div>
     </div>
 
+    <!-- Ambient Soundscapes Widget -->
+    <div id="ambientWidget" style="position: fixed; bottom: 24px; right: 24px; z-index: 1000; display: flex; flex-direction: column; align-items: flex-end; gap: 12px;">
+      <!-- Audio Player Menu (Hidden by default) -->
+      <div id="ambientMenu" class="card" style="display: none; width: 300px; padding: 16px; box-shadow: 0 12px 32px rgba(0,0,0,0.15); border-radius: 16px; transform-origin: bottom right; transition: all 0.2s ease;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h3 style="margin: 0; font-size: 15px;">Focus Audio</h3>
+          <button class="btn ghost sm" id="ambientClose" style="padding: 4px;">×</button>
+        </div>
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; background: var(--ground); padding: 4px; border-radius: 8px;">
+          <button class="btn sm active" id="tabLofi" style="flex: 1; justify-content: center; font-size: 13px;">Lo-Fi</button>
+          <button class="btn sm ghost" id="tabAmbient" style="flex: 1; justify-content: center; font-size: 13px;">Ambient</button>
+        </div>
+        <div id="listLofi" style="display: flex; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; margin-bottom: 12px;">
+          <button class="btn ghost sm ambient-station active" data-vid="jfKfPfyJRdk" style="justify-content: flex-start; font-size: 13px;">Lofi Girl (Classic)</button>
+          <button class="btn ghost sm ambient-station" data-vid="4xDzrJKXOOY" style="justify-content: flex-start; font-size: 13px;">Synthwave / Chillwave</button>
+          <button class="btn ghost sm ambient-station" data-vid="5yx6BWlEVcY" style="justify-content: flex-start; font-size: 13px;">Late Night Chill</button>
+          <button class="btn ghost sm ambient-station" data-vid="e3L1PIY1lN8" style="justify-content: flex-start; font-size: 13px;">Coffee Shop Jazz</button>
+          <button class="btn ghost sm ambient-station" data-vid="tfBVp0Zi2iE" style="justify-content: flex-start; font-size: 13px;">Lofi Boy (Chill)</button>
+          <button class="btn ghost sm ambient-station" data-vid="7NOSDKb0HlU" style="justify-content: flex-start; font-size: 13px;">Coding Lofi</button>
+        </div>
+        <div id="listAmbient" style="display: none; flex-direction: column; gap: 4px; max-height: 150px; overflow-y: auto; margin-bottom: 12px;">
+          <button class="btn ghost sm ambient-station" data-vid="mPZkdNFkNps" style="justify-content: flex-start; font-size: 13px;">Heavy Rain</button>
+          <button class="btn ghost sm ambient-station" data-vid="h2zkV-l_TbY" style="justify-content: flex-start; font-size: 13px;">Bustling Cafe</button>
+          <button class="btn ghost sm ambient-station" data-vid="Ftm2uv7-Ybw" style="justify-content: flex-start; font-size: 13px;">Crackling Fireplace</button>
+          <button class="btn ghost sm ambient-station" data-vid="nMfPqeZjc2c" style="justify-content: flex-start; font-size: 13px;">White Noise</button>
+        </div>
+        <div style="display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); padding-top: 12px;">
+          <button class="btn primary" id="ambientPlayPause" style="width: 40px; height: 40px; border-radius: 50%; padding: 0; display: flex; justify-content: center; align-items: center;">▶</button>
+          <div style="flex: 1; display: flex; align-items: center; gap: 8px;">
+            <span style="font-size: 12px; color: var(--ink-2);">🔉</span>
+            <input type="range" id="ambientVolume" min="0" max="100" value="50" style="flex: 1; cursor: pointer;">
+          </div>
+        </div>
+      </div>
+      <!-- Floating Button -->
+      <button class="btn accent" id="ambientToggleBtn" style="width: 56px; height: 56px; border-radius: 50%; box-shadow: 0 4px 16px rgba(0,0,0,0.2); display: flex; justify-content: center; align-items: center; font-size: 24px; padding: 0;">🎧</button>
+    </div>
+    
+    <!-- Hidden YT Player -->
+    <div id="ytPlayerContainer" style="display: none;"></div>
+
   </main>
 </div>
 
@@ -7081,6 +7122,112 @@ const studyNotif = {
 /* ===== INIT ===== */
 renderGpa();
 renderTimer();
+/* ===== AMBIENT SOUNDSCAPES ===== */
+let ambientPlayer = null;
+let currentAmbientVid = LS.get('ambientVid') || 'jfKfPfyJRdk';
+let ambientIsPlaying = false;
+let ambientVol = parseInt(LS.get('ambientVol') || '50', 10);
+
+function initAmbient() {
+  const tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  const firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+}
+
+window.onYouTubeIframeAPIReady = function() {
+  ambientPlayer = new YT.Player('ytPlayerContainer', {
+    height: '0',
+    width: '0',
+    videoId: currentAmbientVid,
+    playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1, 'fs': 0, 'modestbranding': 1, 'playsinline': 1 },
+    events: {
+      'onReady': onAmbientPlayerReady,
+      'onStateChange': onAmbientPlayerStateChange
+    }
+  });
+};
+
+function onAmbientPlayerReady(event) {
+  ambientPlayer.setVolume(ambientVol);
+  $('#ambientVolume').value = ambientVol;
+  
+  // Update active states
+  $$('.ambient-station').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.vid === currentAmbientVid);
+    btn.classList.toggle('ghost', btn.dataset.vid !== currentAmbientVid);
+  });
+}
+
+function onAmbientPlayerStateChange(event) {
+  if (event.data == YT.PlayerState.PLAYING) {
+    ambientIsPlaying = true;
+    $('#ambientPlayPause').textContent = '⏸';
+  } else if (event.data == YT.PlayerState.PAUSED || event.data == YT.PlayerState.ENDED) {
+    ambientIsPlaying = false;
+    $('#ambientPlayPause').textContent = '▶';
+  }
+}
+
+$('#ambientToggleBtn').addEventListener('click', () => {
+  const menu = $('#ambientMenu');
+  menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+});
+
+$('#ambientClose').addEventListener('click', () => {
+  $('#ambientMenu').style.display = 'none';
+});
+
+$('#tabLofi').addEventListener('click', () => {
+  $('#tabLofi').classList.add('active'); $('#tabLofi').classList.remove('ghost');
+  $('#tabAmbient').classList.add('ghost'); $('#tabAmbient').classList.remove('active');
+  $('#listLofi').style.display = 'flex';
+  $('#listAmbient').style.display = 'none';
+});
+
+$('#tabAmbient').addEventListener('click', () => {
+  $('#tabAmbient').classList.add('active'); $('#tabAmbient').classList.remove('ghost');
+  $('#tabLofi').classList.add('ghost'); $('#tabLofi').classList.remove('active');
+  $('#listAmbient').style.display = 'flex';
+  $('#listLofi').style.display = 'none';
+});
+
+$$('.ambient-station').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    $$('.ambient-station').forEach(b => { b.classList.remove('active'); b.classList.add('ghost'); });
+    e.target.classList.add('active');
+    e.target.classList.remove('ghost');
+    
+    currentAmbientVid = e.target.dataset.vid;
+    LS.set('ambientVid', currentAmbientVid);
+    
+    if (ambientPlayer && ambientPlayer.loadVideoById) {
+      ambientPlayer.loadVideoById(currentAmbientVid);
+      ambientIsPlaying = true;
+      $('#ambientPlayPause').textContent = '⏸';
+    }
+  });
+});
+
+$('#ambientPlayPause').addEventListener('click', () => {
+  if (!ambientPlayer || !ambientPlayer.getPlayerState) return;
+  if (ambientIsPlaying) {
+    ambientPlayer.pauseVideo();
+  } else {
+    ambientPlayer.playVideo();
+  }
+});
+
+$('#ambientVolume').addEventListener('input', (e) => {
+  ambientVol = e.target.value;
+  if (ambientPlayer && ambientPlayer.setVolume) {
+    ambientPlayer.setVolume(ambientVol);
+  }
+  LS.set('ambientVol', ambientVol);
+});
+
+initAmbient();
+
 renderDashboard();
 </script>
 
