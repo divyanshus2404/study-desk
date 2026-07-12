@@ -6440,8 +6440,11 @@ if (wbCanvas) {
   function setActiveTool(toolName) {
     wbTool = toolName;
     $$('[id^="wbTool"]').forEach(btn => {
-      btn.classList.toggle('active', btn.id === 'wbTool' + (toolName.charAt(0).toUpperCase() + toolName.slice(1)));
-      btn.classList.toggle('ghost', btn.id !== 'wbTool' + (toolName.charAt(0).toUpperCase() + toolName.slice(1)));
+      const isActive = btn.id === 'wbTool' + (toolName.charAt(0).toUpperCase() + toolName.slice(1));
+      btn.classList.toggle('active', isActive);
+      btn.classList.toggle('ghost', !isActive);
+      btn.style.borderColor = isActive ? 'var(--accent)' : 'transparent';
+      btn.style.color = isActive ? 'var(--accent)' : 'inherit';
     });
   }
 
