@@ -1665,6 +1665,7 @@
         <option value="auto">System Default (OG Orange)</option>
         <option value="light">Light Theme</option>
         <option value="dark">Dark Theme</option>
+        <option value="girlypop">Customize: Girly Pop ✨</option>
         <option value="pink">Customize: Pink</option>
         <option value="matcha">Customize: Matcha Green</option>
         <option value="charcoal">Customize: Charcoal Black</option>
@@ -6827,7 +6828,15 @@ function applyTheme(theme) {
   // Clean up custom overrides to let base CSS handle standard themes
   ['--primary', '--primary-soft', '--accent', '--ink', '--paper', '--ground'].forEach(p => root.style.removeProperty(p));
   
-  if (theme === 'pink') {
+  if (theme === 'girlypop') {
+    root.setAttribute('data-theme', 'light');
+    root.style.setProperty('--primary', '#DB2777'); // vibrant hot pink
+    root.style.setProperty('--primary-soft', '#FCE7F3'); // very soft pink
+    root.style.setProperty('--accent', '#8B5CF6'); // violet pop
+    root.style.setProperty('--ink', '#831843'); // deep magenta for text
+    root.style.setProperty('--paper', '#FFFFFF'); // pure white cards
+    root.style.setProperty('--ground', '#FDF2F8'); // pale blush background
+  } else if (theme === 'pink') {
     root.setAttribute('data-theme', 'light');
     root.style.setProperty('--primary', '#D07364');
     root.style.setProperty('--primary-soft', '#E6C6C1');
