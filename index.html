@@ -2839,7 +2839,10 @@
         </div>
       </div>
       <div class="card" style="padding: 0; overflow: hidden; background: #fff; border-radius: 12px; border: 1px solid var(--line); position: relative;">
-        <div style="position: absolute; top: 16px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 10; max-height: 80vh; overflow-y: auto;">
+        <button class="btn" id="wbTogglePalette" style="position: absolute; top: 16px; left: 16px; z-index: 11; background: var(--paper); border: 1px solid var(--line); border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); padding: 6px 12px; display: flex; align-items: center; gap: 6px; cursor: pointer;">
+          <span style="font-size: 16px;">🛠️</span> <span style="font-weight: 500;">Tools</span>
+        </button>
+        <div id="wbPaletteContainer" style="position: absolute; top: 60px; left: 16px; display: flex; flex-direction: column; gap: 8px; z-index: 10; max-height: 80vh; overflow-y: auto; transition: all 0.2s ease; transform-origin: top left; opacity: 0; pointer-events: none; transform: scale(0.95);">
           <!-- Tools Row 1: Drawing Tools -->
           <div style="display: flex; gap: 8px; background: var(--paper); padding: 8px; border-radius: 8px; border: 1px solid var(--line); flex-wrap: wrap;">
             <button class="btn sm active" id="wbToolPen" title="Pen" style="min-width: 40px; justify-content: center; border-color: var(--accent); color: var(--accent);">✏️</button>
@@ -6232,6 +6235,29 @@ if (wbCanvas) {
   let backgroundImage = null;
   let backgroundImageAlpha = 0.5;
   const MAX_UNDO = 20;
+
+  const wbPaletteContainer = document.getElementById('wbPaletteContainer');
+  const wbTogglePalette = document.getElementById('wbTogglePalette');
+  let paletteOpen = false;
+  
+  if (wbTogglePalette && wbPaletteContainer) {
+    wbTogglePalette.addEventListener('click', () => {
+      paletteOpen = !paletteOpen;
+      if (paletteOpen) {
+        wbPaletteContainer.style.opacity = '1';
+        wbPaletteContainer.style.pointerEvents = 'auto';
+        wbPaletteContainer.style.transform = 'scale(1)';
+        wbTogglePalette.classList.add('active');
+        wbTogglePalette.classList.remove('ghost');
+      } else {
+        wbPaletteContainer.style.opacity = '0';
+        wbPaletteContainer.style.pointerEvents = 'none';
+        wbPaletteContainer.style.transform = 'scale(0.95)';
+        wbTogglePalette.classList.add('ghost');
+        wbTogglePalette.classList.remove('active');
+      }
+    });
+  }
 
   function getMousePos(e) {
     const rect = wbCanvas.getBoundingClientRect();
