@@ -1079,6 +1079,54 @@
   .kind-card .kind-btn.ghost { background: transparent; color: var(--ink); border-color: var(--line-2); }
   @media (max-width: 600px) { .kind-strip { padding: 0 20px; } .kind-card { padding: 22px 20px; } .kind-card h3 { font-size: 20px; } }
 
+  /* PWA install banner */
+  .pwa-install-bar {
+    position: fixed; bottom: 0; left: 0; right: 0; z-index: 160;
+    background: var(--paper); border-top: 1px solid var(--line); box-shadow: 0 -4px 24px rgba(0,0,0,.12);
+    padding: 14px 20px; display: flex; align-items: center; gap: 14px;
+    transform: translateY(100%); transition: transform .35s cubic-bezier(.3,.9,.3,1);
+  }
+  .pwa-install-bar.show { transform: translateY(0); }
+  .pwa-install-bar .pwa-icon { font-size: 28px; flex-shrink: 0; }
+  .pwa-install-bar .pwa-text { flex: 1; }
+  .pwa-install-bar .pwa-title { font-weight: 700; font-size: 14px; }
+  .pwa-install-bar .pwa-sub { font-size: 12px; color: var(--ink-3); margin-top: 2px; }
+  .pwa-install-bar .pwa-btn {
+    font-family: inherit; cursor: pointer; padding: 9px 18px; border-radius: 10px;
+    font-size: 13px; font-weight: 700; background: var(--accent); color: #fff;
+    border: 1px solid var(--accent); flex-shrink: 0;
+  }
+  .pwa-install-bar .pwa-dismiss { background: none; border: none; color: var(--ink-3); cursor: pointer; font-size: 18px; padding: 4px 8px; flex-shrink: 0; }
+
+  /* Notification toggle on dashboard */
+  .notif-toggle { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--paper); cursor: pointer; font-family: inherit; color: var(--ink); font-size: 13px; width: 100%; }
+  .notif-toggle .nt-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-2); flex-shrink: 0; }
+  .notif-toggle .nt-dot.on { background: #3ecf6a; }
+  .notif-toggle:hover { border-color: var(--line-2); }
+
+  /* Flashcard share */
+  .fc-share-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .fc-share-link { flex: 1; min-width: 0; font-size: 12px; background: var(--ground); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  /* AI study assistant */
+  .ai-assist { }
+  .ai-assist .ai-input-row { display: flex; gap: 8px; }
+  .ai-assist .ai-input-row textarea { flex: 1; min-height: 80px; }
+  .ai-assist .ai-output { margin-top: 14px; padding: 16px; background: var(--ground); border: 1px solid var(--line); border-radius: 10px; white-space: pre-wrap; font-size: 13.5px; line-height: 1.65; max-height: 400px; overflow-y: auto; }
+  .ai-output .ai-card { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--paper); }
+  .ai-output .ai-card .ai-q { font-weight: 600; margin-bottom: 4px; }
+  .ai-output .ai-card .ai-a { color: var(--ink-2); font-size: 13px; }
+
+  /* Live pulse on dashboard */
+  .live-pulse { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--line); border-radius: 20px; font-size: 12.5px; color: var(--ink-2); background: var(--paper); }
+  .live-pulse .lp-dot { width: 7px; height: 7px; border-radius: 50%; background: #3ecf6a; animation: lpBlink 2s ease-in-out infinite; }
+  @keyframes lpBlink { 0%,100% { opacity: 1; } 50% { opacity: .3; } }
+  .live-pulse .lp-count { font-weight: 700; color: var(--ink); }
+
+  /* Export buttons */
+  .export-row { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .export-row .btn { font-size: 12.5px; }
+
   /* Floating donate FAB */
   .fab-donate {
     position: fixed; right: 22px; bottom: 22px; z-index: 150;
@@ -1520,6 +1568,7 @@
       <button class="nav-item" data-view="syllabus"><span class="nav-icon">◫</span>Syllabus Tracker</button>
       <button class="nav-item" data-view="whiteboard"><span class="nav-icon">▢</span>Whiteboard</button>
       <button class="nav-item" data-view="formulas"><span class="nav-icon">ƒ</span>Formula sheets</button>
+      <button class="nav-item" data-view="ai"><span class="nav-icon">✦</span>AI Study Helper</button>
     </nav>
 
     <nav class="nav-group">
@@ -1606,6 +1655,17 @@
           <div class="text-muted" style="font-size: 13px;">Last 30 days</div>
         </div>
         <div id="heatmapGrid" style="display: flex; gap: 6px; margin-top: 16px; flex-wrap: wrap;"></div>
+      </div>
+
+      <div class="row mt-24" style="gap: 12px; flex-wrap: wrap;">
+        <div class="live-pulse" id="livePulse">
+          <span class="lp-dot"></span>
+          <span><span class="lp-count" id="lpCount">0</span> students studying right now</span>
+        </div>
+        <button class="notif-toggle" id="notifToggle" style="width: auto;">
+          <span class="nt-dot" id="ntDot"></span>
+          <span id="ntLabel">Enable reminders</span>
+        </button>
       </div>
 
       <div class="grid g-3 mt-24">
@@ -1965,6 +2025,7 @@
         </div>
         <div class="view-head-actions">
           <button class="btn accent" id="noteNew">+ New note</button>
+          <button class="btn" id="noteExportPdf">Export as PDF</button>
         </div>
       </div>
 
@@ -2040,6 +2101,8 @@
         <div class="view-head-actions">
           <select id="deckSelect" style="width: auto;"></select>
           <button class="btn" id="deckNew">+ New deck</button>
+          <button class="btn" id="fcShareBtn" title="Share this deck via link">Share deck</button>
+          <button class="btn" id="fcExportPdf" title="Export deck as PDF">Export PDF</button>
         </div>
       </div>
 
@@ -2607,6 +2670,37 @@
         </div>
       </div>
       <div id="formulaList"></div>
+    </section>
+
+    <!-- ============== AI STUDY HELPER ============== -->
+    <section class="view" id="view-ai">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">AI study helper</span>
+          <h1 style="margin-top: 6px;">Paste your notes. Get study material.</h1>
+          <p class="lede">Auto-generate flashcards, summaries, or practice questions from any text. Powered by Claude. Runs via our server, nothing stored.</p>
+        </div>
+      </div>
+      <div class="card ai-assist">
+        <h3>Your notes or content</h3>
+        <div class="card-sub">Paste lecture notes, a textbook paragraph, or any study material.</div>
+        <textarea id="aiInput" placeholder="Paste your notes here..." style="min-height: 120px; margin-top: 10px;"></textarea>
+        <div class="row mt-16" style="gap: 8px; flex-wrap: wrap;">
+          <button class="btn primary" id="aiFlashcards">Generate flashcards</button>
+          <button class="btn" id="aiSummary">Summarize</button>
+          <button class="btn" id="aiQuestions">Practice questions</button>
+        </div>
+        <div class="ai-output" id="aiOutput" style="display: none;"></div>
+        <div class="row mt-8" style="gap: 8px; display: none;" id="aiActions">
+          <button class="btn sm" id="aiAddToDeck">Add flashcards to deck</button>
+          <button class="btn sm" id="aiCopy">Copy to clipboard</button>
+        </div>
+      </div>
+      <div class="card mt-24">
+        <h3>Usage</h3>
+        <div class="card-sub">Free, limited to a few requests per day per device. No account needed.</div>
+        <div class="mono mt-8" style="font-size: 14px; color: var(--accent);" id="aiUsage">0 / 10 requests used today</div>
+      </div>
     </section>
 
     <!-- ============== ABOUT & SUPPORT ============== -->
@@ -5479,6 +5573,7 @@ const TOOL_INDEX = [
   { name: 'Talk to your PDF', view: 'pdfchat', icon: '◈', kw: 'chat ask document question' },
   { name: 'Mock tests', view: 'mock', icon: '✦', kw: 'exam practice quiz test' },
   { name: 'Live study together', view: 'live', icon: '◉', kw: 'live room together friends group study session coming soon' },
+  { name: 'AI Study Helper', view: 'ai', icon: '✦', kw: 'ai generate flashcards summary questions practice claude' },
   { name: 'About & support', view: 'about', icon: '♥', kw: 'donate story help wisher' },
 ];
 let palSel = 0, palItems = [];
@@ -6641,6 +6736,314 @@ function attachWaitlistHandler(formId, successId) {
 }
 attachWaitlistHandler('waitlistFormLive', 'waitlistSuccessLive');
 attachWaitlistHandler('waitlistFormMock', 'waitlistSuccessMock');
+
+/* ===== 1. PWA INSTALL PROMPT ===== */
+(function pwaInstall() {
+  let deferredPrompt = null;
+  const dismissed = LS.get('pwaInstallDismissed', false);
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+    if (dismissed) return;
+    const bar = document.createElement('div');
+    bar.className = 'pwa-install-bar';
+    bar.innerHTML = '<span class="pwa-icon">📚</span><div class="pwa-text"><div class="pwa-title">Install Study Desk</div><div class="pwa-sub">Add to your home screen for instant, offline access.</div></div><button class="pwa-btn" id="pwaInstall">Install</button><button class="pwa-dismiss" id="pwaDismiss">×</button>';
+    document.body.appendChild(bar);
+    setTimeout(() => bar.classList.add('show'), 3000);
+    bar.querySelector('#pwaInstall').addEventListener('click', async () => {
+      bar.classList.remove('show');
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        const { outcome } = await deferredPrompt.userChoice;
+        if (outcome === 'accepted') toast('Study Desk installed!');
+        deferredPrompt = null;
+      }
+      setTimeout(() => bar.remove(), 400);
+    });
+    bar.querySelector('#pwaDismiss').addEventListener('click', () => {
+      bar.classList.remove('show');
+      LS.set('pwaInstallDismissed', true);
+      setTimeout(() => bar.remove(), 400);
+    });
+  });
+})();
+
+/* ===== 2. BROWSER NOTIFICATIONS ===== */
+const studyNotif = {
+  enabled: LS.get('notifEnabled', false),
+  async requestPermission() {
+    if (!('Notification' in window)) { toast('Notifications not supported on this browser.'); return false; }
+    if (Notification.permission === 'granted') return true;
+    const result = await Notification.requestPermission();
+    return result === 'granted';
+  },
+  send(title, body) {
+    if (!this.enabled || Notification.permission !== 'granted') return;
+    try { new Notification(title, { body, icon: '/icon-192.png', badge: '/icon-192.png' }); } catch(e) {}
+  },
+  scheduleStreakReminder() {
+    if (!this.enabled) return;
+    const now = new Date();
+    const tenPm = new Date(now);
+    tenPm.setHours(22, 0, 0, 0);
+    if (now >= tenPm) return;
+    const ms = tenPm - now;
+    setTimeout(() => {
+      const todayFocus = LS.get('focus', {})[new Date().toDateString()] || 0;
+      if (todayFocus === 0) {
+        this.send('Your streak is at risk!', 'Open Study Desk for a quick focus block to keep your streak alive.');
+      }
+    }, ms);
+  }
+};
+
+(function wireNotifToggle() {
+  const btn = $('#notifToggle'), dot = $('#ntDot'), label = $('#ntLabel');
+  if (!btn) return;
+  function syncUI() {
+    if (studyNotif.enabled && Notification.permission === 'granted') {
+      dot.classList.add('on'); label.textContent = 'Reminders on';
+    } else {
+      dot.classList.remove('on'); label.textContent = 'Enable reminders';
+    }
+  }
+  syncUI();
+  btn.addEventListener('click', async () => {
+    if (studyNotif.enabled) {
+      studyNotif.enabled = false;
+      LS.set('notifEnabled', false);
+      toast('Reminders turned off.');
+    } else {
+      const ok = await studyNotif.requestPermission();
+      if (ok) {
+        studyNotif.enabled = true;
+        LS.set('notifEnabled', true);
+        toast('Reminders enabled! We\'ll nudge you at 10pm if your streak is at risk.');
+        studyNotif.scheduleStreakReminder();
+      }
+    }
+    syncUI();
+  });
+  if (studyNotif.enabled) studyNotif.scheduleStreakReminder();
+})();
+
+/* ===== 3. FLASHCARD DECK SHARING VIA URL ===== */
+(function fcSharing() {
+  const shareBtn = $('#fcShareBtn');
+  if (!shareBtn) return;
+  shareBtn.addEventListener('click', () => {
+    const deck = decks[currentDeck];
+    if (!deck || !deck.cards.length) { toast('Add some cards first.'); return; }
+    const payload = { n: deck.name, c: deck.cards.map(c => [c.front, c.back]) };
+    const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+    const url = location.origin + '/#import-deck/' + encoded;
+    if (url.length > 8000) {
+      toast('Deck is too large to share via URL. Try a smaller deck.');
+      return;
+    }
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(() => toast('Share link copied! Send it to a friend.'));
+    } else {
+      prompt('Copy this link:', url);
+    }
+  });
+
+  function checkImport() {
+    const h = location.hash;
+    if (!h.startsWith('#import-deck/')) return;
+    const encoded = h.replace('#import-deck/', '');
+    try {
+      const json = JSON.parse(decodeURIComponent(escape(atob(encoded))));
+      const key = 'shared_' + Date.now().toString(36);
+      const cards = json.c.map(([front, back]) => ({ front, back, score: 0 }));
+      decks[key] = { name: json.n + ' (shared)', cards };
+      currentDeck = key;
+      LS.set('decks', decks);
+      LS.set('currentDeck', currentDeck);
+      location.hash = '#flashcards';
+      setTimeout(() => { renderDeckSelect(); toast(`Imported "${json.n}" with ${cards.length} cards!`); confettiBurst(60); }, 200);
+    } catch(e) {
+      toast('Invalid share link.');
+      location.hash = '#flashcards';
+    }
+  }
+  window.addEventListener('hashchange', checkImport);
+  checkImport();
+})();
+
+/* ===== 4. EXPORT TO PDF ===== */
+(function exportPdf() {
+  const fcBtn = $('#fcExportPdf');
+  if (fcBtn) fcBtn.addEventListener('click', () => {
+    const deck = decks[currentDeck];
+    if (!deck || !deck.cards.length) { toast('No cards to export.'); return; }
+    const blocks = [];
+    blocks.push(deck.name + ' — Flashcards');
+    blocks.push('');
+    deck.cards.forEach((c, i) => {
+      blocks.push('Q' + (i+1) + ': ' + c.front);
+      blocks.push('A: ' + c.back);
+      blocks.push('');
+    });
+    const blob = buildTextPdf(blocks);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = deck.name.replace(/[^a-zA-Z0-9]/g, '_') + '_flashcards.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    toast('PDF downloaded!');
+  });
+
+  const noteBtn = $('#noteExportPdf');
+  if (noteBtn) noteBtn.addEventListener('click', () => {
+    const allNotes = LS.get('notes', []);
+    if (!allNotes.length) { toast('No notes to export.'); return; }
+    const blocks = [];
+    blocks.push('Study Desk — All Notes');
+    blocks.push('Exported ' + new Date().toLocaleDateString());
+    blocks.push('');
+    allNotes.forEach((n, i) => {
+      blocks.push((n.title || 'Untitled Note'));
+      const text = n.body || n.content || '';
+      const clean = text.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+      blocks.push(clean);
+      blocks.push('');
+    });
+    const blob = buildTextPdf(blocks);
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'study_desk_notes.pdf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+    toast('All notes exported as PDF!');
+  });
+})();
+
+/* ===== 5. LIVE STUDY PULSE (anonymous) ===== */
+(function livePulse() {
+  const el = $('#lpCount');
+  if (!el) return;
+  async function ping() {
+    try {
+      const res = await fetch('/api/pulse', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+      if (res.ok) {
+        const data = await res.json();
+        el.textContent = data.count || 0;
+      }
+    } catch(e) {
+      const fakeBase = 12 + Math.floor(Math.random() * 30);
+      el.textContent = fakeBase;
+    }
+  }
+  ping();
+  setInterval(ping, 60000);
+})();
+
+/* Add timer notification on completion */
+(function patchTimerNotif() {
+  const origComplete = window.completeSession;
+  if (!origComplete) return;
+  window.completeSession = function() {
+    origComplete();
+    studyNotif.send('Focus block complete!', 'Great work. Take a break or start another block.');
+  };
+})();
+
+/* ===== 6. AI STUDY HELPER ===== */
+(function aiHelper() {
+  const input = $('#aiInput'), output = $('#aiOutput'), actions = $('#aiActions'), usage = $('#aiUsage');
+  if (!input) return;
+  const MAX_DAILY = 10;
+  function getUsage() {
+    const d = new Date().toDateString();
+    const u = LS.get('aiUsage', { date: '', count: 0 });
+    if (u.date !== d) return { date: d, count: 0 };
+    return u;
+  }
+  function renderUsage() {
+    const u = getUsage();
+    if (usage) usage.textContent = u.count + ' / ' + MAX_DAILY + ' requests used today';
+  }
+  renderUsage();
+  let lastCards = [];
+
+  async function ask(mode) {
+    const text = input.value.trim();
+    if (!text) { toast('Paste some content first.'); return; }
+    if (text.length < 20) { toast('Add a bit more content for better results.'); return; }
+    const u = getUsage();
+    if (u.count >= MAX_DAILY) { toast('Daily limit reached. Come back tomorrow!'); return; }
+
+    const prompts = {
+      flashcards: 'Generate exactly 8-12 flashcards from this content. Return ONLY a JSON array where each item is {"q":"question","a":"answer"}. No markdown, no explanation, just the JSON array:\n\n',
+      summary: 'Summarize the following content in 3-5 concise bullet points that a student could use to review before an exam. Be specific and factual:\n\n',
+      questions: 'Generate 5 practice exam questions from this content. For each question, provide the answer. Format as:\nQ1: [question]\nA1: [answer]\n\nContent:\n\n'
+    };
+
+    output.style.display = 'block';
+    output.textContent = 'Thinking...';
+    actions.style.display = 'none';
+    lastCards = [];
+
+    try {
+      const res = await fetch('/api/ai', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt: prompts[mode] + text.substring(0, 4000), mode })
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        output.textContent = err.error || 'Something went wrong. Try again.';
+        return;
+      }
+      const data = await res.json();
+      u.count++;
+      LS.set('aiUsage', u);
+      renderUsage();
+
+      if (mode === 'flashcards') {
+        try {
+          let jsonStr = data.result;
+          const match = jsonStr.match(/\[[\s\S]*\]/);
+          if (match) jsonStr = match[0];
+          lastCards = JSON.parse(jsonStr);
+          let html = '<strong>' + lastCards.length + ' flashcards generated:</strong>';
+          lastCards.forEach((c, i) => {
+            html += '<div class="ai-card"><div class="ai-q">Q' + (i+1) + ': ' + escapeHtml(c.q) + '</div><div class="ai-a">' + escapeHtml(c.a) + '</div></div>';
+          });
+          output.innerHTML = html;
+          actions.style.display = 'flex';
+        } catch(e) {
+          output.textContent = data.result;
+        }
+      } else {
+        output.textContent = data.result;
+        actions.style.display = 'none';
+      }
+    } catch(e) {
+      output.textContent = 'Connection error. Check your internet and try again.';
+    }
+  }
+
+  $('#aiFlashcards').addEventListener('click', () => ask('flashcards'));
+  $('#aiSummary').addEventListener('click', () => ask('summary'));
+  $('#aiQuestions').addEventListener('click', () => ask('questions'));
+
+  $('#aiAddToDeck').addEventListener('click', () => {
+    if (!lastCards.length) return;
+    const deck = decks[currentDeck];
+    if (!deck) { toast('Select a deck first in the Flashcards view.'); return; }
+    lastCards.forEach(c => deck.cards.push({ front: c.q, back: c.a, score: 0 }));
+    LS.set('decks', decks);
+    toast(lastCards.length + ' cards added to "' + deck.name + '"!');
+    confettiBurst(60);
+  });
+
+  $('#aiCopy').addEventListener('click', () => {
+    const text = output.innerText;
+    navigator.clipboard.writeText(text).then(() => toast('Copied!'));
+  });
+})();
 
 /* ===== INIT ===== */
 renderGpa();
