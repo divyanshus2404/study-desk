@@ -1659,10 +1659,17 @@
       </div>
     </dialog>
 
-    <button class="theme-toggle" id="themeToggle" style="margin-top: 0;">
-      <span>Light / Dark</span>
-      <span id="themeIcon">◑</span>
-    </button>
+    <div style="padding: 12px 16px; margin-top: auto;">
+      <label style="font-size: 11px; font-weight: 600; color: var(--ink-2); text-transform: uppercase;">Theme</label>
+      <select id="themeSelect" style="width: 100%; margin-top: 4px; background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 6px; font-size: 13px; color: var(--ink);">
+        <option value="auto">System Default (OG Orange)</option>
+        <option value="light">Light Theme</option>
+        <option value="dark">Dark Theme</option>
+        <option value="pink">Customize: Pink</option>
+        <option value="matcha">Customize: Matcha Green</option>
+        <option value="charcoal">Customize: Charcoal Black</option>
+      </select>
+    </div>
 
 
   </aside>
@@ -6815,24 +6822,50 @@ function toggleZenMode() {
 }
 $('#zenModeBtn')?.addEventListener('click', toggleZenMode);
 
-const applyTheme = (t) => {
-  document.documentElement.setAttribute('data-theme', t);
-  if ($('#themeIcon')) $('#themeIcon').textContent = t === 'dark' ? '☾' : '☀';
-  LS.set('theme', t);
-};
-const initTheme = () => {
-  const saved = LS.get('theme');
-  if (saved) return applyTheme(saved);
-  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
-  applyTheme(dark ? 'dark' : 'light');
-};
-if ($('#themeToggle')) {
-  $('#themeToggle').addEventListener('click', () => {
-    const cur = document.documentElement.getAttribute('data-theme');
-    applyTheme(cur === 'dark' ? 'light' : 'dark');
-  });
+function applyTheme(theme) {
+  const root = document.documentElement;
+  // Clean up custom overrides to let base CSS handle standard themes
+  ['--primary', '--primary-soft', '--accent', '--ink', '--paper', '--ground'].forEach(p => root.style.removeProperty(p));
+  
+  if (theme === 'pink') {
+    root.setAttribute('data-theme', 'light');
+    root.style.setProperty('--primary', '#D07364');
+    root.style.setProperty('--primary-soft', '#E6C6C1');
+    root.style.setProperty('--accent', '#E27A3F');
+    root.style.setProperty('--ink', '#4A2B27');
+    root.style.setProperty('--paper', '#FDF5F5');
+    root.style.setProperty('--ground', '#F9E9E8');
+  } else if (theme === 'matcha') {
+    root.setAttribute('data-theme', 'light');
+    root.style.setProperty('--primary', '#3C5A3E');
+    root.style.setProperty('--primary-soft', '#D3E0D4');
+    root.style.setProperty('--accent', '#E27A3F');
+  } else if (theme === 'charcoal') {
+    root.setAttribute('data-theme', 'dark');
+    root.style.setProperty('--primary', '#222222');
+    root.style.setProperty('--primary-soft', '#444444');
+    root.style.setProperty('--accent', '#888888');
+    root.style.setProperty('--ink', '#E0E0E0');
+    root.style.setProperty('--paper', '#1A1A1A');
+    root.style.setProperty('--ground', '#111111');
+  } else if (theme === 'light') {
+    root.setAttribute('data-theme', 'light');
+  } else if (theme === 'dark') {
+    root.setAttribute('data-theme', 'dark');
+  } else {
+    // auto / OG
+    root.removeAttribute('data-theme');
+  }
 }
-initTheme();
+const savedTheme = LS.get('theme', 'auto');
+if($('#themeSelect')) $('#themeSelect').value = savedTheme;
+applyTheme(savedTheme);
+
+$('#themeSelect')?.addEventListener('change', e => {
+  const t = e.target.value;
+  LS.set('theme', t);
+  applyTheme(t);
+});
 
 /* ===== QUICK CALCULATOR ===== */
 $('#calcToggleBtn')?.addEventListener('click', () => $('#calcWidget').classList.toggle('open'));
