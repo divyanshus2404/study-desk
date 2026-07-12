@@ -136,6 +136,43 @@ const medicalData = {
     { id: "sec30", title: "Exam Preparation", subsections: [] }
   ],
   content: {
+    "Asthma": {
+      type: "disease",
+      overview: "Asthma is a chronic inflammatory disorder of the airways characterized by reversible airflow obstruction and bronchospasm.",
+      anatomy: "Involves the tracheobronchial tree. Smooth muscle hypertrophy, mucosal edema, and mucus plugging occur in the small airways (bronchioles).",
+      etiology: "Multifactorial. Triggers include allergens (pollen, dust mites, pet dander), respiratory infections (viral), cold air, exercise, smoke, and stress. Genetic predisposition (atopy) plays a major role.",
+      pathophysiology: "Type I hypersensitivity reaction involving IgE antibodies. Mast cell degranulation releases histamine, leukotrienes, and prostaglandins leading to bronchoconstriction, airway edema, and mucus hypersecretion.",
+      classification: "Intermittent, Mild Persistent, Moderate Persistent, and Severe Persistent (based on symptom frequency, nighttime awakenings, and lung function).",
+      clinical_features: "Classic triad: Wheezing, Cough (often nocturnal or early morning), and Shortness of breath (dyspnea). Chest tightness.",
+      differential_diagnosis: "COPD, Congestive Heart Failure (cardiac asthma), GERD, vocal cord dysfunction, pulmonary embolism.",
+      investigations: "Spirometry (FEV1/FVC < 70%, with reversibility >12% and 200mL after bronchodilator), Peak Expiratory Flow Rate (PEFR), Allergy testing (IgE levels, skin prick test).",
+      diagnostic_criteria: "History of episodic symptoms + demonstrated reversible airflow obstruction on spirometry.",
+      management: "Relievers: SABA (Albuterol) PRN. Controllers: ICS (Inhaled Corticosteroids like Fluticasone), LABA (Formoterol - never as monotherapy in asthma), LTRAs (Montelukast). Severe cases: Omalizumab (anti-IgE) or oral corticosteroids.",
+      complications: "Status asthmaticus (life-threatening acute exacerbation), airway remodeling (permanent structural changes leading to fixed obstruction), respiratory failure.",
+      prognosis: "Generally good with proper adherence to inhaler therapy. Poorly controlled asthma can lead to irreversible lung damage.",
+      prevention: "Avoidance of known triggers, annual influenza and pneumococcal vaccination, medication adherence.",
+      clinical_pearls: "A 'silent chest' in an acute asthma attack is an ominous sign indicating severe bronchospasm and impending respiratory failure.",
+      mnemonics: "ASTHMA triggers: Allergens, Sport/Smoke, Temperature changes, Hazards (occupational), Microbes (viral infections), Anxiety.",
+      high_yield: "Samter's Triad (Aspirin-exacerbated respiratory disease): Asthma, Nasal polyps, Aspirin sensitivity. Avoid NSAIDs in these patients.",
+      viva: "Q: Why are beta-blockers contraindicated in asthma? A: Non-selective beta-blockers block Beta-2 receptors in the lungs, causing severe bronchoconstriction.",
+      mcqs: [
+        { q: "Which of the following is the most effective long-term control medication for asthma?", a: "Inhaled corticosteroids" },
+        { q: "A 25-year-old presents with wheezing after taking aspirin. What other condition is likely present?", a: "Nasal polyps" }
+      ]
+    },
+    "Diabetes": {
+      type: "disease",
+      overview: "Diabetes Mellitus is a metabolic disorder characterized by chronic hyperglycemia resulting from defects in insulin secretion, insulin action, or both.",
+      anatomy: "Involves the Endocrine pancreas (Islets of Langerhans). Beta cells secrete insulin. Alpha cells secrete glucagon.",
+      etiology: "Type 1: Autoimmune destruction of beta cells (absolute insulin deficiency). Type 2: Peripheral insulin resistance and relative insulin deficiency (associated with obesity, genetics).",
+      pathophysiology: "Lack of insulin leads to decreased glucose uptake by muscle and adipose tissue, increased hepatic gluconeogenesis, and increased lipolysis (ketogenesis in T1DM).",
+      classification: "Type 1 DM, Type 2 DM, Gestational DM, MODY (Maturity Onset Diabetes of the Young).",
+      clinical_features: "Polyuria, Polydipsia, Polyphagia. Weight loss (especially Type 1). Fatigue, blurred vision, poor wound healing.",
+      diagnostic_criteria: "Fasting Plasma Glucose ≥ 126 mg/dL OR 2-hr OGTT ≥ 200 mg/dL OR HbA1c ≥ 6.5% OR Random Glucose ≥ 200 mg/dL with symptoms.",
+      management: "Type 1: Lifelong insulin therapy. Type 2: Lifestyle changes (diet, exercise) + Metformin. Add sulfonylureas, DPP-4 inhibitors, SGLT2 inhibitors, or insulin if HbA1c not at target.",
+      complications: "Microvascular: Retinopathy, Nephropathy, Neuropathy. Macrovascular: CAD, Stroke, Peripheral Artery Disease. Acute: DKA (Type 1), HHS (Type 2).",
+      high_yield: "Metformin causes lactic acidosis and B12 deficiency. SGLT2 inhibitors (-gliflozins) increase risk of UTI/yeast infections but offer cardiovascular and renal protection."
+    },
     "Hypertension": {
       type: "disease",
       overview: "Hypertension (HTN), commonly known as high blood pressure, is a long-term medical condition in which the blood pressure in the arteries is persistently elevated.",
