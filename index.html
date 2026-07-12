@@ -1236,6 +1236,11 @@
   ::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
 
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+  }
+
   /* ===== WAITLIST UI ===== */
   .waitlist-container {
     max-width: 500px;
@@ -1604,13 +1609,30 @@
       <button class="nav-item" id="openPalette"><span class="nav-icon">⌘</span>Search<span class="nav-badge" style="background:var(--ground);color:var(--ink-3);border:1px solid var(--line);">Ctrl K</span></button>
     </nav>
     <div class="xp-widget" style="margin-top: auto;">
-      <div class="xp-top">
+      <div class="xp-top" style="display: flex; align-items: center;">
         <span class="xp-level" id="xpLevel">Lv 1</span>
+        <button class="btn ghost sm" style="padding: 0 4px; height: 20px; font-size: 14px; margin-left: 4px; opacity: 0.5;" onclick="document.getElementById('xpInfoDialog').showModal()">ⓘ</button>
+        <div style="flex: 1;"></div>
         <span class="xp-points mono" id="xpPoints">0 XP</span>
       </div>
       <div class="xp-bar"><div class="xp-fill" id="xpFill" style="width: 0%;"></div></div>
       <div class="xp-rank" id="xpRank">Freshman</div>
     </div>
+    
+    <dialog id="xpInfoDialog" style="border: 1px solid var(--line); border-radius: 12px; background: var(--paper); color: var(--ink); padding: 24px; max-width: 400px; box-shadow: 0 12px 32px rgba(0,0,0,0.15); margin: auto;">
+      <h3 style="margin-top: 0;">How to earn XP</h3>
+      <ul style="padding-left: 20px; line-height: 1.6; margin-bottom: 24px; font-size: 14px;">
+        <li><b>+30 XP</b>: Completing your "One Thing"</li>
+        <li><b>+25 XP</b>: Finishing a Pomodoro Focus Block</li>
+        <li><b>+20 XP</b>: Checking off a High-Priority Task</li>
+        <li><b>+15 XP</b>: Scanning a Document / Chatting with a PDF</li>
+        <li><b>+10 XP</b>: Converting a File / Creating a Flashcard</li>
+        <li><b>+5 XP</b>: Keeping a Habit</li>
+      </ul>
+      <div style="text-align: right;">
+        <button class="btn primary" onclick="document.getElementById('xpInfoDialog').close()">Got it</button>
+      </div>
+    </dialog>
 
     <button class="theme-toggle" id="themeToggle" style="margin-top: 0;">
       <span>Light / Dark</span>
