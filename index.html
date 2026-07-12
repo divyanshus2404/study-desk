@@ -2004,53 +2004,19 @@
           <h1 style="margin-top: 6px;">Theories, NEET & Key Topics.</h1>
           <p class="lede">Flip through this interactive glossy guide for your medical studies.</p>
         </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+          <input type="text" id="medicalSearchInput" placeholder="Search diseases, drugs..." style="padding: 8px 12px; border-radius: 20px; width: 200px;">
+          <button class="btn secondary" id="medicalHomeBtn">Home / TOC</button>
+          <button class="btn ghost">Bookmarks</button>
+          <button class="btn ghost">Recently Viewed</button>
+        </div>
       </div>
       <div class="book-container">
         <div class="book" id="medicalBook">
-          <!-- Page 1 (Cover) -->
-          <div class="page page-cover" style="--i:1;">
-            <div class="page-front" style="background: linear-gradient(135deg, #E27A3F, #D07364); display:flex; flex-direction:column; justify-content:center; align-items:center;">
-              <h2 style="color:#fff; text-align:center; font-size:28px;">NEET & Medical<br>Study Guide</h2>
-              <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px; font-weight:500;">Click to open</div>
-            </div>
-            <div class="page-back">
-              <h3>Table of Contents</h3>
-              <ul style="margin-top:20px; line-height:2;">
-                <li><b>1.</b> Cell Biology</li>
-                <li><b>2.</b> Human Physiology</li>
-                <li><b>3.</b> Genetics & Evolution</li>
-              </ul>
-            </div>
-          </div>
-          <!-- Page 2 -->
-          <div class="page" style="--i:2;">
-            <div class="page-front">
-              <h3>1. Cell Biology</h3>
-              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('cell_biology.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
-              <p style="font-size:13px; line-height:1.6;">The cell is the basic structural and functional unit of life. Key organelles include the nucleus, mitochondria, and endoplasmic reticulum. High yield for NEET.</p>
-            </div>
-            <div class="page-back">
-              <h3>2. Human Physiology</h3>
-              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('heart_diagram.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
-              <p style="font-size:13px; line-height:1.6;">Human physiology explores the functions of the human body, including the circulatory, respiratory, and nervous systems.</p>
-            </div>
-          </div>
-          <!-- Page 3 -->
-          <div class="page" style="--i:3;">
-            <div class="page-front">
-              <h3>3. Genetics</h3>
-              <div style="height:140px; border-radius:8px; margin-bottom:12px; margin-top:12px; background-image:url('dna_helix.jpg'); background-size:cover; background-position:center; box-shadow:0 4px 12px rgba(0,0,0,0.15);"></div>
-              <p style="font-size:13px; line-height:1.6;">Mendelian genetics, DNA structure, replication, and transcription are crucial topics. Focus on the central dogma of molecular biology.</p>
-            </div>
-            <div class="page-back" style="background: linear-gradient(135deg, #1B2130, #3D4557); display:flex; flex-direction:column; justify-content:center; align-items:center;">
-              <h2 style="color:#fff; text-align:center;">End of Guide</h2>
-              <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px;">Review daily for best results.</div>
-            </div>
-          </div>
         </div>
       </div>
-      <div style="text-align:center; margin-top:32px; display:flex; gap:16px; justify-content:center;">
-        <button class="btn" id="bookPrevBtn">Previous Page</button>
+      <div style="text-align: center; margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
+        <button class="btn secondary" id="bookPrevBtn" disabled>Previous Page</button>
         <button class="btn primary" id="bookNextBtn">Next Page</button>
       </div>
     </section>
@@ -3153,6 +3119,7 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="medicalData.js"></script>
 
 <script>
 /* ============================================================
@@ -3664,14 +3631,121 @@ $('#ssimsCalcBtn')?.addEventListener('click', () => {
   $('#ssimsPrRes').innerHTML = calcSSIMS(pc, pa, 0.80);
 });
 
-/* ===== MEDICAL HELPER ===== */
+/* ===== MEDICAL HELPER ENGINE ===== */
 let medCurrentPage = 1;
-const medPages = document.querySelectorAll('#medicalBook .page');
+const bookEl = $('#medicalBook');
+const medPrevBtn = $('#bookPrevBtn');
+const medNextBtn = $('#bookNextBtn');
+
+function generateTOC() {
+  if (typeof medicalData === 'undefined') return '<p>Loading data...</p>';
+  let html = `<h2 style="margin-bottom: 16px;">Table of Contents</h2><ul style="list-style:none; padding:0; margin:0; line-height:1.8;">`;
+  medicalData.sections.forEach(sec => {
+    html += `<li style="font-weight: 700; margin-top: 12px; color: var(--primary);">${sec.title}</li>`;
+    sec.subsections.forEach(sub => {
+      html += `<li style="font-size: 13px; margin-left: 8px; font-weight: 600;">${sub.title}</li>`;
+      sub.topics.forEach(t => {
+        const hasContent = medicalData.content[t] ? ' <span style="background: var(--good); color: #fff; padding: 2px 6px; border-radius: 12px; font-size: 9px; margin-left: 4px;">Available</span>' : '';
+        const color = medicalData.content[t] ? 'var(--accent)' : 'var(--ink-2)';
+        html += `<li style="font-size: 13px; margin-left: 20px; color: ${color}; cursor: pointer; text-decoration: underline;" onclick="loadMedicalTopic('${t}')">${t}${hasContent}</li>`;
+      });
+    });
+  });
+  html += `</ul>`;
+  return html;
+}
+
+function loadMedicalHome() {
+  medCurrentPage = 1;
+  if (!bookEl) return;
+  bookEl.innerHTML = `
+    <div class="page page-cover" style="--i:1;">
+      <div class="page-front" style="background: linear-gradient(135deg, #E27A3F, #D07364); display:flex; flex-direction:column; justify-content:center; align-items:center;">
+        <h2 style="color:#fff; text-align:center; font-size:28px;">Medical Helper<br>Virtual Book</h2>
+        <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px; font-weight:500;">Click "Next Page" to open</div>
+      </div>
+      <div class="page-back" style="padding: 24px; overflow-y: auto;">
+        ${generateTOC()}
+      </div>
+    </div>
+  `;
+  updateBookButtons();
+}
+
+window.loadMedicalTopic = function(topicName) {
+  if (typeof medicalData === 'undefined') return;
+  const data = medicalData.content[topicName];
+  if (!data) {
+    alert(`Content for "${topicName}" is coming soon! You can add it in medicalData.js.`);
+    return;
+  }
+  
+  let html = `<h2 style="margin-bottom: 12px; color: var(--primary); border-bottom: 2px solid var(--line); padding-bottom: 8px;">${topicName}</h2>`;
+  if (data.type === 'disease') {
+    if(data.overview) html += `<div style="margin-bottom: 12px;"><b>Overview:</b> ${data.overview}</div>`;
+    if(data.anatomy) html += `<div style="margin-bottom: 12px;"><b>Anatomy/Physiology:</b> ${data.anatomy}</div>`;
+    if(data.etiology) html += `<div style="margin-bottom: 12px;"><b>Etiology:</b> ${data.etiology}</div>`;
+    if(data.pathophysiology) html += `<div style="margin-bottom: 12px;"><b>Pathophysiology:</b> ${data.pathophysiology}</div>`;
+    if(data.classification) html += `<div style="margin-bottom: 12px;"><b>Classification:</b> ${data.classification}</div>`;
+    if(data.clinical_features) html += `<div style="margin-bottom: 12px;"><b>Clinical Features:</b> ${data.clinical_features}</div>`;
+    if(data.differential_diagnosis) html += `<div style="margin-bottom: 12px;"><b>Differential Diagnosis:</b> ${data.differential_diagnosis}</div>`;
+    if(data.investigations) html += `<div style="margin-bottom: 12px;"><b>Investigations:</b> ${data.investigations}</div>`;
+    if(data.diagnostic_criteria) html += `<div style="margin-bottom: 12px;"><b>Diagnostic Criteria:</b> ${data.diagnostic_criteria}</div>`;
+    if(data.management) html += `<div style="margin-bottom: 12px;"><b>Management:</b> ${data.management}</div>`;
+    if(data.complications) html += `<div style="margin-bottom: 12px;"><b>Complications:</b> ${data.complications}</div>`;
+    if(data.prognosis) html += `<div style="margin-bottom: 12px;"><b>Prognosis:</b> ${data.prognosis}</div>`;
+    if(data.prevention) html += `<div style="margin-bottom: 12px;"><b>Prevention:</b> ${data.prevention}</div>`;
+    
+    html += `<hr style="border-color: var(--line); margin: 20px 0;">`;
+    if(data.clinical_pearls) html += `<h3 style="color: var(--accent);">Clinical Pearls</h3><div style="background: var(--paper); padding: 12px; border-radius: 8px; border-left: 4px solid var(--accent); margin-bottom: 16px;">${data.clinical_pearls}</div>`;
+    if(data.mnemonics) html += `<h3>Mnemonics</h3><p>${data.mnemonics}</p>`;
+    if(data.high_yield) html += `<h3>High-Yield Points</h3><p>${data.high_yield}</p>`;
+    if(data.viva) html += `<h3>Viva Questions</h3><p>${data.viva}</p>`;
+    if(data.mcqs) {
+      html += `<h3>MCQs</h3><ul style="padding-left: 20px;">`;
+      data.mcqs.forEach(m => { html += `<li><b>Q:</b> ${m.q}<br><b>A:</b> ${m.a}</li>`; });
+      html += `</ul>`;
+    }
+  } else if (data.type === 'drug') {
+    if(data.generic_name) html += `<div style="margin-bottom: 12px;"><b>Generic Name:</b> ${data.generic_name}</div>`;
+    if(data.brand_names) html += `<div style="margin-bottom: 12px;"><b>Brand Names:</b> ${data.brand_names}</div>`;
+    if(data.mechanism) html += `<div style="margin-bottom: 12px;"><b>Mechanism:</b> ${data.mechanism}</div>`;
+    if(data.dose) html += `<div style="margin-bottom: 12px;"><b>Dose:</b> ${data.dose}</div>`;
+    if(data.contraindications) html += `<div style="margin-bottom: 12px;"><b>Contraindications:</b> ${data.contraindications}</div>`;
+    if(data.pregnancy) html += `<div style="margin-bottom: 12px;"><b>Pregnancy:</b> ${data.pregnancy}</div>`;
+    if(data.side_effects) html += `<div style="margin-bottom: 12px;"><b>Side Effects:</b> ${data.side_effects}</div>`;
+    if(data.interactions) html += `<div style="margin-bottom: 12px;"><b>Interactions:</b> ${data.interactions}</div>`;
+    if(data.clinical_pearls) html += `<h3>Clinical Pearls</h3><p>${data.clinical_pearls}</p>`;
+    if(data.high_yield) html += `<h3>High Yield</h3><p>${data.high_yield}</p>`;
+  }
+
+  bookEl.innerHTML = `
+    <div class="page" style="--i:1;">
+      <div class="page-front" style="padding: 24px; overflow-y: auto; text-align: left; font-size: 14px; line-height: 1.6;">${html}</div>
+      <div class="page-back" style="padding: 24px; overflow-y: auto; background: var(--paper); display:flex; justify-content:center; align-items:center; flex-direction: column;">
+        <h3>End of Chapter</h3>
+        <p style="color: var(--ink-2); text-align: center; margin-top: 12px;">${topicName}</p>
+        <button class="btn secondary" style="margin-top: 24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
+      </div>
+    </div>
+  `;
+  medCurrentPage = 1;
+  updateBookButtons();
+}
+
+function updateBookButtons() {
+  const medPages = document.querySelectorAll('#medicalBook .page');
+  if (medPrevBtn) medPrevBtn.disabled = medCurrentPage === 1;
+  if (medNextBtn) medNextBtn.disabled = medCurrentPage > medPages.length;
+}
+
 $('#bookNextBtn')?.addEventListener('click', () => {
+  const medPages = document.querySelectorAll('#medicalBook .page');
   if (medCurrentPage <= medPages.length) {
     const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
     if (p) p.classList.add('flipped');
     medCurrentPage++;
+    updateBookButtons();
   }
 });
 $('#bookPrevBtn')?.addEventListener('click', () => {
@@ -3679,7 +3753,50 @@ $('#bookPrevBtn')?.addEventListener('click', () => {
     medCurrentPage--;
     const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
     if (p) p.classList.remove('flipped');
+    updateBookButtons();
   }
+});
+
+// Setup Initial View
+if (bookEl) {
+  // Wait a small tick for external script to load if necessary
+  setTimeout(() => loadMedicalHome(), 100);
+}
+$('#medicalHomeBtn')?.addEventListener('click', loadMedicalHome);
+
+$('#medicalSearchInput')?.addEventListener('input', (e) => {
+  if (typeof medicalData === 'undefined') return;
+  const q = e.target.value.toLowerCase();
+  if (!q) { loadMedicalHome(); return; }
+  
+  let results = [];
+  medicalData.sections.forEach(sec => {
+    sec.subsections.forEach(sub => {
+      sub.topics.forEach(t => {
+        if (t.toLowerCase().includes(q)) results.push(t);
+      });
+    });
+  });
+  
+  let html = `<h2>Search Results for "${q}"</h2><ul style="line-height:2;">`;
+  if (results.length === 0) html += `<li>No results found.</li>`;
+  results.forEach(t => {
+    const hasContent = medicalData.content[t] ? ' <span style="background: var(--good); color: #fff; padding: 2px 6px; border-radius: 12px; font-size: 9px; margin-left: 4px;">Available</span>' : '';
+    const color = medicalData.content[t] ? 'var(--accent)' : 'var(--ink-2)';
+    html += `<li style="cursor: pointer; color: ${color}; text-decoration: underline;" onclick="loadMedicalTopic('${t}')">${t}${hasContent}</li>`;
+  });
+  html += `</ul>`;
+  
+  bookEl.innerHTML = `
+    <div class="page" style="--i:1;">
+      <div class="page-front" style="padding: 24px; overflow-y: auto; text-align: left;">${html}</div>
+      <div class="page-back" style="padding: 24px; display:flex; justify-content:center; align-items:center;">
+        <button class="btn secondary" onclick="loadMedicalHome()">Clear Search</button>
+      </div>
+    </div>
+  `;
+  medCurrentPage = 1;
+  updateBookButtons();
 });
 
 /* ===== GRADE TARGET ===== */
