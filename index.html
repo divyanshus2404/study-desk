@@ -5779,7 +5779,7 @@ function renderOneThing() {
       if (!now) return;
       if (!now.done) {
         LS.set(otKey(), { ...now, done: true });
-        if (typeof earnXP === 'function') earnXP(30, 'One Thing done');
+        if (typeof awardXp === 'function') awardXp(30, 'One Thing done');
         else confettiBurst(80);
         confettiBurst(80);
         toast('One thing done. Real momentum. ♥');
