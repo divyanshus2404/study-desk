@@ -139,6 +139,11 @@ const medicalData = {
     "Asthma": {
       type: "disease",
       image: "lungs_diagram.jpg",
+      hotspots: [
+        { x: 34, y: 19, title: "Trachea", desc: "Main airway leading to the lungs." },
+        { x: 23, y: 55, title: "Right Lung", desc: "Contains 3 lobes. Affected by bronchospasm." },
+        { x: 80, y: 25, title: "Alveoli", desc: "Air sacs for gas exchange. Can hyperinflate during an attack." }
+      ],
       overview: "Asthma is a chronic inflammatory disorder of the airways characterized by reversible airflow obstruction and bronchospasm.",
       anatomy: "Involves the tracheobronchial tree. Smooth muscle hypertrophy, mucosal edema, and mucus plugging occur in the small airways (bronchioles).",
       etiology: "Multifactorial. Triggers include allergens (pollen, dust mites, pet dander), respiratory infections (viral), cold air, exercise, smoke, and stress. Genetic predisposition (atopy) plays a major role.",
@@ -177,6 +182,10 @@ const medicalData = {
     "Hypertension": {
       type: "disease",
       image: "heart_diagram.jpg",
+      hotspots: [
+        { x: 50, y: 35, title: "Aorta", desc: "Main artery carrying blood to the body. Increased pressure here defines HTN." },
+        { x: 58, y: 75, title: "Left Ventricle", desc: "Pumps against high resistance, leading to Left Ventricular Hypertrophy (LVH)." }
+      ],
       overview: "Hypertension (HTN), commonly known as high blood pressure, is a long-term medical condition in which the blood pressure in the arteries is persistently elevated.",
       anatomy: "Involves the cardiovascular system, primarily the heart (which pumps against increased resistance) and the arterial blood vessels (which may undergo remodeling). Key regulatory systems include the Renin-Angiotensin-Aldosterone System (RAAS) and the sympathetic nervous system.",
       etiology: "Primary (Essential) HTN (90-95%): No specific identifiable medical cause; multifactorial (genetics, diet, lifestyle). Secondary HTN (5-10%): Caused by an underlying condition like renal artery stenosis, primary aldosteronism, pheochromocytoma, or OSA.",

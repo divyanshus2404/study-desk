@@ -879,6 +879,22 @@
   .ipad-screen { width: 100%; height: 100%; background: #fff; border-radius: 8px; overflow-y: auto; position: relative; color: #333; }
   [data-theme="dark"] .ipad-screen { background: var(--paper); color: var(--ink); }
   
+  /* HOTSPOTS UI */
+  .img-container { position: relative; display: inline-block; width: 100%; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--line); overflow: hidden; }
+  .img-container img { display: block; width: 100%; height: auto; }
+  .hotspot-pin { position: absolute; width: 16px; height: 16px; background: var(--primary); border: 2px solid #fff; border-radius: 50%; transform: translate(-50%, -50%); cursor: pointer; box-shadow: 0 2px 8px rgba(0,0,0,0.4); animation: pulse 2s infinite; z-index: 5; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0.7); } 70% { box-shadow: 0 0 0 10px rgba(var(--primary-rgb), 0); } 100% { box-shadow: 0 0 0 0 rgba(var(--primary-rgb), 0); } }
+  .hotspot-tooltip { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%) translateY(-12px); width: 220px; background: rgba(0,0,0,0.85); color: #fff; padding: 12px; border-radius: 8px; font-size: 12px; pointer-events: none; opacity: 0; transition: opacity 0.2s; z-index: 10; backdrop-filter: blur(4px); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+  .hotspot-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 6px; border-style: solid; border-color: rgba(0,0,0,0.85) transparent transparent transparent; }
+  .hotspot-pin.active .hotspot-tooltip { opacity: 1; }
+  
+  /* HIGHLIGHTER UI */
+  .hl-popup { position: absolute; background: var(--primary); color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 50; display: none; transform: translate(-50%, -100%); margin-top: -10px; }
+  .hl-popup::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 5px; border-style: solid; border-color: var(--primary) transparent transparent transparent; }
+  .note-item { background: var(--paper); padding: 12px; border-left: 4px solid var(--accent); border-radius: 4px 8px 8px 4px; margin-bottom: 12px; font-size: 13px; line-height: 1.5; }
+  .note-item .note-del { float: right; color: var(--bad); cursor: pointer; background: none; border: none; font-size: 14px; opacity: 0.6; }
+  .note-item .note-del:hover { opacity: 1; }
+  
   /* FLASHCARD UI */
   .fc-container { width: 100%; height: 260px; perspective: 1000px; margin-top: 24px; }
   .fc-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
@@ -2005,8 +2021,10 @@
           <button class="btn secondary" id="medicalHomeBtn">Home / TOC</button>
           <button class="btn ghost">Bookmarks</button>
           <button class="btn ghost">Recently Viewed</button>
+          <button class="btn ghost">My Notes</button>
         </div>
       </div>
+      <div class="hl-popup" id="hlPopup">Highlight</div>
       <div class="ipad-wrapper">
         <div class="ipad-model">
           <div class="ipad-camera"></div>
@@ -3716,7 +3734,22 @@ window.loadMedicalTopic = function(topicName) {
     </div>
   `;
   if (data.image) {
-    html += `<img src="${data.image}" alt="${topicName}" style="width:100%; border-radius: 8px; margin-bottom: 16px; border: 1px solid var(--line);">`;
+    let hotspotHtml = '';
+    if (data.hotspots) {
+      data.hotspots.forEach(h => {
+        hotspotHtml += `
+          <div class="hotspot-pin" style="left: ${h.x}%; top: ${h.y}%;" onclick="this.classList.toggle('active')">
+            <div class="hotspot-tooltip"><b>${h.title}</b><br>${h.desc}</div>
+          </div>
+        `;
+      });
+    }
+    html += `
+      <div class="img-container">
+        <img src="${data.image}" alt="${topicName}">
+        ${hotspotHtml}
+      </div>
+    `;
   }
   
   if (data.type === 'disease') {
@@ -3904,6 +3937,121 @@ $('#medicalSearchInput')?.addEventListener('input', (e) => {
   
   bookEl.innerHTML = `<div style="padding: 24px;">${html}</div>`;
 });
+
+/* ===== HIGHLIGHTING & MY NOTES ===== */
+function getMedNotes() {
+  return JSON.parse(localStorage.getItem('medical_notes') || '[]');
+}
+function saveMedNote(topic, text) {
+  const notes = getMedNotes();
+  notes.push({ id: Date.now(), topic, text, date: new Date().toLocaleDateString() });
+  localStorage.setItem('medical_notes', JSON.stringify(notes));
+}
+function deleteMedNote(id) {
+  const notes = getMedNotes().filter(n => n.id !== id);
+  localStorage.setItem('medical_notes', JSON.stringify(notes));
+  showNotesList();
+}
+
+const hlPopup = $('#hlPopup');
+let currentSelectionText = '';
+let currentSelectionTopic = '';
+
+document.addEventListener('selectionchange', () => {
+  const selection = window.getSelection();
+  if (!selection.rangeCount || selection.isCollapsed) {
+    if(hlPopup) hlPopup.style.display = 'none';
+    return;
+  }
+  
+  // Only allow highlighting inside the medical book screen
+  let node = selection.anchorNode;
+  let isInsideBook = false;
+  while(node && node !== document.body) {
+    if(node.id === 'medicalBook') { isInsideBook = true; break; }
+    node = node.parentNode;
+  }
+  
+  if (isInsideBook) {
+    const text = selection.toString().trim();
+    if (text.length > 0) {
+      currentSelectionText = text;
+      // Get the current topic from the DOM (h2)
+      const h2 = document.querySelector('#medicalBook h2');
+      currentSelectionTopic = h2 ? h2.innerText : 'General';
+      
+      const range = selection.getRangeAt(0);
+      const rect = range.getBoundingClientRect();
+      if(hlPopup) {
+        hlPopup.style.display = 'block';
+        hlPopup.style.top = (rect.top + window.scrollY - 8) + 'px';
+        hlPopup.style.left = (rect.left + (rect.width / 2)) + 'px';
+      }
+    } else {
+      if(hlPopup) hlPopup.style.display = 'none';
+    }
+  } else {
+    if(hlPopup) hlPopup.style.display = 'none';
+  }
+});
+
+if(hlPopup) {
+  hlPopup.addEventListener('mousedown', (e) => {
+    e.preventDefault(); // keep selection active
+    saveMedNote(currentSelectionTopic, currentSelectionText);
+    hlPopup.style.display = 'none';
+    window.getSelection().removeAllRanges();
+    
+    // Quick success animation on the button
+    const originalText = hlPopup.innerText;
+    hlPopup.innerText = 'Saved!';
+    hlPopup.style.display = 'block';
+    setTimeout(() => {
+      hlPopup.style.display = 'none';
+      hlPopup.innerText = originalText;
+    }, 1000);
+  });
+}
+
+window.showNotesList = function() {
+  const notes = getMedNotes();
+  let html = `<h2>My Notes</h2>`;
+  if (notes.length === 0) {
+    html += `<p style="color:var(--ink-2); margin-top:16px;">Highlight text in any chapter to save it here.</p>`;
+  } else {
+    // Group by topic
+    const grouped = {};
+    notes.forEach(n => {
+      if(!grouped[n.topic]) grouped[n.topic] = [];
+      grouped[n.topic].push(n);
+    });
+    
+    for (const topic in grouped) {
+      html += `<h3 style="margin-top:24px; color:var(--primary); border-bottom:1px solid var(--line); padding-bottom:8px; margin-bottom:12px;">${topic}</h3>`;
+      grouped[topic].forEach(n => {
+        html += `
+          <div class="note-item">
+            <button class="note-del" onclick="deleteMedNote(${n.id})">×</button>
+            <div style="font-size:10px; color:var(--ink-3); margin-bottom:4px; text-transform:uppercase; letter-spacing:0.05em;">${n.date}</div>
+            <div>${n.text}</div>
+          </div>
+        `;
+      });
+    }
+  }
+  
+  if (bookEl) {
+    bookEl.innerHTML = `
+      <div style="padding: 24px;">
+        ${html}
+        <button class="btn secondary" style="margin-top:24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
+      </div>
+    `;
+  }
+};
+
+const medNotesBtn = document.querySelectorAll('#view-medical .btn.ghost')[2];
+if(medNotesBtn) medNotesBtn.addEventListener('click', showNotesList);
 
 /* ===== GRADE TARGET ===== */
 function computeGrade() {
