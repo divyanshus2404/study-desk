@@ -872,23 +872,19 @@
   .mock-score-ring { font-family: "Iowan Old Style", Georgia, serif; font-size: 64px; font-weight: 700; line-height: 1; }
   .mock-review-q { padding: 16px 0; border-bottom: 1px solid var(--line); }
   .mock-review-q:last-child { border-bottom: none; }
-  /* MEDICAL BOOK */
-  .book-container { display: flex; justify-content: center; align-items: center; margin-top: 40px; perspective: 1200px; padding-bottom: 20px; }
-  .book { position: relative; width: 320px; height: 440px; transform-style: preserve-3d; }
-  .page {
-    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
-    transform-origin: left center; transform-style: preserve-3d; transition: transform 0.8s cubic-bezier(0.645, 0.045, 0.355, 1);
-    z-index: calc(10 - var(--i));
-  }
-  .page.flipped { transform: rotateY(-180deg); z-index: var(--i); }
-  .page-front, .page-back {
-    position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden;
-    padding: 24px; background: #fff;
-    box-shadow: inset 4px 0 10px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08); overflow: hidden; color: #333;
-  }
-  .page-front { border-radius: 4px 12px 12px 4px; }
-  .page-back { transform: rotateY(180deg); border-radius: 12px 4px 4px 12px; box-shadow: inset -4px 0 10px rgba(0,0,0,0.05), 0 4px 12px rgba(0,0,0,0.08); }
-  [data-theme="dark"] .page-front, [data-theme="dark"] .page-back { background: var(--paper); color: var(--ink); box-shadow: inset 4px 0 10px rgba(0,0,0,0.5), 0 4px 12px rgba(0,0,0,0.3); }
+  /* MEDICAL IPAD UI */
+  .ipad-wrapper { display: flex; justify-content: center; align-items: center; margin-top: 40px; padding-bottom: 20px; }
+  .ipad-model { position: relative; width: 360px; height: 500px; background: #111; border-radius: 32px; padding: 20px 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.2), inset 0 0 0 2px #333; }
+  .ipad-camera { position: absolute; top: 8px; left: 50%; transform: translateX(-50%); width: 6px; height: 6px; border-radius: 50%; background: #222; box-shadow: inset 0 0 2px #000; }
+  .ipad-screen { width: 100%; height: 100%; background: #fff; border-radius: 8px; overflow-y: auto; position: relative; color: #333; }
+  [data-theme="dark"] .ipad-screen { background: var(--paper); color: var(--ink); }
+  
+  /* FLASHCARD UI */
+  .fc-container { width: 100%; height: 260px; perspective: 1000px; margin-top: 24px; }
+  .fc-inner { position: relative; width: 100%; height: 100%; text-align: center; transition: transform 0.6s; transform-style: preserve-3d; cursor: pointer; }
+  .fc-inner.flipped { transform: rotateY(180deg); }
+  .fc-front, .fc-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 24px; border-radius: 12px; border: 2px solid var(--primary-soft); background: var(--ground); }
+  .fc-back { transform: rotateY(180deg); background: var(--good); color: #fff; border: none; }
 
   /* mock tests teaser */
   .mock-hero { text-align: center; padding: 60px 24px; background: var(--paper); border: 1px solid var(--line); border-radius: var(--radius-lg); box-shadow: var(--shadow); position: relative; overflow: hidden; }
@@ -2011,13 +2007,13 @@
           <button class="btn ghost">Recently Viewed</button>
         </div>
       </div>
-      <div class="book-container">
-        <div class="book" id="medicalBook">
+      <div class="ipad-wrapper">
+        <div class="ipad-model">
+          <div class="ipad-camera"></div>
+          <div class="ipad-screen" id="medicalBook">
+            <!-- Dynamically populated -->
+          </div>
         </div>
-      </div>
-      <div style="text-align: center; margin-top: 24px; display: flex; justify-content: center; gap: 16px;">
-        <button class="btn secondary" id="bookPrevBtn" disabled>Previous Page</button>
-        <button class="btn primary" id="bookNextBtn">Next Page</button>
       </div>
     </section>
 
@@ -3665,7 +3661,11 @@ function addMedRecent(topic) {
 
 function generateTOC() {
   if (typeof medicalData === 'undefined') return '<p>Loading data...</p>';
-  let html = `<h2 style="margin-bottom: 16px;">Table of Contents</h2><ul style="list-style:none; padding:0; margin:0; line-height:1.8;">`;
+  let html = `<div style="background: linear-gradient(135deg, #E27A3F, #D07364); margin: -24px -24px 24px -24px; padding: 40px 24px; text-align: center; color: #fff;">
+      <h2 style="font-size:28px;">Medical Helper<br>Virtual Book</h2>
+      <div style="color:rgba(255,255,255,0.8); margin-top:12px; font-weight:500;">Select a topic below</div>
+    </div>
+    <h2 style="margin-bottom: 16px;">Table of Contents</h2><ul style="list-style:none; padding:0; margin:0; line-height:1.8;">`;
   medicalData.sections.forEach(sec => {
     html += `<li style="font-weight: 700; margin-top: 12px; color: var(--primary);">${sec.title}</li>`;
     sec.subsections.forEach(sub => {
@@ -3682,43 +3682,27 @@ function generateTOC() {
 }
 
 function loadMedicalHome() {
-  medCurrentPage = 1;
   if (!bookEl) return;
-  bookEl.innerHTML = `
-    <div class="page page-cover" style="--i:1;">
-      <div class="page-front" style="background: linear-gradient(135deg, #E27A3F, #D07364); display:flex; flex-direction:column; justify-content:center; align-items:center;">
-        <h2 style="color:#fff; text-align:center; font-size:28px;">Medical Helper<br>Virtual Book</h2>
-        <div style="text-align:center; color:rgba(255,255,255,0.8); margin-top:20px; font-weight:500;">Click "Next Page" to open</div>
-      </div>
-      <div class="page-back" style="padding: 24px; overflow-y: auto;">
-        ${generateTOC()}
-      </div>
-    </div>
-  `;
-  updateBookButtons();
+  bookEl.innerHTML = `<div style="padding: 24px;">${generateTOC()}</div>`;
 }
 
 window.loadMedicalTopic = function(topicName) {
   if (typeof medicalData === 'undefined') return;
   const data = medicalData.content[topicName];
+  
   if (!data) {
     bookEl.innerHTML = `
-      <div class="page" style="--i:1;">
-        <div class="page-front" style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-          <h2 style="color:var(--primary); margin-bottom:12px;">Under Construction</h2>
-          <p>The chapter for <b>${topicName}</b> is currently being written.</p>
-          <div style="margin-top:24px; background:var(--paper); padding:16px; border-radius:12px; border:1px solid var(--line);">
-            <h3 style="font-size:16px; margin-bottom:8px;">Want to help?</h3>
-            <p style="font-size:13px; color:var(--ink-2); margin-bottom:16px;">Are you a medical student? You can contribute your notes to build out this chapter for everyone!</p>
-            <a href="mailto:contribute@studydesk.com?subject=Contribution:%20${topicName}&body=Here%20are%20my%20notes%20for%20${topicName}..." class="btn primary" style="text-decoration:none;">Write this chapter</a>
-          </div>
-          <button class="btn secondary" style="margin-top: 24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
+      <div style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:100%;">
+        <h2 style="color:var(--primary); margin-bottom:12px;">Under Construction</h2>
+        <p>The chapter for <b>${topicName}</b> is currently being written.</p>
+        <div style="margin-top:24px; background:var(--paper); padding:16px; border-radius:12px; border:1px solid var(--line);">
+          <h3 style="font-size:16px; margin-bottom:8px;">Want to help?</h3>
+          <p style="font-size:13px; color:var(--ink-2); margin-bottom:16px;">Are you a medical student? You can contribute your notes to build out this chapter for everyone!</p>
+          <a href="mailto:contribute@studydesk.com?subject=Contribution:%20${topicName}&body=Here%20are%20my%20notes%20for%20${topicName}..." class="btn primary" style="text-decoration:none;">Write this chapter</a>
         </div>
-        <div class="page-back"></div>
+        <button class="btn secondary" style="margin-top: 24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
       </div>
     `;
-    medCurrentPage = 1;
-    updateBookButtons();
     return;
   }
   
@@ -3770,31 +3754,31 @@ window.loadMedicalTopic = function(topicName) {
   }
 
   let endPageHtml = `
-    <h3>End of Chapter</h3>
-    <p style="color: var(--ink-2); text-align: center; margin-top: 12px;">${topicName}</p>
-    <button class="btn secondary" style="margin-top: 24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
+    <div style="padding: 24px; background: var(--paper); border-radius: 12px; margin-top:32px; text-align:center;">
+      <h3>End of Chapter</h3>
+      <p style="color: var(--ink-2); margin-top: 12px; margin-bottom: 24px;">${topicName}</p>
+      <button class="btn secondary" style="margin: 0 auto;" onclick="loadMedicalHome()">Back to Table of Contents</button>
+    </div>
   `;
   
   if (data.type === 'disease' && (data.mcqs || data.viva)) {
     endPageHtml = `
-      <h3>End of Chapter</h3>
-      <p style="color: var(--ink-2); text-align: center; margin-top: 12px; margin-bottom:24px;">${topicName}</p>
-      <button class="btn primary" style="margin-bottom: 12px; width:200px; justify-content:center;" onclick="loadMedicalFlashcards('${topicName}')">Practice Flashcards</button>
-      <button class="btn secondary" style="width:200px; justify-content:center;" onclick="loadMedicalHome()">Table of Contents</button>
+      <div style="padding: 24px; background: var(--paper); border-radius: 12px; margin-top:32px; text-align:center;">
+        <h3>End of Chapter</h3>
+        <p style="color: var(--ink-2); margin-top: 12px; margin-bottom:24px;">${topicName}</p>
+        <button class="btn primary" style="margin: 0 auto 12px auto; width:100%; justify-content:center;" onclick="loadMedicalFlashcards('${topicName}')">Practice Flashcards</button>
+        <button class="btn secondary" style="margin: 0 auto; width:100%; justify-content:center;" onclick="loadMedicalHome()">Table of Contents</button>
+      </div>
     `;
   }
 
-  bookEl.innerHTML = `
-    <div class="page" style="--i:1;">
-      <div class="page-front" style="padding: 24px; overflow-y: auto; text-align: left; font-size: 14px; line-height: 1.6;">${html}</div>
-      <div class="page-back" style="padding: 24px; overflow-y: auto; background: var(--paper); display:flex; justify-content:center; align-items:center; flex-direction: column;">
-        ${endPageHtml}
-      </div>
-    </div>
-  `;
-  medCurrentPage = 1;
-  updateBookButtons();
+  bookEl.innerHTML = `<div style="padding: 24px; font-size: 14px; line-height: 1.6;">${html}${endPageHtml}</div>`;
+  bookEl.scrollTop = 0;
 }
+
+window.currentFlashcards = [];
+window.currentFcIndex = 0;
+window.currentFcTopic = '';
 
 window.loadMedicalFlashcards = function(topicName) {
   const data = medicalData.content[topicName];
@@ -3818,62 +3802,51 @@ window.loadMedicalFlashcards = function(topicName) {
     return;
   }
   
-  let html = '';
-  cards.forEach((c, i) => {
-    html += `
-      <div class="page" style="--i:${i+1};">
-        <div class="page-front" style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background: var(--paper); border: 4px solid var(--primary-soft);">
-          <span class="eyebrow">Flashcard ${i+1}/${cards.length}</span>
-          <h3 style="margin-top:24px; line-height:1.6;">${c.q}</h3>
-          <p style="color:var(--ink-2); margin-top:32px; font-size:12px;">(Click "Next Page" for answer)</p>
-        </div>
-        <div class="page-back" style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; background: var(--good); color: #fff;">
-          <span class="eyebrow" style="color:rgba(255,255,255,0.7);">Answer</span>
-          <h3 style="margin-top:24px; line-height:1.6; color:#fff;">${c.a}</h3>
-        </div>
-      </div>
-    `;
-  });
+  window.currentFlashcards = cards;
+  window.currentFcIndex = 0;
+  window.currentFcTopic = topicName;
   
-  // Add a final summary page
-  html += `
-    <div class="page" style="--i:${cards.length+1};">
-      <div class="page-front" style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center;">
-        <h2>Deck Completed!</h2>
-        <button class="btn primary" style="margin-top: 24px;" onclick="loadMedicalTopic('${topicName}')">Back to Chapter</button>
-      </div>
-      <div class="page-back"></div>
-    </div>
-  `;
-  
-  bookEl.innerHTML = html;
-  medCurrentPage = 1;
-  updateBookButtons();
+  renderCurrentFlashcard();
 };
 
-function updateBookButtons() {
-  const medPages = document.querySelectorAll('#medicalBook .page');
-  if (medPrevBtn) medPrevBtn.disabled = medCurrentPage === 1;
-  if (medNextBtn) medNextBtn.disabled = medCurrentPage > medPages.length;
-}
+window.renderCurrentFlashcard = function() {
+  if (window.currentFcIndex >= window.currentFlashcards.length) {
+    bookEl.innerHTML = `
+      <div style="padding: 24px; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; min-height:100%;">
+        <h2>Deck Completed!</h2>
+        <button class="btn primary" style="margin-top: 24px;" onclick="loadMedicalTopic('${window.currentFcTopic}')">Back to Chapter</button>
+      </div>
+    `;
+    return;
+  }
 
-$('#bookNextBtn')?.addEventListener('click', () => {
-  const medPages = document.querySelectorAll('#medicalBook .page');
-  if (medCurrentPage <= medPages.length) {
-    const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
-    if (p) p.classList.add('flipped');
-    medCurrentPage++;
-    updateBookButtons();
-  }
-});
-$('#bookPrevBtn')?.addEventListener('click', () => {
-  if (medCurrentPage > 1) {
-    medCurrentPage--;
-    const p = document.querySelector(`#medicalBook .page[style*="--i:${medCurrentPage}"]`);
-    if (p) p.classList.remove('flipped');
-    updateBookButtons();
-  }
-});
+  const c = window.currentFlashcards[window.currentFcIndex];
+  
+  bookEl.innerHTML = `
+    <div style="padding: 24px; display:flex; flex-direction:column; height: 100%;">
+      <h2 style="font-size: 18px; margin-bottom: 8px;">Flashcards: ${window.currentFcTopic}</h2>
+      <div style="font-size: 12px; color: var(--ink-2); margin-bottom: 16px;">Card ${window.currentFcIndex + 1} of ${window.currentFlashcards.length}</div>
+      
+      <div class="fc-container" onclick="this.querySelector('.fc-inner').classList.toggle('flipped')">
+        <div class="fc-inner">
+          <div class="fc-front">
+            <h3 style="line-height:1.4;">${c.q}</h3>
+            <p style="color:var(--ink-3); margin-top:16px; font-size:11px;">(Tap to flip)</p>
+          </div>
+          <div class="fc-back">
+            <span class="eyebrow" style="color:rgba(255,255,255,0.7);">Answer</span>
+            <h3 style="margin-top:12px; line-height:1.4; color:#fff;">${c.a}</h3>
+          </div>
+        </div>
+      </div>
+      
+      <div style="margin-top: auto; display: flex; justify-content: space-between; padding-top: 24px;">
+        <button class="btn secondary" onclick="window.currentFcIndex--; window.renderCurrentFlashcard();" ${window.currentFcIndex === 0 ? 'disabled' : ''}>Previous</button>
+        <button class="btn primary" onclick="window.currentFcIndex++; window.renderCurrentFlashcard();">Next</button>
+      </div>
+    </div>
+  `;
+};
 
 // Setup Initial View
 if (bookEl) {
@@ -3890,15 +3863,11 @@ window.showMedList = function(title, list) {
   html += `</ul>`;
   
   bookEl.innerHTML = `
-    <div class="page" style="--i:1;">
-      <div class="page-front" style="padding: 24px; overflow-y: auto; text-align: left;">${html}</div>
-      <div class="page-back" style="padding: 24px; display:flex; justify-content:center; align-items:center;">
-        <button class="btn secondary" onclick="loadMedicalHome()">Back to Table of Contents</button>
-      </div>
+    <div style="padding: 24px;">
+      ${html}
+      <button class="btn secondary" style="margin-top:24px;" onclick="loadMedicalHome()">Back to Table of Contents</button>
     </div>
   `;
-  medCurrentPage = 1;
-  updateBookButtons();
 };
 
 const medBookmarksBtn = document.querySelectorAll('#view-medical .btn.ghost')[0];
@@ -3929,16 +3898,7 @@ $('#medicalSearchInput')?.addEventListener('input', (e) => {
   });
   html += `</ul>`;
   
-  bookEl.innerHTML = `
-    <div class="page" style="--i:1;">
-      <div class="page-front" style="padding: 24px; overflow-y: auto; text-align: left;">${html}</div>
-      <div class="page-back" style="padding: 24px; display:flex; justify-content:center; align-items:center;">
-        <button class="btn secondary" onclick="loadMedicalHome()">Clear Search</button>
-      </div>
-    </div>
-  `;
-  medCurrentPage = 1;
-  updateBookButtons();
+  bookEl.innerHTML = `<div style="padding: 24px;">${html}</div>`;
 });
 
 /* ===== GRADE TARGET ===== */
