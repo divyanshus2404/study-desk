@@ -5908,28 +5908,15 @@ renderOneThing();
   });
 })();
 
-/* ===== WAITLIST COUNTER MOCK ===== */
+/* ===== WAITLIST COUNTER ===== */
 (function initWaitlistCounters() {
+  const realSignups = parseInt(LS.get('waitlistSignups', '0'), 10) || 0;
   const counters = document.querySelectorAll('.waitlist-count');
   counters.forEach(counter => {
     let base = parseInt(counter.getAttribute('data-base'), 10) || 1000;
-    // Add a small daily offset so it slowly creeps up
     const dayOffset = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % 1000;
-    let currentVal = base + dayOffset;
+    let currentVal = base + dayOffset + realSignups;
     counter.textContent = currentVal.toLocaleString();
-    
-    // Periodically simulate someone joining the waitlist
-    setInterval(() => {
-      if (Math.random() > 0.6) {
-        currentVal++;
-        counter.textContent = currentVal.toLocaleString();
-        // Brief pulse effect on the number
-        counter.style.color = 'var(--ink)';
-        setTimeout(() => {
-          counter.style.color = '';
-        }, 400);
-      }
-    }, 5000); // Check every 5s
   });
 })();
 
@@ -6606,35 +6593,47 @@ function attachWaitlistHandler(formId, successId) {
   const form = document.getElementById(formId);
   const successBox = document.getElementById(successId);
   if (!form) return;
-  
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = form.querySelector('button[type="submit"]');
     const originalText = btn.textContent;
     btn.textContent = "Joining...";
     btn.disabled = true;
-    
+
     const formData = new FormData(form);
     const data = Object.fromEntries(formData.entries());
-    
+
     try {
       const res = await fetch('/api/waitlist', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
       });
-      
+
       if (res.ok) {
         form.style.display = 'none';
         successBox.style.display = 'block';
+        const realSignups = (parseInt(LS.get('waitlistSignups', '0'), 10) || 0) + 1;
+        LS.set('waitlistSignups', realSignups);
+        const container = form.closest('.waitlist-container');
+        if (container) {
+          const countEl = container.querySelector('.waitlist-count');
+          if (countEl) {
+            const cur = parseInt(countEl.textContent.replace(/,/g, ''), 10) || 0;
+            countEl.textContent = (cur + 1).toLocaleString();
+          }
+        }
+        if (typeof toast === 'function') toast('You\'re on the list! Thank you ♥');
+        if (typeof confettiBurst === 'function') confettiBurst(80);
       } else {
-        alert('There was an issue submitting your request. Please try again.');
+        toast('Something went wrong. Please try again.');
         btn.textContent = originalText;
         btn.disabled = false;
       }
     } catch (err) {
       console.error(err);
-      alert('There was an issue submitting your request. Please try again.');
+      toast('Connection error. Please try again.');
       btn.textContent = originalText;
       btn.disabled = false;
     }
