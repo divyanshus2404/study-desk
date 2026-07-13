@@ -5149,26 +5149,17 @@ function extractTextOps(content) {
   return out.join(' ');
 }
 async function extractPdfText(buf) {
-  const bytes = new Uint8Array(buf);
-  const raw = latin(bytes);
-  const streams = [];
-  const re = /stream\r?\n/g;
-  let m;
-  while ((m = re.exec(raw))) {
-    const start = m.index + m[0].length;
-    const end = raw.indexOf('endstream', start);
-    if (end < 0) continue;
-    // check the dictionary right before for FlateDecode
-    const dictStart = raw.lastIndexOf('<<', m.index);
-    const dict = raw.slice(dictStart, m.index);
-    const chunk = bytes.slice(start, end);
-    if (/FlateDecode/.test(dict)) {
-      try { streams.push(latin(await inflate(chunk))); } catch(e) {}
-    } else if (!/Image|XObject|FontFile/.test(dict)) {
-      streams.push(latin(chunk));
+  const pdfjsLib = await loadPdfJs();
+  const pdf = await pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
+  const pages = [];
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const content = await page.getTextContent();
+    const text = content.items.map(item => item.str).join(' ');
+    if (text.trim().length > 20) {
+      pages.push(text);
     }
   }
-  let pages = streams.map(extractTextOps).filter(t => t.trim().length > 20);
   return pages;
 }
 function chunkText(pages) {
