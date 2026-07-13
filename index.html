@@ -5223,11 +5223,18 @@ async function loadQA() {
 
 async function answerQuestionAsync(q) {
   const terms = q.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(t => t.length > 2 && !STOP.has(t));
-  if (!terms.length) return { text: "Try a question with a few specific words from the document.", src: null };
-  const scored = pdfChunks.map(c => ({ c, s: scoreChunk(c, terms) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
-  if (!scored.length) return { text: "I couldn't find anything about that in this PDF. Try different words — I match against the document's own vocabulary.", src: null };
   
-  const bestChunk = scored[0].c;
+  let bestChunk = null;
+  if (terms.length > 0) {
+    const scored = pdfChunks.map(c => ({ c, s: scoreChunk(c, terms) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
+    if (scored.length > 0) bestChunk = scored[0].c;
+  }
+  
+  // If keyword search failed or query was too generic (e.g. "what is it about?"), fallback to the introduction (first chunk)
+  if (!bestChunk) {
+    bestChunk = pdfChunks[0];
+  }
+  
   const qa = await loadQA();
   if(!qa) return { text: "Still downloading AI model, please wait..." };
   
