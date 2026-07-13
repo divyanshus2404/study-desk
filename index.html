@@ -5199,19 +5199,67 @@ function scoreChunk(chunk, terms) {
   // Heavily prioritize chunks that contain multiple DIFFERENT keywords
   return score * (uniqueMatches * uniqueMatches);
 }
-function answerQuestion(q) {
+let qaPipeline = null;
+let qaDownloading = false;
+
+async function loadQA() {
+  if (qaPipeline) return qaPipeline;
+  if (qaDownloading) return null;
+  qaDownloading = true;
+  addMsg('bot', 'Hold on a second... Downloading the local AI model (this only happens once, ~240MB)...');
+  try {
+    const { pipeline, env } = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2/dist/transformers.min.js');
+    env.allowLocalModels = false; 
+    
+    qaPipeline = await pipeline('question-answering', 'Xenova/distilbert-base-uncased-distilled-squad', {
+        progress_callback: (x) => {
+            if(x.status === 'progress') {
+                const pct = Math.round((x.loaded / x.total) * 100);
+                $('#pdfStats').textContent = `Downloading AI... ${pct}%`;
+            } else if (x.status === 'ready') {
+                $('#pdfStats').textContent = `AI Ready`;
+            }
+        }
+    });
+    addMsg('bot', 'AI model downloaded and ready! Let me answer your question...');
+    return qaPipeline;
+  } catch (err) {
+    addMsg('bot', 'Failed to load AI model: ' + err.message);
+    qaDownloading = false;
+    return null;
+  }
+}
+
+async function answerQuestionAsync(q) {
   const terms = q.toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/).filter(t => t.length > 2 && !STOP.has(t));
   if (!terms.length) return { text: "Try a question with a few specific words from the document.", src: null };
   const scored = pdfChunks.map(c => ({ c, s: scoreChunk(c, terms) })).filter(x => x.s > 0).sort((a, b) => b.s - a.s);
   if (!scored.length) return { text: "I couldn't find anything about that in this PDF. Try different words — I match against the document's own vocabulary.", src: null };
-  const best = scored.slice(0, 2);
-  let html = best.map(x => {
-    let t = escapeHtml(x.c.text);
-    terms.forEach(term => { t = t.replace(new RegExp('(' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>'); });
-    return '“…' + t + '…”<span class="src">Section ' + x.c.page + '</span>';
-  }).join('<br><br>');
-  return { html };
+  
+  const bestChunk = scored[0].c;
+  const qa = await loadQA();
+  if(!qa) return { text: "Still downloading AI model, please wait..." };
+  
+  try {
+      const output = await qa(q, bestChunk.text);
+      if (output && output.answer) {
+         let ans = output.answer;
+         // safely highlight the answer in the context
+         let escapedCtx = escapeHtml(bestChunk.text);
+         let regex = new RegExp(escapeHtml(ans).replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+         let highlightedCtx = escapedCtx.replace(regex, `<mark>$&</mark>`);
+         let html = `<div style="font-size:15px; margin-bottom:12px;"><b>AI Answer:</b> <span style="color:var(--primary); font-weight:600;">${ans}</span></div>
+                     <span class="src">Found in Section ${bestChunk.page}</span><br>
+                     <div style="color:var(--ink-3); font-size:12px; margin-top:8px; line-height:1.5;"><b>Context:</b> "…${highlightedCtx}…"</div>`;
+         return { html };
+      }
+  } catch(e) {
+      console.error(e);
+  }
+  
+  return { text: "I found a relevant section, but couldn't extract an exact answer.", src: null };
 }
+
 function addMsg(cls, content, isHtml) {
   const el = document.createElement('div');
   el.className = 'chat-msg ' + cls;
@@ -5247,14 +5295,12 @@ pdfDrop.addEventListener('dragover', e => { e.preventDefault(); pdfDrop.classLis
 pdfDrop.addEventListener('dragleave', () => pdfDrop.classList.remove('drag'));
 pdfDrop.addEventListener('drop', e => { e.preventDefault(); pdfDrop.classList.remove('drag'); if (e.dataTransfer.files[0]) handlePdfFile(e.dataTransfer.files[0]); });
 $('#pdfFile').addEventListener('change', e => { if (e.target.files[0]) handlePdfFile(e.target.files[0]); });
-function askPdf(q) {
+async function askPdf(q) {
   if (!q.trim() || !pdfChunks.length) return;
   addMsg('user', q);
   $('#chatInput').value = '';
-  setTimeout(() => {
-    const a = answerQuestion(q);
-    if (a.html) addMsg('bot', a.html, true); else addMsg('bot', a.text);
-  }, 350);
+  const a = await answerQuestionAsync(q);
+  if (a.html) addMsg('bot', a.html, true); else addMsg('bot', a.text);
 }
 $('#chatSend').addEventListener('click', () => askPdf($('#chatInput').value));
 $('#chatInput').addEventListener('keydown', e => { if (e.key === 'Enter') askPdf($('#chatInput').value); });
