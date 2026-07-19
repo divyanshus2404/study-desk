@@ -11,7 +11,7 @@ Built by an engineering student who got tired of needing five different websites
 | Category | Tools |
 |---|---|
 | **Today** | Dashboard (daily XP goal ring, streak badges, exam countdowns), Focus timer (pomodoro), Tasks, Habit tracker |
-| **Study** | Notes, Flashcards (decks + study mode), Weekly planner, Formula sheets (algebra → chemistry, searchable) |
+| **Study** | Notes (with Markdown preview), Flashcards (decks + spaced-repetition study mode), Weekly planner, Formula sheets (algebra → chemistry, searchable) |
 | **Calculate** | Scientific calculator, GPA calculator (semester + cumulative), Grade target ("what do I need on the final?"), Unit converter |
 | **Write** | Word counter, Citation maker (MLA 9 / APA 7 / Chicago) |
 | **Documents** | File converter (JPG ⇄ PNG ⇄ WebP, image → PDF, PDF → JPG/PNG/TXT, DOCX → PDF/TXT/HTML, MD → PDF, CSV ⇄ JSON), Talk to your PDF (offline passage search), Mock tests (coming soon) |
@@ -29,7 +29,7 @@ Notable in-browser engineering (no libraries):
 - **DOCX parsing** — a minimal ZIP reader using native `DecompressionStream('deflate-raw')` extracts and parses `word/document.xml`.
 - **PDF text extraction** — inflates FlateDecode content streams and parses `Tj`/`TJ` text operators.
 - **Image → PDF** — builds a valid PDF byte-by-byte (DCTDecode-embedded JPEG, hand-written xref table).
-- PDF page rendering (PDF → JPG/PNG) is the one feature that fetches an engine (pdf.js) from a CDN at runtime.
+- PDF page rendering (PDF → JPG/PNG) is the one feature that fetches an engine (pdf.js) from a CDN at runtime — the service worker precaches it, so it keeps working offline after the first visit.
 
 ## Privacy
 
