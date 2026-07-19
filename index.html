@@ -1330,10 +1330,71 @@
   .land-mock { max-width: 1100px; width: 100%; margin: -8px auto 0; padding: 0 32px 26px; position: relative; z-index: 1; }
   .mock-scene { perspective: 1400px; position: relative; }
   .mock-window {
-    border-radius: 16px; overflow: hidden; margin: 0 auto; max-width: 860px;
-    transform: rotateX(16deg) scale(.96); transform-origin: 50% 0;
-    box-shadow: 0 2px 6px rgba(27,33,48,.08), 0 30px 70px rgba(27,33,48,.22), inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent);
-    will-change: transform;
+    border-radius: 10px; overflow: hidden;
+    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent);
+  }
+
+  /* ---- the laptop ---- */
+  .laptop { width: min(780px, 94%); margin: 0 auto; transform-style: preserve-3d; will-change: transform; transform: scale(.94); }
+  .laptop-lid {
+    transform-origin: 50% 100%; transform-style: preserve-3d; will-change: transform;
+    background: linear-gradient(180deg, #3a3f4b, #23262e 8%, #191c22);
+    border-radius: 20px 20px 4px 4px; padding: 16px 16px 20px;
+    border: 1px solid rgba(255,255,255,.08);
+    box-shadow: 0 2px 6px rgba(27,33,48,.1), 0 34px 80px rgba(27,33,48,.28);
+    position: relative;
+  }
+  .laptop-lid::before { /* camera */
+    content: ""; position: absolute; top: 7px; left: 50%; transform: translateX(-50%);
+    width: 5px; height: 5px; border-radius: 50%; background: #0a0c10;
+    box-shadow: 0 0 0 1.5px #2e323c, 0 0 3px 1px rgba(90,140,255,.25) inset;
+  }
+  .laptop-screen { border-radius: 10px; overflow: hidden; background: var(--ground); }
+  .laptop-hinge {
+    height: 11px; margin-top: -1px; position: relative; z-index: 2;
+    background: linear-gradient(180deg, #14161b, #3c414d 45%, #23262e);
+    border-radius: 0 0 7px 7px;
+  }
+  .laptop-hinge::after { /* notch grip */
+    content: ""; position: absolute; left: 50%; transform: translateX(-50%); top: 0;
+    width: 128px; height: 7px; border-radius: 0 0 8px 8px;
+    background: linear-gradient(180deg, #101216, #2a2e37);
+  }
+  .laptop-base-wrap { width: 116%; margin: 0 -8%; }
+  .laptop-base {
+    height: 62px; position: relative; overflow: hidden;
+    clip-path: polygon(6.5% 0, 93.5% 0, 100% 86%, 98.5% 100%, 1.5% 100%, 0 86%);
+    background: linear-gradient(180deg, #383d49, #262932 30%, #1d2027 84%, #12141a 86%, #2a2e37 92%, #0e1015);
+  }
+  .laptop-keys {
+    position: absolute; left: 16%; right: 16%; top: 5px; height: 32px;
+    clip-path: polygon(2.5% 0, 97.5% 0, 100% 100%, 0 100%);
+    border-radius: 4px;
+    background: #171a20;
+    background-image:
+      repeating-linear-gradient(90deg, #262a33 0 30px, #171a20 30px 34px),
+      repeating-linear-gradient(0deg, rgba(23,26,32,.9) 0 7px, rgba(38,42,51,.9) 7px 8px);
+  }
+  .laptop-trackpad {
+    position: absolute; left: 50%; transform: translateX(-50%); top: 40px;
+    width: 22%; height: 12px; border-radius: 3px;
+    background: linear-gradient(180deg, #2a2e37, #20232b);
+    border: 1px solid rgba(255,255,255,.06);
+  }
+  .laptop-shadow {
+    width: 78%; height: 26px; margin: -6px auto 0; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(15,18,26,.45), transparent 65%);
+    filter: blur(6px);
+  }
+  :root[data-theme="dark"] .laptop-lid { border-color: rgba(255,255,255,.1); }
+  @media (max-width: 720px) {
+    .laptop-lid { padding: 8px 8px 10px; border-radius: 12px 12px 3px 3px; }
+    .laptop-base { height: 34px; }
+    .laptop-keys { height: 17px; top: 3px;
+      background-image:
+        repeating-linear-gradient(90deg, #262a33 0 16px, #171a20 16px 19px),
+        repeating-linear-gradient(0deg, rgba(23,26,32,.9) 0 4px, rgba(38,42,51,.9) 4px 5px); }
+    .laptop-trackpad { top: 22px; height: 7px; }
   }
   .mock-chrome { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid color-mix(in srgb, var(--line-2) 55%, transparent); font-size: 11.5px; color: var(--ink-3); }
   .mock-chrome .dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -1390,7 +1451,7 @@
   @media (prefers-reduced-motion: reduce) {
     .land-blob, .float-tile, .cube, .mock-float { animation: none !important; }
     .float-wrap { transition: none; }
-    .mock-window { transform: none !important; }
+    .laptop, .laptop-lid { transform: none !important; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 
@@ -1665,7 +1726,10 @@
       <div class="mock-float mf1 glass" style="--dur: 5.5s;">🔥 6-day streak</div>
       <div class="mock-float mf2 glass" style="--dur: 7s; --del: -2s;">✓ Physics set done · +25 XP</div>
       <div class="mock-float mf3 glass" style="--dur: 6.2s; --del: -4s;">◔ 25:00 focus block</div>
-      <div class="mock-window glass" id="mockWindow" aria-hidden="true">
+      <div class="laptop" id="laptop3d">
+        <div class="laptop-lid" id="laptopLid">
+          <div class="laptop-screen">
+      <div class="mock-window" id="mockWindow" aria-hidden="true">
         <div class="mock-chrome">
           <span class="dot" style="background:#E8695A;"></span>
           <span class="dot" style="background:#F4C244;"></span>
@@ -1693,6 +1757,17 @@
           </div>
         </div>
       </div>
+          </div><!-- /laptop-screen -->
+          <div class="laptop-hinge"></div>
+        </div><!-- /laptop-lid -->
+        <div class="laptop-base-wrap">
+          <div class="laptop-base">
+            <div class="laptop-keys"></div>
+            <div class="laptop-trackpad"></div>
+          </div>
+        </div>
+        <div class="laptop-shadow"></div>
+      </div><!-- /laptop -->
     </div>
   </section>
  </div>
@@ -6926,17 +7001,22 @@ renderOneThing();
     });
   }
 
-  /* scroll-driven: the app window starts tilted back and straightens as it scrolls into view */
+  /* scroll-driven: the laptop lid opens toward you as it scrolls into view */
   const win = document.getElementById('mockWindow');
-  if (win && !reduced) {
+  const laptop = document.getElementById('laptop3d');
+  const lid = document.getElementById('laptopLid');
+  if (laptop && lid && !reduced) {
     const update = () => {
-      const r = win.getBoundingClientRect();
+      const r = laptop.getBoundingClientRect();
       const vh = window.innerHeight;
-      // progress 0 → 1 as the window's top travels from bottom of viewport to 35% height
-      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.65)));
-      const rx = 18 * (1 - p);
-      const sc = 0.94 + 0.06 * p;
-      win.style.transform = `rotateX(${rx.toFixed(2)}deg) scale(${sc.toFixed(3)})`;
+      // the lid is half-closed on load and glides fully open over the first stretch of scroll
+      const raw = (vh - r.top) / (vh * 0.7);
+      const p = Math.min(1, Math.max(0, (raw - 0.6) / 0.42));
+      const ease = 1 - Math.pow(1 - p, 3); // easeOutCubic — the lid glides open
+      const rx = -46 * (1 - ease);         // lid tips forward when far, opens flat when near
+      const sc = 0.92 + 0.08 * ease;
+      lid.style.transform = `rotateX(${rx.toFixed(2)}deg)`;
+      laptop.style.transform = `scale(${sc.toFixed(3)})`;
     };
     document.addEventListener('scroll', update, { passive: true, capture: true });
     window.addEventListener('resize', update);
