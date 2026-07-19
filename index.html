@@ -1064,7 +1064,9 @@
   .wisher-count { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-size: 12px; color: var(--ink-2); background: var(--ground); border: 1px solid var(--line); padding: 5px 14px; border-radius: 20px; }
 
   /* ===== LANDING PAGE ===== */
-  .landing { min-height: 100vh; display: none; flex-direction: column; }
+  .landing { min-height: 100vh; display: none; flex-direction: column;
+    background: radial-gradient(ellipse 85% 34% at 50% 58%, rgba(226,122,63,.06), transparent 70%),
+                radial-gradient(ellipse 70% 30% at 50% 96%, rgba(226,122,63,.05), transparent 70%); }
   body.landing-mode .landing { display: flex; }
   body.landing-mode .app { display: none; }
 
@@ -1332,6 +1334,117 @@
   .mock-window {
     border-radius: 10px; overflow: hidden;
     box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent);
+  }
+
+  /* ============ WARM DESK SCENE (hero backdrop) ============ */
+  .desk-wall {
+    position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    background:
+      radial-gradient(ellipse 90% 55% at 50% 96%, rgba(226,122,63,.34), transparent 62%),
+      radial-gradient(ellipse 60% 40% at 18% 8%, rgba(244,211,94,.12), transparent 60%),
+      radial-gradient(ellipse 60% 45% at 85% 12%, rgba(209,106,90,.14), transparent 60%),
+      linear-gradient(180deg, #241a26 0%, #33202c 42%, #47262a 78%, #542d24 100%);
+  }
+  .desk-wall::before { /* pegboard dots */
+    content: ""; position: absolute; inset: 0 0 22% 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,.4) 1.6px, transparent 2.4px);
+    background-size: 30px 30px; opacity: .35;
+  }
+  .desk-surface {
+    position: absolute; left: 0; right: 0; bottom: 0; height: 165px; z-index: 0; pointer-events: none;
+    background:
+      repeating-linear-gradient(90deg, transparent 0 238px, rgba(0,0,0,.14) 238px 241px),
+      linear-gradient(180deg, #a5713f 0%, #8a5a32 34%, #6d4425 72%, #58351b 100%);
+    box-shadow: 0 -8px 30px rgba(0,0,0,.35), inset 0 2px 0 rgba(255,220,170,.28);
+  }
+  .poster {
+    position: absolute; pointer-events: none; z-index: 0; border-radius: 6px;
+    box-shadow: 0 12px 28px rgba(0,0,0,.4), inset 0 0 0 1px rgba(255,255,255,.06);
+  }
+  .poster.p1 { left: 4.5%; top: 11%; width: 118px; height: 156px; transform: rotate(-4deg);
+    background: radial-gradient(circle at 50% 42%, #F6EFE3 0 34px, transparent 35px), linear-gradient(160deg, #E27A3F, #C4552B); }
+  .poster.p2 { right: 6%; top: 9%; width: 104px; height: 140px; transform: rotate(3deg);
+    background: repeating-radial-gradient(circle at 50% 115%, #3a2030 0 12px, #F4D35E 12px 24px); }
+  .poster.p3 { left: 2%; top: 46%; width: 92px; height: 122px; transform: rotate(2.5deg);
+    background: conic-gradient(from 220deg at 50% 60%, #D16A5A 0 90deg, #F6EFE3 90deg 360deg); }
+  .poster.p4 { right: 3.5%; top: 44%; width: 100px; height: 128px; transform: rotate(-3deg);
+    background: repeating-linear-gradient(45deg, #E8909C 0 14px, #C86470 14px 28px); }
+  .sticky {
+    position: absolute; width: 46px; height: 46px; pointer-events: none; z-index: 0;
+    box-shadow: 0 6px 14px rgba(0,0,0,.3);
+    background-image: repeating-linear-gradient(180deg, transparent 0 12px, rgba(0,0,0,.14) 12px 13.5px);
+    background-position: 0 10px;
+  }
+  .sticky.s1 { left: 13.5%; top: 30%; background-color: #F4D35E; transform: rotate(6deg); }
+  .sticky.s2 { right: 13%; top: 27%; background-color: #F2A25A; transform: rotate(-5deg); }
+  .sticky.s3 { right: 9%; top: 62%; background-color: #E8909C; transform: rotate(4deg); }
+  .plant { position: absolute; left: -14px; bottom: 120px; width: 150px; height: 210px; pointer-events: none; z-index: 1; }
+  .plant i { position: absolute; bottom: 0; left: 40px; width: 52px; height: 150px; border-radius: 50% 50% 4px 4px / 62% 62% 4px 4px;
+    background: linear-gradient(200deg, #4E7D52, #2E5236 70%); transform-origin: 50% 100%;
+    box-shadow: inset -6px 0 12px rgba(0,0,0,.25); animation: leafSway 7s ease-in-out infinite alternate; }
+  .plant i:nth-child(1) { transform: rotate(-26deg); height: 128px; }
+  .plant i:nth-child(2) { transform: rotate(-4deg); height: 165px; animation-delay: -2s; }
+  .plant i:nth-child(3) { transform: rotate(20deg); height: 138px; left: 58px; background: linear-gradient(160deg, #5C8B5F, #35603E 70%); animation-delay: -4s; }
+  @keyframes leafSway { from { rotate: 0deg; } to { rotate: 3.5deg; } }
+  .mug { position: absolute; right: 5%; bottom: 108px; width: 54px; height: 62px; z-index: 1; pointer-events: none;
+    border-radius: 6px 6px 14px 14px; background: linear-gradient(90deg, #EFE4D0, #CBB99F 78%, #B7A288);
+    box-shadow: 0 12px 20px rgba(0,0,0,.35), inset 0 5px 0 #8a5a3a; }
+  .mug::after { content: ""; position: absolute; right: -18px; top: 12px; width: 22px; height: 28px;
+    border: 7px solid #D8C9B2; border-left: none; border-radius: 0 14px 14px 0; }
+  .pencil-cup { position: absolute; left: 12%; bottom: 104px; width: 50px; height: 62px; z-index: 1; pointer-events: none;
+    border-radius: 5px 5px 10px 10px; background: linear-gradient(90deg, #C4643F, #9A4A2C 80%);
+    box-shadow: 0 12px 20px rgba(0,0,0,.35); }
+  .pencil-cup i { position: absolute; bottom: 48px; width: 6px; height: 46px; border-radius: 3px 3px 0 0; transform-origin: 50% 100%; }
+  .pencil-cup i:nth-child(1) { left: 8px;  background: #F4D35E; transform: rotate(-10deg); }
+  .pencil-cup i:nth-child(2) { left: 18px; background: #D16A5A; transform: rotate(-2deg); height: 52px; }
+  .pencil-cup i:nth-child(3) { left: 28px; background: #7BB78F; transform: rotate(6deg); }
+  .pencil-cup i:nth-child(4) { left: 36px; background: #6E8FC9; transform: rotate(13deg); height: 42px; }
+
+  /* hero text sits on the warm wall — force cream in both themes */
+  .land-hero-zone h1 { color: #F6EFE3; }
+  .land-hero-zone .land-sub { color: #DED2BE; }
+  .land-hero-zone .land-note { color: rgba(246,239,227,.55); }
+  .land-hero-zone .land-cta.secondary { color: #F6EFE3; border-color: rgba(246,239,227,.32); }
+  .land-hero-zone .land-nav .brand-name { color: #F6EFE3; }
+  .land-hero-zone .land-nav .brand-sub { color: rgba(246,239,227,.6); }
+  .land-hero-zone .land-kicker { color: #F4B27C; border-color: rgba(244,178,124,.4); background: rgba(36,26,38,.5); }
+  .land-hero-zone .land-nav.glass, .land-hero-zone .float-tile, .land-hero-zone .mock-float {
+    background: rgba(36,26,38,.55); border-color: rgba(246,239,227,.16); color: #F6EFE3;
+  }
+  .land-hero-zone .float-tile { color: #F4B27C; }
+  #heroCanvas, #hero3dCanvas { display: none; } /* the warm scene replaces the wireframe decor */
+  .land-hero-zone .land-blob { opacity: .3; }
+
+  /* scroll hint */
+  .scroll-hint { text-align: center; margin-top: 26px; color: rgba(246,239,227,.75); font-size: 12.5px; letter-spacing: .08em; position: relative; z-index: 1; }
+  .scroll-hint span { display: block; animation: hintBounce 1.6s ease-in-out infinite; font-size: 16px; margin-top: 2px; }
+  @keyframes hintBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+  /* boot overlay: types the URL, loads, then reveals the desk */
+  .laptop-screen { position: relative; }
+  .mock-boot { position: absolute; inset: 0; z-index: 5; display: flex; flex-direction: column; background: #12151c; }
+  .boot-bar { display: flex; align-items: center; gap: 6px; padding: 9px 12px; background: #1b1f28; border-bottom: 1px solid rgba(255,255,255,.06); }
+  .boot-bar b { width: 9px; height: 9px; border-radius: 50%; }
+  .boot-url { flex: 1; max-width: 420px; margin: 0 auto; background: #262b36; border-radius: 8px; padding: 5px 12px;
+    font-family: "SF Mono", Menlo, monospace; font-size: 12px; color: #EFE7D6; min-height: 24px; display: flex; align-items: center; }
+  .boot-caret { display: inline-block; width: 7px; height: 14px; margin-left: 2px; background: #E27A3F; animation: caretBlink .75s steps(1) infinite; }
+  @keyframes caretBlink { 50% { opacity: 0; } }
+  .boot-body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+  .boot-track { width: 150px; height: 4px; border-radius: 2px; background: rgba(255,255,255,.12); overflow: hidden; }
+  .boot-fill { width: 0; height: 100%; border-radius: 2px; background: linear-gradient(90deg, #E27A3F, #F4D35E); }
+  .boot-fill.run { width: 100%; transition: width .85s ease; }
+  .boot-msg { font-size: 11.5px; color: rgba(239,231,214,.6); letter-spacing: .06em; }
+  .mock-float { opacity: 0; transition: opacity .5s ease; }
+  .mock-float.pop { opacity: 1; }
+  @media (max-width: 720px) {
+    .poster, .sticky, .mug, .pencil-cup { display: none; }
+    .plant { width: 90px; bottom: 60px; transform: scale(.7); transform-origin: bottom left; }
+    .desk-surface { height: 90px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .plant i, .scroll-hint span, .boot-caret { animation: none !important; }
+    .mock-boot { display: none; }
+    .mock-float { opacity: 1; }
   }
 
   /* ---- the laptop ---- */
@@ -1687,6 +1800,18 @@
 
 <div class="landing">
  <div class="land-hero-zone">
+  <div class="desk-wall"></div>
+  <div class="poster p1"></div>
+  <div class="poster p2"></div>
+  <div class="poster p3"></div>
+  <div class="poster p4"></div>
+  <div class="sticky s1"></div>
+  <div class="sticky s2"></div>
+  <div class="sticky s3"></div>
+  <div class="desk-surface"></div>
+  <div class="plant"><i></i><i></i><i></i></div>
+  <div class="mug"></div>
+  <div class="pencil-cup"><i></i><i></i><i></i><i></i></div>
   <div class="land-blob b1"></div>
   <div class="land-blob b2"></div>
   <div class="land-blob b3"></div>
@@ -1729,6 +1854,16 @@
       <div class="laptop" id="laptop3d">
         <div class="laptop-lid" id="laptopLid">
           <div class="laptop-screen">
+          <div class="mock-boot" id="mockBoot">
+            <div class="boot-bar">
+              <b style="background:#E8695A;"></b><b style="background:#F4C244;"></b><b style="background:#61B876;"></b>
+              <div class="boot-url"><span id="bootTyped"></span><span class="boot-caret"></span></div>
+            </div>
+            <div class="boot-body">
+              <div class="boot-track"><div class="boot-fill" id="bootFill"></div></div>
+              <div class="boot-msg" id="bootMsg">a student sits down to study…</div>
+            </div>
+          </div>
       <div class="mock-window" id="mockWindow" aria-hidden="true">
         <div class="mock-chrome">
           <span class="dot" style="background:#E8695A;"></span>
@@ -1768,6 +1903,7 @@
         </div>
         <div class="laptop-shadow"></div>
       </div><!-- /laptop -->
+      <div class="scroll-hint">Scroll to explore<span>↓</span></div>
     </div>
   </section>
  </div>
@@ -7001,26 +7137,60 @@ renderOneThing();
     });
   }
 
-  /* scroll-driven: the laptop lid opens toward you as it scrolls into view */
+  /* cinematic intro: laptop opens → the URL gets typed → loading → the desk boots up */
   const win = document.getElementById('mockWindow');
   const laptop = document.getElementById('laptop3d');
   const lid = document.getElementById('laptopLid');
-  if (laptop && lid && !reduced) {
-    const update = () => {
-      const r = laptop.getBoundingClientRect();
-      const vh = window.innerHeight;
-      // the lid is half-closed on load and glides fully open over the first stretch of scroll
-      const raw = (vh - r.top) / (vh * 0.7);
-      const p = Math.min(1, Math.max(0, (raw - 0.6) / 0.42));
-      const ease = 1 - Math.pow(1 - p, 3); // easeOutCubic — the lid glides open
-      const rx = -46 * (1 - ease);         // lid tips forward when far, opens flat when near
-      const sc = 0.92 + 0.08 * ease;
-      lid.style.transform = `rotateX(${rx.toFixed(2)}deg)`;
-      laptop.style.transform = `scale(${sc.toFixed(3)})`;
-    };
-    document.addEventListener('scroll', update, { passive: true, capture: true });
-    window.addEventListener('resize', update);
-    update();
+  const boot = document.getElementById('mockBoot');
+  let introDone = false;
+  function finishIntro(instant) {
+    if (introDone) return;
+    introDone = true;
+    if (boot) {
+      if (instant) boot.remove();
+      else { boot.style.transition = 'opacity .45s ease'; boot.style.opacity = '0'; setTimeout(() => boot.remove(), 500); }
+    }
+    if (lid && laptop) {
+      const t = instant ? 'none' : 'transform 1s cubic-bezier(.25,.8,.25,1)';
+      lid.style.transition = t; laptop.style.transition = t;
+      lid.style.transform = 'rotateX(0deg)';
+      laptop.style.transform = 'scale(1)'; // the zoom-in
+    }
+    document.querySelectorAll('.mock-float').forEach((f, i) =>
+      setTimeout(() => f.classList.add('pop'), instant ? 0 : 350 + i * 200));
+  }
+  if (laptop && lid) {
+    if (reduced || !boot) { finishIntro(true); }
+    else {
+      /* start closed, on the desk */
+      lid.style.transform = 'rotateX(-74deg)';
+      laptop.style.transform = 'scale(.9)';
+      /* 1 — the lid lifts enough to see the screen */
+      setTimeout(() => {
+        lid.style.transition = 'transform 1.1s cubic-bezier(.3,.8,.3,1)';
+        lid.style.transform = 'rotateX(-22deg)';
+      }, 380);
+      /* 2 — a student types the address */
+      const typedEl = document.getElementById('bootTyped');
+      const url = 'thestudydesk.vercel.app';
+      let i = 0;
+      setTimeout(function type() {
+        if (introDone) return;
+        typedEl.textContent = url.slice(0, ++i);
+        if (i < url.length) setTimeout(type, 52 + Math.random() * 55);
+        else {
+          /* 3 — it loads… */
+          document.getElementById('bootMsg').textContent = 'setting up your desk…';
+          document.getElementById('bootFill').classList.add('run');
+          /* 4 — …and the desk opens with a zoom */
+          setTimeout(() => finishIntro(false), 950);
+        }
+      }, 1500);
+      /* skip the show if the visitor scrolls or clicks early */
+      window.addEventListener('scroll', () => finishIntro(true), { once: true, passive: true });
+      laptop.addEventListener('click', () => finishIntro(true), { once: true });
+      setTimeout(() => finishIntro(false), 6500); // safety net
+    }
   }
 
   /* the mock window is a door into the real app */
