@@ -1450,6 +1450,7 @@
   /* ---- the laptop ---- */
   .laptop { width: min(780px, 94%); margin: 0 auto; transform-style: preserve-3d; will-change: transform; transform: scale(.94); }
   .laptop-lid {
+    transform: rotateX(-88deg); /* closed until the intro opens it (JS/reduced-motion set the open state) */
     transform-origin: 50% 100%; transform-style: preserve-3d; will-change: transform;
     background: linear-gradient(180deg, #3a3f4b, #23262e 8%, #191c22);
     border-radius: 20px 20px 4px 4px; padding: 16px 16px 20px;
@@ -7160,16 +7161,18 @@ renderOneThing();
       setTimeout(() => f.classList.add('pop'), instant ? 0 : 350 + i * 200));
   }
   if (laptop && lid) {
-    if (reduced || !boot) { finishIntro(true); }
+    if (reduced || !boot || window.scrollY > 80) { finishIntro(true); }
     else {
-      /* start closed, on the desk */
-      lid.style.transform = 'rotateX(-74deg)';
-      laptop.style.transform = 'scale(.9)';
-      /* 1 — the lid lifts enough to see the screen */
+      /* start fully closed on the desk — hold the shot so the closed laptop registers */
+      lid.style.transform = 'rotateX(-88deg)';
+      laptop.style.transform = 'scale(.9) translateY(10px)';
+      /* 1 — the lid swings up until the screen is readable */
       setTimeout(() => {
-        lid.style.transition = 'transform 1.1s cubic-bezier(.3,.8,.3,1)';
-        lid.style.transform = 'rotateX(-22deg)';
-      }, 380);
+        lid.style.transition = 'transform 1.5s cubic-bezier(.34,1.2,.4,1)';
+        laptop.style.transition = 'transform 1.5s cubic-bezier(.34,1.2,.4,1)';
+        lid.style.transform = 'rotateX(-18deg)';
+        laptop.style.transform = 'scale(.94) translateY(4px)';
+      }, 550);
       /* 2 — a student types the address */
       const typedEl = document.getElementById('bootTyped');
       const url = 'thestudydesk.vercel.app';
@@ -7182,14 +7185,15 @@ renderOneThing();
           /* 3 — it loads… */
           document.getElementById('bootMsg').textContent = 'setting up your desk…';
           document.getElementById('bootFill').classList.add('run');
-          /* 4 — …and the desk opens with a zoom */
+          /* 4 — …and the desk opens the rest of the way with a zoom */
           setTimeout(() => finishIntro(false), 950);
         }
-      }, 1500);
-      /* skip the show if the visitor scrolls or clicks early */
-      window.addEventListener('scroll', () => finishIntro(true), { once: true, passive: true });
+      }, 2100);
+      /* deliberate user input skips the show (not passive scroll restoration) */
+      ['wheel', 'touchstart', 'keydown'].forEach(ev =>
+        window.addEventListener(ev, () => finishIntro(true), { once: true, passive: true }));
       laptop.addEventListener('click', () => finishIntro(true), { once: true });
-      setTimeout(() => finishIntro(false), 6500); // safety net
+      setTimeout(() => finishIntro(false), 7500); // safety net
     }
   }
 
