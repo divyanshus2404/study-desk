@@ -1332,8 +1332,11 @@
   .land-mock { max-width: 1100px; width: 100%; margin: -8px auto 0; padding: 0 32px 26px; position: relative; z-index: 1; }
   .mock-scene { perspective: 2100px; position: relative; }
   .mock-window {
-    border-radius: 10px; overflow: hidden;
-    box-shadow: inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent);
+    border-radius: 12px; overflow: hidden;
+    margin: 4.5% 6% 6%; position: relative; z-index: 2;
+    background: color-mix(in srgb, var(--ground) 68%, rgba(12,10,16,.6)); /* frosted app window */
+    -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 26px 60px rgba(0,0,0,.5), inset 0 1px 0 color-mix(in srgb, #fff 25%, transparent);
   }
 
   /* ============ WARM DESK SCENE (hero backdrop) ============ */
@@ -1452,15 +1455,26 @@
   .laptop-lid {
     transform: rotateX(-88deg); /* closed until the intro opens it (JS/reduced-motion set the open state) */
     transform-origin: 50% 100%; transform-style: preserve-3d; will-change: transform;
-    background: linear-gradient(180deg, #E8EAEE, #C6C9D0 55%, #ADB0B8); /* aluminum */
+    background: linear-gradient(180deg, #4A4B51, #333438 55%, #26272B); /* space-gray aluminum */
     border-radius: 18px 18px 3px 3px; padding: 7px 7px 9px;
-    border: 1px solid rgba(0,0,0,.18);
-    box-shadow: 0 2px 6px rgba(27,33,48,.12), 0 34px 80px rgba(27,33,48,.32), inset 0 1px 0 rgba(255,255,255,.7);
+    border: 1px solid rgba(0,0,0,.4);
+    box-shadow: 0 2px 6px rgba(27,33,48,.12), 0 34px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.14);
     position: relative;
   }
+  .laptop-pose { transform: rotateY(-6deg) rotateX(3deg); transform-style: preserve-3d; }
   .laptop-screen {
     border-radius: 12px; overflow: hidden;
-    border: 10px solid #0B0B0E; background: #0B0B0E; /* thin black bezel */
+    border: 10px solid #0B0B0E; /* thin black bezel */
+    background: /* the desktop wallpaper */
+      radial-gradient(ellipse 70% 55% at 22% 18%, rgba(196,158,214,.75), transparent 60%),
+      radial-gradient(ellipse 80% 60% at 82% 88%, rgba(242,128,60,.85), transparent 65%),
+      linear-gradient(158deg, #A98BC4 0%, #D67FA4 26%, #C2402F 58%, #E0472B 74%, #F2803C 100%);
+  }
+  .laptop-screen::before { /* a second app window resting behind */
+    content: ""; position: absolute; left: 6%; top: 8%; width: 46%; height: 66%;
+    background: rgba(18,17,24,.5); border-radius: 10px; z-index: 1;
+    box-shadow: 0 18px 40px rgba(0,0,0,.35);
+    -webkit-backdrop-filter: blur(5px); backdrop-filter: blur(5px);
   }
   .laptop-screen::after { /* the notch */
     content: ""; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
@@ -1468,41 +1482,41 @@
   }
   .laptop-hinge {
     height: 10px; margin-top: -1px; position: relative; z-index: 2;
-    background: linear-gradient(180deg, #6E7178, #B9BCC4 45%, #8E9198);
+    background: linear-gradient(180deg, #1B1C20, #45464C 45%, #2A2B30);
     border-radius: 0 0 6px 6px;
   }
   .laptop-hinge::after { /* hinge shadow line */
     content: ""; position: absolute; left: 50%; transform: translateX(-50%); top: 0;
     width: 128px; height: 6px; border-radius: 0 0 8px 8px;
-    background: linear-gradient(180deg, #4A4D53, #7E8189);
+    background: linear-gradient(180deg, #0E0F12, #33343A);
   }
   .laptop-base-wrap { width: 116%; margin: 0 -8%; }
   .laptop-base {
     height: 62px; position: relative; overflow: hidden;
     clip-path: polygon(6.5% 0, 93.5% 0, 100% 86%, 98.5% 100%, 1.5% 100%, 0 86%);
-    background: linear-gradient(180deg, #E4E6EA, #C9CCD3 34%, #B4B7BE 80%, #83868D 85%, #DDDFE4 90%, #56585E);
+    background: linear-gradient(180deg, #46474D, #38393F 34%, #2C2D33 80%, #121317 85%, #4B4C53 90%, #0E0F13);
   }
   .laptop-base::after { /* thumb scoop on the front lip */
     content: ""; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;
     width: 96px; height: 7px; border-radius: 10px 10px 0 0;
-    background: linear-gradient(180deg, #74777D, #A6A9B0);
+    background: linear-gradient(180deg, #0F1013, #2E2F35);
   }
   .laptop-keys {
     position: absolute; left: 16%; right: 16%; top: 5px; height: 32px;
     clip-path: polygon(2.5% 0, 97.5% 0, 100% 100%, 0 100%);
     border-radius: 4px;
-    background: #9EA1A8; /* keyboard well */
+    background: #212227; /* keyboard well */
     background-image:
-      repeating-linear-gradient(90deg, #17181C 0 30px, #9EA1A8 30px 34px),
-      repeating-linear-gradient(0deg, rgba(23,24,28,.92) 0 7px, rgba(158,161,168,.95) 7px 8px);
-    box-shadow: inset 0 1px 3px rgba(0,0,0,.35);
+      repeating-linear-gradient(90deg, #0D0E11 0 30px, #33343A 30px 34px),
+      repeating-linear-gradient(0deg, rgba(13,14,17,.92) 0 7px, rgba(51,52,58,.9) 7px 8px);
+    box-shadow: inset 0 1px 3px rgba(0,0,0,.55);
   }
   .laptop-trackpad {
     position: absolute; left: 50%; transform: translateX(-50%); top: 40px;
     width: 24%; height: 13px; border-radius: 3px;
-    background: linear-gradient(180deg, #D4D6DB, #BFC2C9);
-    border: 1px solid rgba(0,0,0,.16);
-    box-shadow: inset 0 1px 0 rgba(255,255,255,.5);
+    background: linear-gradient(180deg, #3B3C43, #2F3036);
+    border: 1px solid rgba(0,0,0,.4);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
   }
   .laptop-shadow {
     width: 78%; height: 26px; margin: -6px auto 0; border-radius: 50%;
@@ -1515,8 +1529,8 @@
     .laptop-base { height: 34px; }
     .laptop-keys { height: 17px; top: 3px;
       background-image:
-        repeating-linear-gradient(90deg, #17181C 0 16px, #9EA1A8 16px 19px),
-        repeating-linear-gradient(0deg, rgba(23,24,28,.92) 0 4px, rgba(158,161,168,.95) 4px 5px); }
+        repeating-linear-gradient(90deg, #0D0E11 0 16px, #33343A 16px 19px),
+        repeating-linear-gradient(0deg, rgba(13,14,17,.92) 0 4px, rgba(51,52,58,.9) 4px 5px); }
     .laptop-trackpad { top: 22px; height: 7px; }
   }
   .mock-chrome { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid color-mix(in srgb, var(--line-2) 55%, transparent); font-size: 11.5px; color: var(--ink-3); }
@@ -1861,6 +1875,7 @@
       <div class="mock-float mf1 glass" style="--dur: 5.5s;">🔥 6-day streak</div>
       <div class="mock-float mf2 glass" style="--dur: 7s; --del: -2s;">✓ Physics set done · +25 XP</div>
       <div class="mock-float mf3 glass" style="--dur: 6.2s; --del: -4s;">◔ 25:00 focus block</div>
+      <div class="laptop-pose">
       <div class="laptop" id="laptop3d">
         <div class="laptop-lid" id="laptopLid">
           <div class="laptop-screen">
@@ -1913,6 +1928,7 @@
         </div>
         <div class="laptop-shadow"></div>
       </div><!-- /laptop -->
+      </div><!-- /laptop-pose -->
       <div class="scroll-hint">Scroll to explore<span>↓</span></div>
     </div>
   </section>
