@@ -1456,12 +1456,12 @@
     transform: rotateX(-88deg); /* closed until the intro opens it (JS/reduced-motion set the open state) */
     transform-origin: 50% 100%; transform-style: preserve-3d; will-change: transform;
     background: linear-gradient(180deg, #4A4B51, #333438 55%, #26272B); /* space-gray aluminum */
-    border-radius: 18px 18px 3px 3px; padding: 7px 7px 9px;
+    border-radius: 15px 15px 2px 2px; padding: 4px 4px 6px;
     border: 1px solid rgba(0,0,0,.4);
     box-shadow: 0 2px 6px rgba(27,33,48,.12), 0 34px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.14);
     position: relative;
   }
-  .laptop-pose { transform: rotateY(-6deg) rotateX(3deg); transform-style: preserve-3d; }
+  .laptop-pose { transform: rotateY(-4deg) rotateX(2deg); transform-style: preserve-3d; }
   .laptop-screen {
     border-radius: 12px; overflow: hidden;
     border: 10px solid #0B0B0E; /* thin black bezel */
@@ -1481,7 +1481,7 @@
     width: 118px; height: 13px; border-radius: 0 0 9px 9px; background: #0B0B0E; z-index: 6;
   }
   .laptop-hinge {
-    height: 10px; margin-top: -1px; position: relative; z-index: 2;
+    height: 8px; margin-top: -1px; position: relative; z-index: 2;
     background: linear-gradient(180deg, #1B1C20, #45464C 45%, #2A2B30);
     border-radius: 0 0 6px 6px;
   }
@@ -1490,11 +1490,11 @@
     width: 128px; height: 6px; border-radius: 0 0 8px 8px;
     background: linear-gradient(180deg, #0E0F12, #33343A);
   }
-  .laptop-base-wrap { width: 116%; margin: 0 -8%; }
+  .laptop-base-wrap { width: 110%; margin: 0 -5%; }
   .laptop-base {
-    height: 62px; position: relative; overflow: hidden;
-    clip-path: polygon(6.5% 0, 93.5% 0, 100% 86%, 98.5% 100%, 1.5% 100%, 0 86%);
-    background: linear-gradient(180deg, #46474D, #38393F 34%, #2C2D33 80%, #121317 85%, #4B4C53 90%, #0E0F13);
+    height: 48px; position: relative; overflow: hidden;
+    clip-path: polygon(3.8% 0, 96.2% 0, 100% 84%, 99% 100%, 1% 100%, 0 84%);
+    background: linear-gradient(180deg, #46474D, #38393F 34%, #2C2D33 78%, #121317 84%, #4B4C53 89%, #0E0F13);
   }
   .laptop-base::after { /* thumb scoop on the front lip */
     content: ""; position: absolute; left: 50%; transform: translateX(-50%); bottom: 0;
@@ -1502,18 +1502,18 @@
     background: linear-gradient(180deg, #0F1013, #2E2F35);
   }
   .laptop-keys {
-    position: absolute; left: 16%; right: 16%; top: 5px; height: 32px;
-    clip-path: polygon(2.5% 0, 97.5% 0, 100% 100%, 0 100%);
-    border-radius: 4px;
-    background: #212227; /* keyboard well */
-    background-image:
-      repeating-linear-gradient(90deg, #0D0E11 0 30px, #33343A 30px 34px),
-      repeating-linear-gradient(0deg, rgba(13,14,17,.92) 0 7px, rgba(51,52,58,.9) 7px 8px);
+    position: absolute; left: 13%; right: 13%; top: 4px; height: 26px;
+    clip-path: polygon(1.5% 0, 98.5% 0, 100% 100%, 0 100%);
+    border-radius: 3px;
+    background: #26272C; /* keyboard well */
+    background-image: /* dense key grid, not piano slabs */
+      repeating-linear-gradient(90deg, #0F1013 0 16px, #303138 16px 18.5px),
+      repeating-linear-gradient(0deg, rgba(15,16,19,.94) 0 4.5px, rgba(48,49,56,.92) 4.5px 6px);
     box-shadow: inset 0 1px 3px rgba(0,0,0,.55);
   }
   .laptop-trackpad {
-    position: absolute; left: 50%; transform: translateX(-50%); top: 40px;
-    width: 24%; height: 13px; border-radius: 3px;
+    position: absolute; left: 50%; transform: translateX(-50%); top: 33px;
+    width: 30%; height: 11px; border-radius: 3px;
     background: linear-gradient(180deg, #3B3C43, #2F3036);
     border: 1px solid rgba(0,0,0,.4);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.1);
@@ -1526,12 +1526,12 @@
   :root[data-theme="dark"] .laptop-lid { border-color: rgba(255,255,255,.1); }
   @media (max-width: 720px) {
     .laptop-lid { padding: 8px 8px 10px; border-radius: 12px 12px 3px 3px; }
-    .laptop-base { height: 34px; }
-    .laptop-keys { height: 17px; top: 3px;
+    .laptop-base { height: 28px; }
+    .laptop-keys { height: 14px; top: 2px;
       background-image:
-        repeating-linear-gradient(90deg, #0D0E11 0 16px, #33343A 16px 19px),
-        repeating-linear-gradient(0deg, rgba(13,14,17,.92) 0 4px, rgba(51,52,58,.9) 4px 5px); }
-    .laptop-trackpad { top: 22px; height: 7px; }
+        repeating-linear-gradient(90deg, #0F1013 0 9px, #303138 9px 10.5px),
+        repeating-linear-gradient(0deg, rgba(15,16,19,.94) 0 2.6px, rgba(48,49,56,.92) 2.6px 3.5px); }
+    .laptop-trackpad { top: 18px; height: 6px; }
   }
   .mock-chrome { display: flex; align-items: center; gap: 8px; padding: 11px 16px; border-bottom: 1px solid color-mix(in srgb, var(--line-2) 55%, transparent); font-size: 11.5px; color: var(--ink-3); }
   .mock-chrome .dot { width: 10px; height: 10px; border-radius: 50%; }
@@ -7169,6 +7169,28 @@ renderOneThing();
   const lid = document.getElementById('laptopLid');
   const boot = document.getElementById('mockBoot');
   let introDone = false;
+  /* one damped animator owns the lid at all times — no CSS-transition/scroll fighting.
+     The loop runs permanently; a one-shot loop can die if a frame is dropped. */
+  const anim = { lid: 0, scale: 1, tLid: 0, tScale: 1 };
+  function animApply() {
+    lid.style.transform = `rotateX(${anim.lid.toFixed(2)}deg)`;
+    laptop.style.transform = `scale(${anim.scale.toFixed(4)})`;
+  }
+  function animLoop() {
+    const settled = Math.abs(anim.tLid - anim.lid) < 0.03 && Math.abs(anim.tScale - anim.scale) < 0.0003;
+    if (!settled) {
+      const k = 0.09; // spring damping — lower is floatier
+      anim.lid += (anim.tLid - anim.lid) * k;
+      anim.scale += (anim.tScale - anim.scale) * k;
+      animApply();
+    }
+    requestAnimationFrame(animLoop);
+  }
+  function animTo(lidDeg, scale, instant) {
+    anim.tLid = lidDeg; anim.tScale = scale;
+    if (instant) { anim.lid = lidDeg; anim.scale = scale; animApply(); }
+  }
+  if (laptop && lid) requestAnimationFrame(animLoop);
   function finishIntro(instant) {
     if (introDone) return;
     introDone = true;
@@ -7176,12 +7198,7 @@ renderOneThing();
       if (instant) boot.remove();
       else { boot.style.transition = 'opacity .45s ease'; boot.style.opacity = '0'; setTimeout(() => boot.remove(), 500); }
     }
-    if (lid && laptop) {
-      const t = instant ? 'none' : 'transform 1s cubic-bezier(.25,.8,.25,1)';
-      lid.style.transition = t; laptop.style.transition = t;
-      lid.style.transform = 'rotateX(0deg)';
-      laptop.style.transform = 'scale(1)'; // the zoom-in
-    }
+    animTo(0, 1, instant); // the zoom-in
     document.querySelectorAll('.mock-float').forEach((f, i) =>
       setTimeout(() => f.classList.add('pop'), instant ? 0 : 350 + i * 200));
   }
@@ -7189,15 +7206,9 @@ renderOneThing();
     if (reduced || !boot || window.scrollY > 80) { finishIntro(true); }
     else {
       /* start fully closed on the desk — hold the shot so the closed laptop registers */
-      lid.style.transform = 'rotateX(-88deg)';
-      laptop.style.transform = 'scale(.9) translateY(10px)';
+      animTo(-88, 0.9, true);
       /* 1 — the lid swings up until the screen is readable */
-      setTimeout(() => {
-        lid.style.transition = 'transform 1.5s cubic-bezier(.34,1.2,.4,1)';
-        laptop.style.transition = 'transform 1.5s cubic-bezier(.34,1.2,.4,1)';
-        lid.style.transform = 'rotateX(-18deg)';
-        laptop.style.transform = 'scale(.94) translateY(4px)';
-      }, 550);
+      setTimeout(() => { if (!introDone) animTo(-18, 0.94); }, 550);
       /* 2 — a student types the address */
       const typedEl = document.getElementById('bootTyped');
       const url = 'thestudydesk.vercel.app';
@@ -7221,22 +7232,15 @@ renderOneThing();
       setTimeout(() => finishIntro(false), 7500); // safety net
     }
 
-    /* after the intro: scrolling down closes the MacBook, scrolling back reopens it */
+    /* after the intro: scrolling down eases the MacBook closed, scrolling back reopens it */
     if (!reduced) {
-      let ticking = false;
-      const closeUpdate = () => {
-        ticking = false;
+      window.addEventListener('scroll', () => {
         if (!introDone) return;
         const p = Math.min(1, Math.max(0, (window.scrollY - 90) / 460));
-        const e = p * p * (3 - 2 * p); // smoothstep — scrubbed by scroll, fully reversible
-        lid.style.transition = 'none'; laptop.style.transition = 'none';
-        lid.style.transform = `rotateX(${(-84 * e).toFixed(2)}deg)`;
-        laptop.style.transform = `scale(${(1 - 0.12 * e).toFixed(3)})`;
+        const e = p * p * (3 - 2 * p); // smoothstep target; the spring supplies the smoothness
+        animTo(-84 * e, 1 - 0.12 * e);
         const fade = Math.max(0, 1 - e * 1.7);
         document.querySelectorAll('.mock-float').forEach(f => { f.style.opacity = fade; });
-      };
-      window.addEventListener('scroll', () => {
-        if (!ticking) { ticking = true; requestAnimationFrame(closeUpdate); }
       }, { passive: true });
     }
   }
